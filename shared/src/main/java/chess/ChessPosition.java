@@ -8,22 +8,31 @@ package chess;
  */
 public class ChessPosition {
 
-    public ChessPosition(int row, int col) {
+
+    private int row;
+    private int col;
+
+
+    public ChessPosition(int row, int col) { //setter
+        this.row = row; // this.row refers to the class row & row is the value being passed into the function. we're populating the class row with a value to "get" in functions below
+        this.col = col;
     }
 
     /**
      * @return which row this position is in
      * 1 codes for the bottom row
      */
-    public int getRow() {
-        throw new RuntimeException("Not implemented");
+    public int getRow() { //getter
+        //throw new RuntimeException("Not implemented");
+        return this.row;
     }
 
     /**
      * @return which column this position is in
      * 1 codes for the left row
      */
-    public int getColumn() {
-        throw new RuntimeException("Not implemented");
+    public int getColumn() { //getter
+        //throw new RuntimeException("Not implemented");
+        return this.col;
     }
 }
