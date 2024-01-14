@@ -3,6 +3,8 @@ package chess;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static chess.Queen.checkQueenMoves;
+
 /**
  * Represents a single chess piece
  * <p>
@@ -58,7 +60,9 @@ public class ChessPiece {
 
         //possibleMoves = Bishop.checkBishopMoves(myPosition);
         //possibleMoves = Rook.checkRookMoves(myPosition);
-        possibleMoves = King.checkKingMoves(myPosition);
+        //possibleMoves = King.checkKingMoves(myPosition);
+        possibleMoves = checkQueenMoves(myPosition);
+
 
         return possibleMoves;
         //return new ArrayList<>();
