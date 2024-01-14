@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Arrays;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -17,6 +19,7 @@ public class ChessBoard {
 
     public ChessBoard() {
         this.board = new ChessPiece[row][col];
+        System.out.print(this.board.toString());
     }
 
     /**
@@ -29,7 +32,6 @@ public class ChessBoard {
         int row = position.getRow();
         int col = position.getColumn();
         this.board[row][col] = piece; // piece object holds color and type. linking the piece to the "spot" on the board
-
     }
 
     /**
@@ -51,8 +53,25 @@ public class ChessBoard {
         throw new RuntimeException("Not implemented");
     }
 
-    //TODO: create toString function that prints out what the board looks like
+    @Override
+    public String toString() {
 
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
+                ChessPosition position = new ChessPosition(i,j);
+                if (getPiece(position) == null) {
+                    stringBuilder.append(" [] ");
+                }
+                else {
+                    stringBuilder.append(getPiece(position).toString());
+                }
+            }
+            stringBuilder.append("/n");
+        }
+        System.out.println(stringBuilder.toString());
+        return stringBuilder.toString();
+    }
 }
 
 

@@ -57,4 +57,15 @@ public class ChessPiece {
         return new ArrayList<>();
         //throw new RuntimeException("Not implemented");
     }
+
+    @Override
+    public String toString() {
+        return "ChessPiece{" +
+                "pieceColor=" + pieceColor +
+                ", type=" + type +
+                '}';
+        /*
+        if pieceColor == ChessGame.TeamColor.BLACK
+         */
+    }
 }
