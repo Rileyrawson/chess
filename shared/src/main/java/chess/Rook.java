@@ -2,74 +2,67 @@ package chess;
 
 import java.util.ArrayList;
 
-public class Bishop extends ChessPiece{
-
+public class Rook extends ChessPiece{
     ChessPiece.PieceType type;
     private ChessPiece[][] possibleMoves = new ChessPiece[8][8];
 
-    public Bishop(ChessGame.TeamColor pieceColor, PieceType type) {  //auto generated constructor
+    public Rook(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {  //auto generated constructor
         super(pieceColor, type);
     }
 
-    public static ArrayList<ChessMove> checkBishopMoves(ChessPosition position){
+    public static ArrayList<ChessMove> checkRookMoves(ChessPosition position){
         ChessPosition startPosition = new ChessPosition(position.getRow(), position.getColumn());
 
         final int pieceRow = position.getRow(); //gets current row of bishop. Will not change
         final int pieceCol = position.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
 
-        // check right & up
+        //right
         int row = pieceRow;
         int col = pieceCol;
-
-        while ((1 < row && row < 8) && (1 < col && col < 8)){
-            row++;
+        while ((1 < col && col < 8)){
             col++;
             ChessPosition movePosition = new ChessPosition(row,col);
             ChessMove move = new ChessMove(startPosition, movePosition, null);
             possibleMoves.add(move);
         }
 
+        //left
         row = pieceRow;
         col = pieceCol;
-        //check right & down
-        while ((1 < row && row < 8) && (1 < col && col < 8)){
-            row--;
-            col++;
-            ChessPosition movePosition = new ChessPosition(row,col);
-            ChessMove move = new ChessMove(startPosition, movePosition, null);
-            possibleMoves.add(move);
-        }
-
-        row = pieceRow;
-        col = pieceCol;
-        //check left & down
-        while ((1 < row && row < 8) && (1 < col && col < 8)){
-            row--;
+        while (1 < col && col < 8){
             col--;
             ChessPosition movePosition = new ChessPosition(row,col);
             ChessMove move = new ChessMove(startPosition, movePosition, null);
             possibleMoves.add(move);
         }
 
+
+        //down
         row = pieceRow;
         col = pieceCol;
-        //check left & up
-        while ((1 < row && row < 8) && (1 < col && col < 8)){
+
+        while ((1 < row && row < 8)){
+            row--;
+            ChessPosition movePosition = new ChessPosition(row,col);
+            ChessMove move = new ChessMove(startPosition, movePosition, null);
+            possibleMoves.add(move);
+        }
+
+        //up
+        row = pieceRow;
+        col = pieceCol;
+        while ((1 < row && row < 8)){
             row++;
-            col--;
             ChessPosition movePosition = new ChessPosition(row,col);
             ChessMove move = new ChessMove(startPosition, movePosition, null);
             possibleMoves.add(move);
         }
+
+
 
         return possibleMoves;
     }
 
-    public String toString (){
-        StringBuilder stringBuilder = new StringBuilder();
-
-        return stringBuilder.toString();
-    }
 
 }

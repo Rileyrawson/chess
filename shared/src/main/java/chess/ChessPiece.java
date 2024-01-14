@@ -54,10 +54,14 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
 
-        if (this.type == PieceType.BISHOP){
+        ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
 
-        }
-        return new ArrayList<>();
+        //possibleMoves = Bishop.checkBishopMoves(myPosition);
+        //possibleMoves = Rook.checkRookMoves(myPosition);
+        possibleMoves = King.checkKingMoves(myPosition);
+
+        return possibleMoves;
+        //return new ArrayList<>();
         //throw new RuntimeException("Not implemented");
     }
 
@@ -65,7 +69,6 @@ public class ChessPiece {
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();
-        int numTypes = 6;
         String typeName;
 
         if (this.type == PieceType.KING){
@@ -89,9 +92,6 @@ public class ChessPiece {
         } else {
             return typeName;
         }
-
     }
-
-
 
 }

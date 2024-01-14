@@ -57,7 +57,7 @@ public class ChessBoard {
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 7; i >= 0; i--) {
+        for (int i = row-1; i >= 0; i--) {
             stringBuilder.append("\n");
             for (int j = 0; j < col; j++) {
                 ChessPosition position = new ChessPosition(i + 1,j + 1);

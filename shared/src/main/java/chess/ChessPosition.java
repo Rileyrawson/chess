@@ -14,8 +14,8 @@ public class ChessPosition {
 
 
     public ChessPosition(int row, int col) { //setter
-        this.row = row - 1; // this.row refers to the class row & row is the value being passed into the function. we're populating the class row with a value to "get" in functions below
-        this.col = col - 1; // -1 to account for arrays starting at 0
+        this.row = row ; // this.row refers to the class row & row is the value being passed into the function. we're populating the class row with a value to "get" in functions below
+        this.col = col ; // -1 to account for arrays starting at 0
     }
 
     /**
