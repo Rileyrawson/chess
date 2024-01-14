@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Bishop extends ChessPiece{
 
-    ChessPiece.PieceType type;
     private ChessPiece[][] possibleMoves = new ChessPiece[8][8];
 
     public Bishop(ChessGame.TeamColor pieceColor, PieceType type) {  //auto generated constructor

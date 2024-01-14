@@ -3,7 +3,6 @@ package chess;
 import java.util.ArrayList;
 
 public class Rook extends ChessPiece{
-    ChessPiece.PieceType type;
     private ChessPiece[][] possibleMoves = new ChessPiece[8][8];
 
     public Rook(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {  //auto generated constructor

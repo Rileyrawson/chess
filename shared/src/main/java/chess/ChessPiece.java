@@ -14,11 +14,15 @@ import static chess.Queen.checkQueenMoves;
 public class ChessPiece {
 
     private ChessGame.TeamColor pieceColor;
-    private ChessPiece.PieceType type;
+    protected PieceType type;
+    private boolean firstMove = true;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
         this.type = type;
+    }
+    public boolean isFirstMove() {  //checks if pawn has moved before (use with rook and king later)
+        return firstMove;
     }
 
     /**
@@ -61,13 +65,17 @@ public class ChessPiece {
         //possibleMoves = Bishop.checkBishopMoves(myPosition);
         //possibleMoves = Rook.checkRookMoves(myPosition);
         //possibleMoves = King.checkKingMoves(myPosition);
-        possibleMoves = checkQueenMoves(myPosition);
+        //possibleMoves = Queen.checkQueenMoves(myPosition);
+        //possibleMoves = Knight.checkKnightMoves(myPosition);
+
+        possibleMoves = checkPawnMoves(myPosition);
 
 
         return possibleMoves;
         //return new ArrayList<>();
         //throw new RuntimeException("Not implemented");
     }
+
 
     @Override
     public String toString() {
@@ -98,4 +106,55 @@ public class ChessPiece {
         }
     }
 
+
+    public ArrayList<ChessMove> checkPawnMoves(ChessPosition position) {
+        ChessPosition startPosition = new ChessPosition(position.getRow(), position.getColumn());
+
+        final int pieceRow = position.getRow(); //gets current row. Will not change
+        final int pieceCol = position.getColumn();
+        ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
+
+        //super.pieceColor;
+
+        //White up
+        if (this.getTeamColor() == ChessGame.TeamColor.WHITE){
+            if (this.isFirstMove() == true && pieceRow == 2) { //white first move = up 2
+                ChessPosition movePosition = new ChessPosition(pieceRow + 2,pieceCol);
+                ChessMove move = new ChessMove(startPosition, movePosition, null);
+                possibleMoves.add(move);
+                firstMove = false;
+            }
+            else if (pieceRow < 8){ //white move up 1
+                ChessPosition movePosition = new ChessPosition(pieceRow + 1,pieceCol);
+                ChessMove move = new ChessMove(startPosition, movePosition, null);
+                possibleMoves.add(move);
+            }
+            else if (pieceRow == 8) {//promotion on row 8
+                ChessPosition movePosition = new ChessPosition(pieceRow + 8,pieceCol);
+                ChessMove move = new ChessMove(startPosition, movePosition, this.type);
+                possibleMoves.add(move);
+            }
+        }
+
+        //Black down
+        if (this.getTeamColor() == ChessGame.TeamColor.BLACK){
+            if (this.isFirstMove() == true && pieceRow == 7) { //black first move = down 2
+                ChessPosition movePosition = new ChessPosition(pieceRow - 2 ,pieceCol);
+                ChessMove move = new ChessMove(startPosition, movePosition, null);
+                possibleMoves.add(move);
+                firstMove = false;
+            }
+            else if (pieceRow > 1){ //black move down 1
+                ChessPosition movePosition = new ChessPosition(pieceRow + 1,pieceCol);
+                ChessMove move = new ChessMove(startPosition, movePosition, null);
+                possibleMoves.add(move);
+            }
+            else if (pieceRow == 1) {//promotion on row 1
+                ChessPosition movePosition = new ChessPosition(pieceRow + 1,pieceCol);
+                ChessMove move = new ChessMove(startPosition, movePosition, this.type);
+                possibleMoves.add(move);
+            }
+        }
+        return possibleMoves;
+    }
 }
