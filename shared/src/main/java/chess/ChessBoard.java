@@ -26,9 +26,7 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {  //position = row,col
-        //throw new RuntimeException("Not implemented");
-
-        int row = position.getRow(); //-1 because the board starts at 1 not 0
+        int row = position.getRow();
         int col = position.getColumn();
         this.board[row][col] = piece; // piece object holds color and type. linking the piece to the "spot" on the board
 
@@ -43,7 +41,6 @@ public class ChessBoard {
      */
     public ChessPiece getPiece(ChessPosition position) {
         return this.board[position.getRow()][position.getColumn()];
-        //throw new RuntimeException("Not implemented");
     }
 
     /**
