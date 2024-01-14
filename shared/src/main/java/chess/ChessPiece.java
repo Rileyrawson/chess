@@ -54,7 +54,9 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
 
+        if (this.type == PieceType.BISHOP){
 
+        }
         return new ArrayList<>();
         //throw new RuntimeException("Not implemented");
     }
@@ -63,22 +65,21 @@ public class ChessPiece {
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();
-
         int numTypes = 6;
         String typeName;
 
         if (this.type == PieceType.KING){
-            typeName = "K";
+            typeName = " [K] ";
         } else if (this.type == PieceType.QUEEN) {
-            typeName = "Q";
+            typeName = " [Q] ";
         } else if (this.type == PieceType.BISHOP) {
-            typeName = "B";
+            typeName = " [B] ";
         } else if (this.type == PieceType.KNIGHT) {
-            typeName = "K";
+            typeName = " [K] ";
         } else if (this.type == PieceType.ROOK){
-            typeName = "R";
+            typeName = " [R] ";
         } else if (this.type == PieceType.PAWN) {
-            typeName = "P";
+            typeName = " [P] ";
         } else {
             typeName = "TYPE ERROR";
         }
