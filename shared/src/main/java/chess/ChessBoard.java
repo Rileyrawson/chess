@@ -67,12 +67,9 @@ public class ChessBoard {
                     stringBuilder.append(getPiece(position).toString());
                 }
             }
-            stringBuilder.append("/n");
+            stringBuilder.append("\n");
         }
         System.out.println(stringBuilder.toString());
         return stringBuilder.toString();
     }
 }
-
-
-
