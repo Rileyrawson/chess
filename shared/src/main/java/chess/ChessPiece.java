@@ -54,18 +54,43 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
 
+
         return new ArrayList<>();
         //throw new RuntimeException("Not implemented");
     }
 
     @Override
     public String toString() {
-        return "ChessPiece{" +
-                "pieceColor=" + pieceColor +
-                ", type=" + type +
-                '}';
-        /*
-        if pieceColor == ChessGame.TeamColor.BLACK
-         */
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        int numTypes = 6;
+        String typeName;
+
+        if (this.type == PieceType.KING){
+            typeName = "K";
+        } else if (this.type == PieceType.QUEEN) {
+            typeName = "Q";
+        } else if (this.type == PieceType.BISHOP) {
+            typeName = "B";
+        } else if (this.type == PieceType.KNIGHT) {
+            typeName = "K";
+        } else if (this.type == PieceType.ROOK){
+            typeName = "R";
+        } else if (this.type == PieceType.PAWN) {
+            typeName = "P";
+        } else {
+            typeName = "TYPE ERROR";
+        }
+
+        if (this.pieceColor == ChessGame.TeamColor.BLACK) {
+            return typeName.toLowerCase();
+        } else {
+            return typeName;
+        }
+
     }
+
+
+
 }

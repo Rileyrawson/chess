@@ -58,6 +58,7 @@ public class ChessBoard {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < col; i++) {
+            stringBuilder.append("\n");
             for (int j = 0; j < row; j++) {
                 ChessPosition position = new ChessPosition(i,j);
                 if (getPiece(position) == null) {
@@ -67,9 +68,7 @@ public class ChessBoard {
                     stringBuilder.append(getPiece(position).toString());
                 }
             }
-            stringBuilder.append("\n");
         }
-        System.out.println(stringBuilder.toString());
         return stringBuilder.toString();
     }
 }
