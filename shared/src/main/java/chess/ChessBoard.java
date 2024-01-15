@@ -52,6 +52,13 @@ public class ChessBoard {
 
     }
 
+    public ChessGame.TeamColor colorAtPosition (ChessPosition position){
+        if (getPiece(position) == null){
+            return null;
+        }
+        return getPiece(position).getTeamColor();
+    }
+
     /**
      * Gets a chess piece on the chessboard
      *
