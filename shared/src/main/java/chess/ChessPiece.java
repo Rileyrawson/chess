@@ -3,8 +3,6 @@ package chess;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static chess.Queen.checkQueenMoves;
-
 /**
  * Represents a single chess piece
  * <p>
@@ -22,7 +20,7 @@ public class ChessPiece {
         this.type = type;
     }
     public boolean isFirstMove() {  //checks if pawn has moved before (use with rook and king later)
-        return firstMove;
+        return this.firstMove;
     }
 
     /**
@@ -51,6 +49,10 @@ public class ChessPiece {
         return this.type;
     }
 
+    public void setFirstMove(boolean firstMove) {
+        this.firstMove = firstMove;
+    }
+
     /**
      * Calculates all the positions a chess piece can move to
      * Does not take into account moves that are illegal due to leaving the king in
@@ -59,25 +61,7 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-
-        ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
-
-        if (this.type == PieceType.KING){
-            possibleMoves = King.checkKingMoves(myPosition);
-        } else if (this.type == PieceType.QUEEN) {
-            possibleMoves = Queen.checkQueenMoves(myPosition);
-        } else if (this.type == PieceType.BISHOP) {
-            possibleMoves = Bishop.checkBishopMoves(myPosition);
-        } else if (this.type == PieceType.KNIGHT) {
-            possibleMoves = Knight.checkKnightMoves(myPosition);
-        } else if (this.type == PieceType.ROOK){
-            possibleMoves = Rook.checkRookMoves(myPosition);
-        } else if (this.type == PieceType.PAWN) {
-            possibleMoves = checkPawnMoves(myPosition);
-        } else {
-            throw new RuntimeException("type error");
-        }
-        return possibleMoves;
+        throw new RuntimeException("Not implemented");
     }
 
 
@@ -110,55 +94,4 @@ public class ChessPiece {
         }
     }
 
-
-    public ArrayList<ChessMove> checkPawnMoves(ChessPosition position) {
-        ChessPosition startPosition = new ChessPosition(position.getRow(), position.getColumn());
-
-        final int pieceRow = position.getRow(); //gets current row. Will not change
-        final int pieceCol = position.getColumn();
-        ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
-
-        //super.pieceColor;
-
-        //White up
-        if (this.getTeamColor() == ChessGame.TeamColor.WHITE){
-            if (this.isFirstMove() == true && pieceRow == 2) { //white first move = up 2
-                ChessPosition movePosition = new ChessPosition(pieceRow + 2,pieceCol);
-                ChessMove move = new ChessMove(startPosition, movePosition, null);
-                possibleMoves.add(move);
-                firstMove = false;
-            }
-            else if (pieceRow < 8){ //white move up 1
-                ChessPosition movePosition = new ChessPosition(pieceRow + 1,pieceCol);
-                ChessMove move = new ChessMove(startPosition, movePosition, null);
-                possibleMoves.add(move);
-            }
-            else if (pieceRow == 8) {//promotion on row 8
-                ChessPosition movePosition = new ChessPosition(pieceRow + 8,pieceCol);
-                ChessMove move = new ChessMove(startPosition, movePosition, this.type);
-                possibleMoves.add(move);
-            }
-        }
-
-        //Black down
-        if (this.getTeamColor() == ChessGame.TeamColor.BLACK){
-            if (this.isFirstMove() == true && pieceRow == 7) { //black first move = down 2
-                ChessPosition movePosition = new ChessPosition(pieceRow - 2 ,pieceCol);
-                ChessMove move = new ChessMove(startPosition, movePosition, null);
-                possibleMoves.add(move);
-                firstMove = false;
-            }
-            else if (pieceRow > 1){ //black move down 1
-                ChessPosition movePosition = new ChessPosition(pieceRow + 1,pieceCol);
-                ChessMove move = new ChessMove(startPosition, movePosition, null);
-                possibleMoves.add(move);
-            }
-            else if (pieceRow == 1) {//promotion on row 1
-                ChessPosition movePosition = new ChessPosition(pieceRow + 1,pieceCol);
-                ChessMove move = new ChessMove(startPosition, movePosition, this.type);
-                possibleMoves.add(move);
-            }
-        }
-        return possibleMoves;
-    }
 }

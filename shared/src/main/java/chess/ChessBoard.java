@@ -31,7 +31,25 @@ public class ChessBoard {
     public void addPiece(ChessPosition position, ChessPiece piece) {  //position = row,col
         int row = position.getRow();
         int col = position.getColumn();
+
+        if (piece.getPieceType() == ChessPiece.PieceType.KING){ //if the piece being passed in is a king...
+            piece = new King(piece.getTeamColor(), piece.getPieceType());
+        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) { //then make new King object and call King constructor
+            piece = new Queen(piece.getTeamColor(), piece.getPieceType());
+        } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+            piece = new Bishop(piece.getTeamColor(), piece.getPieceType());
+        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+            piece = new Knight(piece.getTeamColor(), piece.getPieceType());
+        } else if (piece.getPieceType() == ChessPiece.PieceType.ROOK){
+            piece = new Rook(piece.getTeamColor(), piece.getPieceType());
+        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            piece = new Pawn(piece.getTeamColor(), piece.getPieceType());
+        } else {
+            throw new RuntimeException("type error");
+        }
+
         this.board[row][col] = piece; // piece object holds color and type. linking the piece to the "spot" on the board
+
     }
 
     /**

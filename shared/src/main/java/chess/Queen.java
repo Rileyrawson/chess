@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Queen extends ChessPiece{
 
@@ -10,14 +11,13 @@ public class Queen extends ChessPiece{
         super(pieceColor, type);
     }
 
-    public static ArrayList<ChessMove> checkQueenMoves(ChessPosition position) {
-        ChessPosition startPosition = new ChessPosition(position.getRow(), position.getColumn());
+    @Override
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        ChessPosition startPosition = new ChessPosition(myPosition.getRow(), myPosition.getColumn());
 
-        final int pieceRow = position.getRow(); //gets current row of bishop. Will not change
-        final int pieceCol = position.getColumn();
+        final int pieceRow = myPosition.getRow(); //gets current row of bishop. Will not change
+        final int pieceCol = myPosition.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
-
-
 
         //right
         int straightRow = pieceRow;
@@ -40,7 +40,6 @@ public class Queen extends ChessPiece{
             possibleMoves.add(move);
         }
 
-
         //up
         straightRow = pieceRow;
         starightCol = pieceCol;
@@ -50,7 +49,6 @@ public class Queen extends ChessPiece{
             ChessMove move = new ChessMove(startPosition, movePosition, null);
             possibleMoves.add(move);
         }
-
 
         //left up
         row = pieceRow;
@@ -63,7 +61,6 @@ public class Queen extends ChessPiece{
             possibleMoves.add(move);
         }
 
-
         //left
         straightRow = pieceRow;
         starightCol = pieceCol;
@@ -73,7 +70,6 @@ public class Queen extends ChessPiece{
             ChessMove move = new ChessMove(startPosition, movePosition, null);
             possibleMoves.add(move);
         }
-
 
         //left down
         row = pieceRow;
@@ -86,7 +82,6 @@ public class Queen extends ChessPiece{
             possibleMoves.add(move);
         }
 
-
         //down
         straightRow = pieceRow;
         starightCol = pieceCol;
@@ -96,7 +91,6 @@ public class Queen extends ChessPiece{
             ChessMove move = new ChessMove(startPosition, movePosition, null);
             possibleMoves.add(move);
         }
-
 
         //down right
         row = pieceRow;
@@ -112,117 +106,6 @@ public class Queen extends ChessPiece{
 
         return possibleMoves;
     }
-
-
-
-
-//    private static ArrayList<ChessMove> checkQueenDiagonalMoves(ChessPosition position) {
-//        ChessPosition startPosition = new ChessPosition(position.getRow(), position.getColumn());
-//
-//        final int pieceRow = position.getRow(); //gets current row of bishop. Will not change
-//        final int pieceCol = position.getColumn();
-//        ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
-//
-//        // check right & up
-//        int row = pieceRow;
-//        int col = pieceCol;
-//
-//        while ((1 < row && row < 8) && (1 < col && col < 8)){
-//            row++;
-//            col++;
-//            ChessPosition movePosition = new ChessPosition(row,col);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//
-//        row = pieceRow;
-//        col = pieceCol;
-//        //check right & down
-//        while ((1 < row && row < 8) && (1 < col && col < 8)){
-//            row--;
-//            col++;
-//            ChessPosition movePosition = new ChessPosition(row,col);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//
-//        row = pieceRow;
-//        col = pieceCol;
-//        //check left & down
-//        while ((1 < row && row < 8) && (1 < col && col < 8)){
-//            row--;
-//            col--;
-//            ChessPosition movePosition = new ChessPosition(row,col);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//
-//        row = pieceRow;
-//        col = pieceCol;
-//        //check left & up
-//        while ((1 < row && row < 8) && (1 < col && col < 8)){
-//            row++;
-//            col--;
-//            ChessPosition movePosition = new ChessPosition(row,col);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//        return possibleMoves;
-//    }
-//    private static ArrayList<ChessMove> checkQueenStraightMoves(ChessPosition position) {
-//        ChessPosition startPosition = new ChessPosition(position.getRow(), position.getColumn());
-//
-//        final int pieceRow = position.getRow(); //gets current row of bishop. Will not change
-//        final int pieceCol = position.getColumn();
-//        ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
-//
-//        //STRAIGHT MOVES
-//        //right
-//        int straightRow = pieceRow;
-//        int starightCol = pieceCol;
-//        while ((1 < starightCol && starightCol < 8)){
-//            starightCol++;
-//            ChessPosition movePosition = new ChessPosition(straightRow,starightCol);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//
-//
-//        //left
-//        straightRow = pieceRow;
-//        starightCol = pieceCol;
-//        while (1 < starightCol && starightCol < 8){
-//            starightCol--;
-//            ChessPosition movePosition = new ChessPosition(straightRow,starightCol);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//
-//
-//        //down
-//        straightRow = pieceRow;
-//        starightCol = pieceCol;
-//        while ((1 < straightRow && straightRow < 8)){
-//            straightRow--;
-//            ChessPosition movePosition = new ChessPosition(straightRow,starightCol);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//
-//        //up
-//        straightRow = pieceRow;
-//        starightCol = pieceCol;
-//        while ((1 < straightRow && straightRow < 8)){
-//            straightRow++;
-//            ChessPosition movePosition = new ChessPosition(straightRow,starightCol);
-//            ChessMove move = new ChessMove(startPosition, movePosition, null);
-//            possibleMoves.add(move);
-//        }
-//
-//        return possibleMoves;
-//    }
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Rook extends ChessPiece{
     private ChessPiece[][] possibleMoves = new ChessPiece[8][8];
@@ -9,11 +10,12 @@ public class Rook extends ChessPiece{
         super(pieceColor, type);
     }
 
-    public static ArrayList<ChessMove> checkRookMoves(ChessPosition position){
-        ChessPosition startPosition = new ChessPosition(position.getRow(), position.getColumn());
+    @Override
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        ChessPosition startPosition = new ChessPosition(myPosition.getRow(), myPosition.getColumn());
 
-        final int pieceRow = position.getRow(); //gets current row of bishop. Will not change
-        final int pieceCol = position.getColumn();
+        final int pieceRow = myPosition.getRow(); //gets current row of bishop. Will not change
+        final int pieceCol = myPosition.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
 
         //right
@@ -40,7 +42,6 @@ public class Rook extends ChessPiece{
         //down
         row = pieceRow;
         col = pieceCol;
-
         while ((1 < row && row < 8)){
             row--;
             ChessPosition movePosition = new ChessPosition(row,col);
@@ -58,10 +59,10 @@ public class Rook extends ChessPiece{
             possibleMoves.add(move);
         }
 
-
-
         return possibleMoves;
     }
+
+
 
 
 }
