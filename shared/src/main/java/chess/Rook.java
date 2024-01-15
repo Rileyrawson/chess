@@ -28,6 +28,16 @@ public class Rook extends ChessPiece{
      TODO: capture
      TODO: blocked by same team
      */
+    public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
+        if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
+            return true;
+        }
+        return false;
+    }
+    public boolean pieceAtPosition(ChessBoard board, ChessPosition movePosition){
+        ChessPiece piece = board.getPiece(movePosition);
+        return piece != null; //if there is a piece return true. if no piece at position return false
+    }
 
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
@@ -44,7 +54,19 @@ public class Rook extends ChessPiece{
             col++;
             ChessPosition movePosition = new ChessPosition(row + 1,col + 1);
             ChessMove move = new ChessMove(startPosition, movePosition, null);
-            possibleMoves.add(move);
+//            possibleMoves.add(move);
+            if (pieceAtPosition(board, movePosition)){ //If there is a piece at the move position
+                if (!isSameColor(board, myPosition, movePosition)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
+                    possibleMoves.add(move);
+                    System.out.print("Capture" + "(" + row + "," + col + ")" );
+                    break;
+                }else {
+                    break;
+                }
+            } else{ //else if there isn't a piece at the move position
+                possibleMoves.add(move);
+                System.out.print("(" + row + "," + col + ")" );
+            }
         }
 
         //left
@@ -54,7 +76,19 @@ public class Rook extends ChessPiece{
             col--;
             ChessPosition movePosition = new ChessPosition(row + 1,col + 1);
             ChessMove move = new ChessMove(startPosition, movePosition, null);
-            possibleMoves.add(move);
+//            possibleMoves.add(move);
+            if (pieceAtPosition(board, movePosition)){ //If there is a piece at the move position
+                if (!isSameColor(board, myPosition, movePosition)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
+                    possibleMoves.add(move);
+                    System.out.print("Capture" + "(" + row + "," + col + ")" );
+                    break;
+                }else {
+                    break;
+                }
+            } else{ //else if there isn't a piece at the move position
+                possibleMoves.add(move);
+                System.out.print("(" + row + "," + col + ")" );
+            }
         }
 
 
@@ -65,7 +99,19 @@ public class Rook extends ChessPiece{
             row--;
             ChessPosition movePosition = new ChessPosition(row + 1,col + 1);
             ChessMove move = new ChessMove(startPosition, movePosition, null);
-            possibleMoves.add(move);
+//            possibleMoves.add(move);
+            if (pieceAtPosition(board, movePosition)){ //If there is a piece at the move position
+                if (!isSameColor(board, myPosition, movePosition)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
+                    possibleMoves.add(move);
+                    System.out.print("Capture" + "(" + row + "," + col + ")" );
+                    break;
+                }else {
+                    break;
+                }
+            } else{ //else if there isn't a piece at the move position
+                possibleMoves.add(move);
+                System.out.print("(" + row + "," + col + ")" );
+            }
         }
 
         //up
@@ -75,7 +121,19 @@ public class Rook extends ChessPiece{
             row++;
             ChessPosition movePosition = new ChessPosition(row + 1,col + 1);
             ChessMove move = new ChessMove(startPosition, movePosition, null);
-            possibleMoves.add(move);
+//            possibleMoves.add(move);
+            if (pieceAtPosition(board, movePosition)){ //If there is a piece at the move position
+                if (!isSameColor(board, myPosition, movePosition)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
+                    possibleMoves.add(move);
+                    System.out.print("Capture" + "(" + row + "," + col + ")" );
+                    break;
+                }else {
+                    break;
+                }
+            } else{ //else if there isn't a piece at the move position
+                possibleMoves.add(move);
+                System.out.print("(" + row + "," + col + ")" );
+            }
         }
 
         return possibleMoves;
