@@ -23,6 +23,7 @@ public class ChessPiece {
         return this.firstMove;
     }
 
+
     /**
      * The various different chess piece options
      */
