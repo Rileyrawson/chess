@@ -62,18 +62,22 @@ public class ChessPiece {
 
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
 
-        //possibleMoves = Bishop.checkBishopMoves(myPosition);
-        //possibleMoves = Rook.checkRookMoves(myPosition);
-        //possibleMoves = King.checkKingMoves(myPosition);
-        //possibleMoves = Queen.checkQueenMoves(myPosition);
-        //possibleMoves = Knight.checkKnightMoves(myPosition);
-
-        possibleMoves = checkPawnMoves(myPosition);
-
-
+        if (this.type == PieceType.KING){
+            possibleMoves = King.checkKingMoves(myPosition);
+        } else if (this.type == PieceType.QUEEN) {
+            possibleMoves = Queen.checkQueenMoves(myPosition);
+        } else if (this.type == PieceType.BISHOP) {
+            possibleMoves = Bishop.checkBishopMoves(myPosition);
+        } else if (this.type == PieceType.KNIGHT) {
+            possibleMoves = Knight.checkKnightMoves(myPosition);
+        } else if (this.type == PieceType.ROOK){
+            possibleMoves = Rook.checkRookMoves(myPosition);
+        } else if (this.type == PieceType.PAWN) {
+            possibleMoves = checkPawnMoves(myPosition);
+        } else {
+            throw new RuntimeException("type error");
+        }
         return possibleMoves;
-        //return new ArrayList<>();
-        //throw new RuntimeException("Not implemented");
     }
 
 

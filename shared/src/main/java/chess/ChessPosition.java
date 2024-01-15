@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Objects;
+
 /**
  * Represents a single square position on a chess board
  * <p>
@@ -12,6 +14,18 @@ public class ChessPosition {
     private int row;
     private int col;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessPosition that = (ChessPosition) o;
+        return row == that.row && col == that.col;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, col);
+    }
 
     public ChessPosition(int row, int col) { //setter
         this.row = row ; // this.row refers to the class row & row is the value being passed into the function. we're populating the class row with a value to "get" in functions below
