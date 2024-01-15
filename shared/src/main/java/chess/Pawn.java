@@ -31,6 +31,16 @@ public class Pawn extends ChessPiece{
      TODO: blocked path (in front any & diagonal same team) (single & double move)
      TODO: diagonal capture
      */
+    public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
+        if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
+            return true;
+        }
+        return false;
+    }
+    public boolean pieceAtPosition(ChessBoard board, ChessPosition movePosition){
+        ChessPiece piece = board.getPiece(movePosition);
+        return piece != null; //if there is a piece return true. if no piece at position return false
+    }
 
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
@@ -45,18 +55,36 @@ public class Pawn extends ChessPiece{
             if (isFirstMove() == true && pieceRow == 1) { //white first move = up 2
                 ChessPosition singleMovePosition = new ChessPosition(pieceRow + 2,pieceCol + 1);
                 ChessMove singleMove = new ChessMove(startPosition, singleMovePosition, null);
-                possibleMoves.add(singleMove);
-
-                ChessPosition doubleMovePosition = new ChessPosition(pieceRow + 3,pieceCol + 1);
-                ChessMove doubleMove = new ChessMove(startPosition, doubleMovePosition, null);
-                possibleMoves.add(doubleMove);
-
+                if (!pieceAtPosition(board, singleMovePosition)){ //if there is not a piece at single move position
+                    possibleMoves.add(singleMove);
+                    ChessPosition doubleMovePosition = new ChessPosition(pieceRow + 3,pieceCol + 1);
+                    ChessMove doubleMove = new ChessMove(startPosition, doubleMovePosition, null);
+                    if (!pieceAtPosition(board, doubleMovePosition)){ //if there is not a piece at double move position
+                        possibleMoves.add(doubleMove);
+                    }
+                }
                 setFirstMove(false);
-            }
-            else if (pieceRow < 6){ //white move up 1
+            } else if (pieceRow < 6){ //white move up 1 (straight forward move)
                 ChessPosition movePosition = new ChessPosition(pieceRow + 2,pieceCol + 1);
                 ChessMove move = new ChessMove(startPosition, movePosition, null);
-                possibleMoves.add(move);
+                if (!pieceAtPosition(board, movePosition)){ //if there is not a piece at double move position
+                    possibleMoves.add(move);
+                }
+                //check diagonal capture
+                ChessPosition rightDiagonalPosition = new ChessPosition(pieceRow + 2,pieceCol + 2); // pieceCol + 2 moves right
+                ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null);
+                if (pieceAtPosition(board, rightDiagonalPosition)){ //if there is a piece at right diagonal move position
+                    if (!isSameColor(board, myPosition, rightDiagonalPosition)){ //if the piece is the other team's
+                        possibleMoves.add(rightDiagonalMove);
+                    }
+                }
+                ChessPosition leftDiagonalPosition = new ChessPosition(pieceRow + 2,pieceCol ); // pieceCol + 0 moves left
+                ChessMove leftDiagonalMove = new ChessMove(startPosition, leftDiagonalPosition, null);
+                if (pieceAtPosition(board, leftDiagonalPosition)){ //if there is a piece at left diagonal move position
+                    if (!isSameColor(board, myPosition, leftDiagonalPosition)){ //if the piece is the other team's
+                        possibleMoves.add(leftDiagonalMove);
+                    }
+                }
             }
             else if (pieceRow == 6) {//promotion on row 8 (7 in array)
                 ChessPosition movePosition = new ChessPosition(8,pieceCol + 1);
@@ -69,7 +97,6 @@ public class Pawn extends ChessPiece{
                 possibleMoves.add(queenPromotion);
                 ChessMove knightPromotion = new ChessMove(startPosition, movePosition, PieceType.KNIGHT);
                 possibleMoves.add(knightPromotion);
-
             }
         }
 
@@ -78,19 +105,38 @@ public class Pawn extends ChessPiece{
             if (this.isFirstMove() == true && pieceRow == 6) { //black first move = down 2
                 ChessPosition singleMovePosition = new ChessPosition(pieceRow + 0,pieceCol + 1);
                 ChessMove singleMove = new ChessMove(startPosition, singleMovePosition, null);
-                possibleMoves.add(singleMove);
-
-                ChessPosition doubleMovePosition = new ChessPosition(pieceRow - 1,pieceCol + 1);
-                ChessMove doubleMove = new ChessMove(startPosition, doubleMovePosition, null);
-                possibleMoves.add(doubleMove);
-
+                if (!pieceAtPosition(board, singleMovePosition)){ //if there is not a piece at single move position
+                    possibleMoves.add(singleMove);
+                    ChessPosition doubleMovePosition = new ChessPosition(pieceRow - 1,pieceCol + 1);
+                    ChessMove doubleMove = new ChessMove(startPosition, doubleMovePosition, null);
+                    if (!pieceAtPosition(board, doubleMovePosition) ){ //if there is not a piece at double move position
+                        possibleMoves.add(doubleMove);
+                    }
+                }
                 setFirstMove(false);
-            }
-            else if (pieceRow > 1){ //black move down 1
+            } else if (pieceRow > 1){ //black move down 1
                 ChessPosition movePosition = new ChessPosition(pieceRow + 0,pieceCol + 1);
                 ChessMove move = new ChessMove(startPosition, movePosition, null);
-                possibleMoves.add(move);
+                if (!pieceAtPosition(board, movePosition)){ //if there is not a piece at double move position
+                    possibleMoves.add(move);
+                }
             }
+            //check diagonal capture
+            ChessPosition rightDiagonalPosition = new ChessPosition(pieceRow + 0,pieceCol + 2); // pieceCol + 2 moves right
+            ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null);
+            if (pieceAtPosition(board, rightDiagonalPosition)){ //if there is a piece at right diagonal move position
+                if (!isSameColor(board, myPosition, rightDiagonalPosition)){ //if the piece is the other team's
+                    possibleMoves.add(rightDiagonalMove);
+                }
+            }
+            ChessPosition leftDiagonalPosition = new ChessPosition(pieceRow + 0, pieceCol); // pieceCol + 0 moves left
+            ChessMove leftDiagonalMove = new ChessMove(startPosition, leftDiagonalPosition, null);
+            if (pieceAtPosition(board, leftDiagonalPosition)){ //if there is a piece at left diagonal move position
+                if (!isSameColor(board, myPosition, leftDiagonalPosition)){ //if the piece is the other team's
+                    possibleMoves.add(leftDiagonalMove);
+                }
+            }
+
             else if (pieceRow == 1) {//promotion on row 1 (0 in array)
                 ChessPosition movePosition = new ChessPosition(1,pieceCol + 1);
 //                ChessMove move = new ChessMove(startPosition, movePosition, this.type);
@@ -102,8 +148,6 @@ public class Pawn extends ChessPiece{
                 possibleMoves.add(rookPromotion);
                 ChessMove knightPromotion = new ChessMove(startPosition, movePosition, PieceType.KNIGHT);
                 possibleMoves.add(knightPromotion);
-
-                ;
             }
         }
         return possibleMoves;
