@@ -45,18 +45,33 @@ public class ChessMove {
         return this.promotionPiece;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ChessMove chessMove = (ChessMove) o;
-        return Objects.equals(startPosition, chessMove.startPosition) && Objects.equals(endPosition, chessMove.endPosition) && promotionPiece == chessMove.promotionPiece;
+        if (!(o instanceof ChessMove chessMove)) return false;
+        return chessMove.hashCode() == hashCode();
+//        return (getStartPosition().equals(chessMove.getStartPosition()) && getEndPosition().equals(chessMove.getEndPosition())) && (getPromotionPiece() == chessMove.getPromotionPiece());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startPosition, endPosition, promotionPiece);
+        int prime = 31;
+        int result = prime * (getStartPosition().getRow() + 2 ) * (getStartPosition().getColumn() + 2);
+        result = result * prime * (getEndPosition().getRow() + 2 ) * (getEndPosition().getColumn() + 2);
+
+        if (getPromotionPiece() == ChessPiece.PieceType.ROOK){
+            result = result * 2;
+        }
+        if (getPromotionPiece() == ChessPiece.PieceType.BISHOP){
+            result = result * 3;
+        }
+        if (getPromotionPiece() == ChessPiece.PieceType.QUEEN){
+            result = result * 4;
+        }
+        if (getPromotionPiece() == ChessPiece.PieceType.KNIGHT){
+            result = result * 5;
+        }
+        return result;
     }
 
     @Override
@@ -73,6 +88,7 @@ public class ChessMove {
         sb.append(",");
         sb.append(endPosition.getColumn());
         sb.append(")");
+        sb.append(promotionPiece);
         return sb.toString();
     }
 }

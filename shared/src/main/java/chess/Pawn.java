@@ -60,15 +60,16 @@ public class Pawn extends ChessPiece{
             }
             else if (pieceRow == 6) {//promotion on row 8 (7 in array)
                 ChessPosition movePosition = new ChessPosition(8,pieceCol + 1);
-//                ChessMove move = new ChessMove(startPosition, movePosition, this.type);
+                //ChessMove move = new ChessMove(startPosition, movePosition, this.type);
                 ChessMove rookPromotion = new ChessMove(startPosition, movePosition, PieceType.ROOK);
                 possibleMoves.add(rookPromotion);
-                ChessMove knightPromotion = new ChessMove(startPosition, movePosition, PieceType.KNIGHT);
-                possibleMoves.add(rookPromotion);
                 ChessMove bishopPromotion = new ChessMove(startPosition, movePosition, PieceType.BISHOP);
-                possibleMoves.add(rookPromotion);
+                possibleMoves.add(bishopPromotion);
                 ChessMove queenPromotion = new ChessMove(startPosition, movePosition, PieceType.QUEEN);
-                possibleMoves.add(rookPromotion);
+                possibleMoves.add(queenPromotion);
+                ChessMove knightPromotion = new ChessMove(startPosition, movePosition, PieceType.KNIGHT);
+                possibleMoves.add(knightPromotion);
+
             }
         }
 
@@ -93,14 +94,16 @@ public class Pawn extends ChessPiece{
             else if (pieceRow == 1) {//promotion on row 1 (0 in array)
                 ChessPosition movePosition = new ChessPosition(1,pieceCol + 1);
 //                ChessMove move = new ChessMove(startPosition, movePosition, this.type);
+                ChessMove queenPromotion = new ChessMove(startPosition, movePosition, PieceType.QUEEN);
+                possibleMoves.add(queenPromotion);
+                ChessMove bishopPromotion = new ChessMove(startPosition, movePosition, PieceType.BISHOP);
+                possibleMoves.add(bishopPromotion);
                 ChessMove rookPromotion = new ChessMove(startPosition, movePosition, PieceType.ROOK);
                 possibleMoves.add(rookPromotion);
                 ChessMove knightPromotion = new ChessMove(startPosition, movePosition, PieceType.KNIGHT);
-                possibleMoves.add(rookPromotion);
-                ChessMove bishopPromotion = new ChessMove(startPosition, movePosition, PieceType.BISHOP);
-                possibleMoves.add(rookPromotion);
-                ChessMove queenPromotion = new ChessMove(startPosition, movePosition, PieceType.QUEEN);
-                possibleMoves.add(rookPromotion);
+                possibleMoves.add(knightPromotion);
+
+                ;
             }
         }
         return possibleMoves;
