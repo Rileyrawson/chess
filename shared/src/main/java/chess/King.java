@@ -24,11 +24,6 @@ public class King extends ChessPiece{
         return Arrays.hashCode(possibleMoves);
     }
 
-    /*
-     TODO: capture
-     TODO: blocked by same team
-     */
-
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
             return true;
@@ -58,7 +53,6 @@ public class King extends ChessPiece{
         if (row < 7){
             ChessPosition up = new ChessPosition(rowUp + 1,col + 1);
             ChessMove upMove = new ChessMove(startPosition, up, null);
-//            possibleMoves.add(upMove);
             if (pieceAtPosition(board, up)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, up)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(upMove);
@@ -75,7 +69,6 @@ public class King extends ChessPiece{
         if (row < 7 && col < 7){
             ChessPosition rightUp = new ChessPosition(rowUp + 1,colRight + 1);
             ChessMove rightUpMove = new ChessMove(startPosition, rightUp, null);
-//            possibleMoves.add(rightUpMove);
             if (pieceAtPosition(board, rightUp)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, rightUp)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(rightUpMove);
@@ -92,7 +85,6 @@ public class King extends ChessPiece{
         if (col < 7){
             ChessPosition right = new ChessPosition(row + 1,colRight + 1);
             ChessMove rightMove = new ChessMove(startPosition, right, null);
-//            possibleMoves.add(rightMove);
             if (pieceAtPosition(board, right)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, right)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(rightMove);
@@ -109,7 +101,6 @@ public class King extends ChessPiece{
         if (row < 7 && col > 0){
             ChessPosition rightDown = new ChessPosition(rowDown + 1,colRight + 1);
             ChessMove rightDownMove = new ChessMove(startPosition, rightDown, null);
-//            possibleMoves.add(rightDownMove);
             if (pieceAtPosition(board, rightDown)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, rightDown)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(rightDownMove);
@@ -126,7 +117,6 @@ public class King extends ChessPiece{
         if(row > 0 && col > 0){
             ChessPosition down = new ChessPosition(rowDown + 1,col + 1);
             ChessMove downMove = new ChessMove(startPosition, down, null);
-//            possibleMoves.add(downMove);
             if (pieceAtPosition(board, down)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, down)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(downMove);
@@ -143,7 +133,6 @@ public class King extends ChessPiece{
         if(row > 0 && col > 0) {
             ChessPosition leftDown = new ChessPosition(rowDown + 1, colLeft + 1);
             ChessMove leftDownMove = new ChessMove(startPosition, leftDown, null);
-//            possibleMoves.add(leftDownMove);
             if (pieceAtPosition(board, leftDown)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, leftDown)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(leftDownMove);
@@ -160,7 +149,6 @@ public class King extends ChessPiece{
         if(col > 0){
             ChessPosition left = new ChessPosition(row + 1,colLeft + 1);
             ChessMove leftMove = new ChessMove(startPosition, left, null);
-//            possibleMoves.add(leftMove);
             if (pieceAtPosition(board, left)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, left)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(leftMove);
@@ -177,7 +165,6 @@ public class King extends ChessPiece{
         if(row < 7 && col > 0){
             ChessPosition leftUp = new ChessPosition(rowUp + 1,colLeft + 1);
             ChessMove leftUpMove = new ChessMove(startPosition, leftUp, null);
-//            possibleMoves.add(leftUpMove);
             if (pieceAtPosition(board, leftUp)){ //If there is a piece at the move position
                 if (!isSameColor(board, myPosition, leftUp)){ //check if the piece in the spot is on same team (blocked) or other team (capture) (capture continues and block breaks)
                     possibleMoves.add(leftUpMove);

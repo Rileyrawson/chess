@@ -25,7 +25,6 @@ public class Bishop extends ChessPiece{
         return Arrays.hashCode(possibleMoves);
     }
 
-
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
             return true;
@@ -37,10 +36,6 @@ public class Bishop extends ChessPiece{
         return piece != null; //if there is a piece return true. if no piece at position return false
     }
 
-    /*
-     TODO: capture
-     TODO: blocked by same team
-     */
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
@@ -73,11 +68,9 @@ public class Bishop extends ChessPiece{
             }
         }
 
-
-
+        //check right & down
         row = pieceRow;
         col = pieceCol;
-        //check right & down
         System.out.print("\nrd: ");
         while ((0 < row && row < 7) && (0 <= col && col <= 7)){
             row--; // down
@@ -98,9 +91,9 @@ public class Bishop extends ChessPiece{
             }
         }
 
+        //check left & down
         row = pieceRow;
         col = pieceCol;
-        //check left & down
         System.out.print("\nld: ");
         while ((0 < row && row <= 7) && (0 < col && col <= 7)){
             row--; // down
@@ -121,9 +114,9 @@ public class Bishop extends ChessPiece{
             }
         }
 
+        //check left & up
         row = pieceRow;
         col = pieceCol;
-        //check left & up
         System.out.print("\nlu: ");
         while ((0 <= row && row < 7) && (0 < col && col <= 7)){
             row++; // up
@@ -143,14 +136,6 @@ public class Bishop extends ChessPiece{
                 System.out.print("(" + row + "," + col + ")" );
             }
         }
-
         return possibleMoves;
     }
-
-
-    public String toString (){
-        StringBuilder stringBuilder = new StringBuilder();
-        return stringBuilder.toString();
-    }
-
 }

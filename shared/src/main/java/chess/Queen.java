@@ -25,11 +25,6 @@ public class Queen extends ChessPiece{
         return Arrays.hashCode(possibleMoves);
     }
 
-    /*
-     TODO: capture
-     TODO: blocked by same team
-     */
-
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
             return true;
