@@ -25,10 +25,10 @@ public class Main {
 //        board.addPiece(position1, rook);
 
         //check king
-        ChessBoard board = new ChessBoard();
-        ChessPosition position1 = new ChessPosition(5,4) ;
-        King king = new King(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
-        board.addPiece(position1, king);
+//        ChessBoard board = new ChessBoard();
+//        ChessPosition position1 = new ChessPosition(5,4) ;
+//        King king = new King(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
+//        board.addPiece(position1, king);
 
 
     }
