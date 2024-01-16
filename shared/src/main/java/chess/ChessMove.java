@@ -45,33 +45,17 @@ public class ChessMove {
         return this.promotionPiece;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ChessMove chessMove)) return false;
-        return chessMove.hashCode() == hashCode();
-//        return (getStartPosition().equals(chessMove.getStartPosition()) && getEndPosition().equals(chessMove.getEndPosition())) && (getPromotionPiece() == chessMove.getPromotionPiece());
+        return Objects.equals(getStartPosition(), chessMove.getStartPosition()) && Objects.equals(getEndPosition(), chessMove.getEndPosition()) && getPromotionPiece() == chessMove.getPromotionPiece();
     }
 
     @Override
     public int hashCode() {
-        int prime = 31;
-        int result = prime * (getStartPosition().getRow() + 2 ) * (getStartPosition().getColumn() + 2);
-        result = result * prime * (getEndPosition().getRow() + 2 ) * (getEndPosition().getColumn() + 2);
-
-        if (getPromotionPiece() == ChessPiece.PieceType.ROOK){
-            result = result * 2;
-        }
-        if (getPromotionPiece() == ChessPiece.PieceType.BISHOP){
-            result = result * 3;
-        }
-        if (getPromotionPiece() == ChessPiece.PieceType.QUEEN){
-            result = result * 4;
-        }
-        if (getPromotionPiece() == ChessPiece.PieceType.KNIGHT){
-            result = result * 5;
-        }
-        return result;
+        return Objects.hash(getStartPosition(), getEndPosition(), getPromotionPiece());
     }
 
     @Override
