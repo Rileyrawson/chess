@@ -1,7 +1,7 @@
 package chess;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -23,6 +23,17 @@ public class ChessPiece {
         return this.firstMove;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ChessPiece piece)) return false;
+        return isFirstMove() == piece.isFirstMove() && pieceColor == piece.pieceColor && type == piece.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pieceColor, type, isFirstMove());
+    }
 
     /**
      * The various different chess piece options
@@ -62,7 +73,24 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+
+        ChessPiece piece = board.getPiece(myPosition);
+
+        if (piece.getPieceType() == ChessPiece.PieceType.KING){ //if the piece being passed in is a king...
+            return new KingMoves().kingMoves(board,myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) { //then make new King object and call King constructor
+            return new QueenMoves().queenMoves(board, myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
+            return new BishopMoves().bishopMoves(board, myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.KNIGHT) {
+            return new KnightMoves().knightMoves(board,myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.ROOK){
+            return new RookMoves().rookMoves(board, myPosition);
+        } else if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            return new PawnMoves().pawnMoves(board,myPosition);
+        } else {
+            throw new RuntimeException("type error");
+        }
     }
 
 

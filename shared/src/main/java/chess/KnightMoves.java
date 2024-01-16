@@ -1,29 +1,10 @@
 package chess;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
-public class Knight extends ChessPiece{
+public class KnightMoves {
 
-    private ChessPiece[][] possibleMoves = new ChessPiece[8][8];
-
-    public Knight(ChessGame.TeamColor pieceColor, PieceType type) {  //auto generated constructor
-        super(pieceColor, type);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Knight knight = (Knight) o;
-        return Arrays.equals(possibleMoves, knight.possibleMoves);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(possibleMoves);
-    }
 
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
@@ -36,8 +17,7 @@ public class Knight extends ChessPiece{
         return piece != null; //if there is a piece return true. if no piece at position return false
     }
 
-    @Override
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+    public Collection<ChessMove> knightMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
 
         final int pieceRow = myPosition.getRow();

@@ -4,25 +4,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class King extends ChessPiece{
-    private ChessPiece[][] possibleMoves = new ChessPiece[7][7];
+public class KingMoves {
+//    private ChessPiece[][] possibleMoves = new ChessPiece[7][7];
 
-    public King(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {  //auto generated constructor
-        super(pieceColor, type);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        King king = (King) o;
-        return Arrays.equals(possibleMoves, king.possibleMoves);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(possibleMoves);
-    }
+//    public KingMoves(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {  //auto generated constructor
+//        super(pieceColor, type);
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        King king = (King) o;
+//        return Arrays.equals(possibleMoves, king.possibleMoves);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Arrays.hashCode(possibleMoves);
+//    }
 
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
@@ -35,8 +35,7 @@ public class King extends ChessPiece{
         return piece != null; //if there is a piece return true. if no piece at position return false
     }
 
-    @Override
-    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+    public Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
 
         final int row = myPosition.getRow(); //gets current row of bishop. Will not change
