@@ -1,5 +1,7 @@
 package chess;
 
+import chess.pieces.*;
+
 import java.util.Collection;
 import java.util.Objects;
 
@@ -74,11 +76,11 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
 
-        ChessPiece piece = board.getPiece(myPosition);
+        ChessPiece piece = board.getPiece(myPosition);      //TODO: break apart and create PieceMovesCalculator class that calls logic below
 
         if (piece.getPieceType() == ChessPiece.PieceType.KING){ //if the piece being passed in is a king...
-            return new KingMoves().kingMoves(board,myPosition);
-        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) { //then make new King object and call King constructor
+            return new KingMoves().kingMoves(board,myPosition); //then make new King object and call King constructor TODO:
+        } else if (piece.getPieceType() == ChessPiece.PieceType.QUEEN) {
             return new QueenMoves().queenMoves(board, myPosition);
         } else if (piece.getPieceType() == ChessPiece.PieceType.BISHOP) {
             return new BishopMoves().bishopMoves(board, myPosition);

@@ -1,28 +1,14 @@
-package chess;
+package chess.pieces;
+
+import chess.ChessBoard;
+import chess.ChessMove;
+import chess.ChessPiece;
+import chess.ChessPosition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 public class KingMoves {
-//    private ChessPiece[][] possibleMoves = new ChessPiece[7][7];
-
-//    public KingMoves(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {  //auto generated constructor
-//        super(pieceColor, type);
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        King king = (King) o;
-//        return Arrays.equals(possibleMoves, king.possibleMoves);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Arrays.hashCode(possibleMoves);
-//    }
 
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
