@@ -1,17 +1,15 @@
 package chess.pieces;
 
-import chess.ChessBoard;
-import chess.ChessMove;
-import chess.ChessPiece;
-import chess.ChessPosition;
+import chess.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class KingMoves {
+public class KingMovesCalculator implements PieceMovesCalculator{
+
 
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
-        if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
+        if (board.getTeamAtPosition(piecePosition) == board.getTeamAtPosition(movePosition)){
             return true;
         }
         return false;
@@ -21,7 +19,8 @@ public class KingMoves {
         return piece != null; //if there is a piece return true. if no piece at position return false
     }
 
-    public Collection<ChessMove> kingMoves(ChessBoard board, ChessPosition myPosition) {
+    @Override
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
 
         final int row = myPosition.getRow(); //gets current row of bishop. Will not change
@@ -162,6 +161,7 @@ public class KingMoves {
         }
         return possibleMoves;
     }
+
 
 
 }

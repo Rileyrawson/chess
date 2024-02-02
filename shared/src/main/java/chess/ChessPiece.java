@@ -59,6 +59,14 @@ public class ChessPiece {
         PAWN
     }
 
+    public void setFirstMove(boolean firstMove) {
+        this.firstMove = firstMove;
+    }
+
+    public boolean isFirstMove() {
+        return firstMove;
+    }
+
     /**
      * @return Which team this chess piece belongs to
      */

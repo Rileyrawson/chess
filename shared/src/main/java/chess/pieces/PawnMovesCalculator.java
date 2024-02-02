@@ -5,11 +5,11 @@ import chess.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PawnMoves{
+public class PawnMovesCalculator implements PieceMovesCalculator{
 
 
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
-        if (board.colorAtPosition(piecePosition) == board.colorAtPosition(movePosition)){
+        if (board.getTeamAtPosition(piecePosition) == board.getTeamAtPosition(movePosition)){
             return true;
         }
         return false;
@@ -20,14 +20,15 @@ public class PawnMoves{
     }
 
 
-    public Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition) {
+    @Override
+    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
 
         final int pieceRow = myPosition.getRow(); //gets current row. Will not change
         final int pieceCol = myPosition.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
 
-        ChessPiece piece = new ChessPiece(board.colorAtPosition(myPosition), ChessPiece.PieceType.PAWN);
+        ChessPiece piece = new ChessPiece(board.getTeamAtPosition(myPosition), ChessPiece.PieceType.PAWN);
         //White up
         if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
             if (piece.isFirstMove() == true && pieceRow == 1) { //white first move = up 2
