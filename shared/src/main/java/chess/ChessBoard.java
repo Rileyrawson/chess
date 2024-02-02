@@ -11,21 +11,20 @@ import java.util.Objects;
  */
 public class ChessBoard {
 
-
     private final int boardRow = 8;
     private final int boardCol = 8;
-    private ChessPiece[][] board;
+    private ChessPiece[][] board; //the board will consist of an array of chess pieces
 
     public ChessBoard() {
-        this.board = new ChessPiece[boardRow][boardCol];
-        System.out.print(this.board.toString());
+        this.board = new ChessPiece[boardRow][boardCol]; //sets board to a ChessPiece 2d array
+//        System.out.print(this.board); // print board for debugging
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ChessBoard that)) return false;
-        return boardRow == that.boardRow && boardCol == that.boardCol && Arrays.deepEquals(board, that.board);
+        return Arrays.deepEquals(board, that.board); // deep so checks contents 2d array
     }
 
     @Override
@@ -41,17 +40,10 @@ public class ChessBoard {
      * @param position where to add the piece to
      * @param piece    the piece to add
      */
-    public void addPiece(ChessPosition position, ChessPiece piece) {  //position = row,col
+    public void addPiece(ChessPosition position, ChessPiece piece) {
         int row = position.getRow();
         int col = position.getColumn();
-        this.board[row][col] = piece; // piece object holds color and type. linking the piece to the "spot" on the board
-    }
-
-    public ChessGame.TeamColor colorAtPosition (ChessPosition position){
-        if (getPiece(position) == null){
-            return null;
-        }
-        return getPiece(position).getTeamColor();
+        this.board[row][col] = piece; // assigns the passed in piece to the designated position in the 2d array
     }
 
     /**
@@ -62,7 +54,41 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        return this.board[position.getRow()][position.getColumn()];
+        return this.board[position.getRow()][position.getColumn()]; // position object holds row and col. Need to call .getrow and .getcol to seperate
+    }
+
+    public ChessGame.TeamColor getTeamAtPosition(ChessPosition position){
+        if (this.getPiece(position) == null){
+            return null;
+        }
+        return this.getPiece(position).getTeamColor();
+    }
+
+    public boolean isOutOfBounds(ChessPosition position){
+        int row = position.getRow();
+        int col = position.getColumn();
+        return ((row < 0 || row >= boardRow) || (col < 0 || col >= boardCol)); //the conditions outside of board
+    }
+
+    public boolean isValidMove(ChessPosition endPosition, ChessGame.TeamColor currTeam){
+        if (isOutOfBounds(endPosition)){ //out of bounds
+            return false;
+        } else if (getPiece(endPosition) == null ){ //empty square
+            return true;
+        } else if (getTeamAtPosition(endPosition) == currTeam) { //blocked by same team
+            return false;
+        } else{ //capture move
+            return true;
+        }
+    }
+
+    public boolean isCapturePosition(ChessPosition endPosition, ChessGame.TeamColor currTeam){
+        if (!isValidMove(endPosition,currTeam)){ // false == out of bounds or blocked by same team
+            return false;
+        } else if (getPiece(endPosition) == null) { //empty square
+            return false;
+        }
+        return true; //other piece is at endPosition
     }
 
     /**
@@ -70,7 +96,6 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-
         //White
         //pawn = row 2
         for (int i = 1; i < 9; i++){
@@ -156,7 +181,6 @@ public class ChessBoard {
         ChessPiece bKing1 = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KING);
         ChessPosition bKingPosition1 = new ChessPosition(8,5);
         addPiece(bKingPosition1, bKing1);
-
     }
 
     @Override
@@ -167,14 +191,13 @@ public class ChessBoard {
             for (int j = 0; j < boardCol; j++) {
                 ChessPosition position = new ChessPosition(i + 1,j + 1);
                 if (getPiece(position) == null) {
-                    int stringLabel = j + 1;
-                    stringBuilder.append(" [" + stringLabel + "] ");
+                    stringBuilder.append(" [").append(j + 1).append("] "); // label the column number
                 }
                 else {
                     stringBuilder.append(getPiece(position).toString());
                 }
             }
-            stringBuilder.append(i + 1);
+            stringBuilder.append(i + 1); // label the row number
         }
         return stringBuilder.toString();
     }
