@@ -15,6 +15,8 @@ public class ChessBoard {
     private final int boardCol = 8;
     private ChessPiece[][] board; //the board will consist of an array of chess pieces
 
+    public ChessPiece[][] getBoard() { return board; }
+
     public ChessBoard() {
         this.board = new ChessPiece[boardRow][boardCol]; //sets board to a ChessPiece 2d array
 //        System.out.print(this.board); // print board for debugging
@@ -34,6 +36,19 @@ public class ChessBoard {
         return result;
     }
 
+    public ChessPosition getKingPosition(ChessGame.TeamColor teamColor){
+        ChessPiece[][] pieceArray = this.board;
+        for (int i = boardRow - 1; i >= 0; i--) {
+            for (int j = 0; j < boardCol; j++) {
+                if (pieceArray[i][j] != null){ //if this position on the board isn't null
+                    if (pieceArray[i][j].getPieceType() == ChessPiece.PieceType.KING && pieceArray[i][j].getTeamColor() == teamColor){ //if king and same team
+                        return new ChessPosition(i + 1,j + 1); //iterating through array so already 0 based
+                    }
+                }
+            }
+        }
+        return null;
+    }
     /**
      * Adds a chess piece to the chessboard
      *

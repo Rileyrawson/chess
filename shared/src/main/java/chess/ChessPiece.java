@@ -112,7 +112,6 @@ public class ChessPiece {
         return possibleMoves;
     }
 
-
     @Override
     public String toString() {
 
