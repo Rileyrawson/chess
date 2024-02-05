@@ -26,8 +26,8 @@ public class KnightMovesCalculator implements PieceMovesCalculator {
         final int pieceRow = myPosition.getRow();
         final int pieceCol = myPosition.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
-        System.out.println("pieceRow: " + pieceRow);
-        System.out.println("pieceCol: " + pieceCol);
+//        System.out.println("pieceRow: " + pieceRow);
+//        System.out.println("pieceCol: " + pieceCol);
 
         int right2 = pieceCol + 2;
         int right1 = pieceCol + 1;
