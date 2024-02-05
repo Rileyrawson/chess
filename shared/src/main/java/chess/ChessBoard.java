@@ -51,12 +51,13 @@ public class ChessBoard {
 
         } else if (move.getPromotionPiece() == null){
             addPiece(move.getEndPosition(), piece);
+            addPiece(move.getStartPosition(), null); // clear old space (remove piece)
         }
         else{
             ChessPiece promotionPiece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
             addPiece(move.getEndPosition(), promotionPiece);
+            addPiece(move.getStartPosition(), null); // clear old space (remove piece)
         }
-        addPiece(move.getStartPosition(), null); // clear old space (remove piece)
     }
 
     public Collection<ChessPosition> getTeamPositions (ChessGame.TeamColor teamColor){

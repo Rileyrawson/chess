@@ -75,6 +75,14 @@ public class ChessGame {
 
     }
 
+    public TeamColor nextTeamTurn(){
+        if (team == TeamColor.WHITE){
+            return TeamColor.BLACK;
+        } else {
+            return TeamColor.WHITE;
+        }
+    }
+
     /**
      * Makes a move in a chess game
      *
@@ -83,13 +91,19 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         ArrayList<ChessMove> validMoves = (ArrayList<ChessMove>) validMoves(move.getStartPosition());
+
+        System.out.println(validMoves);
+        System.out.println(board);
         if (validMoves.contains(move)){
+            if (team != board.getPiece(move.getStartPosition()).getTeamColor()){
+                throw new InvalidMoveException("Invalid Move.");
+            }
             board.makeMove(move);
+            team = nextTeamTurn();
         } else {
             throw new InvalidMoveException("Invalid Move.");
         }
     }
-
 
 
     /**
