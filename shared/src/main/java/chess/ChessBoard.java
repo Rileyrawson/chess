@@ -15,7 +15,19 @@ public class ChessBoard {
     private final int boardCol = 8;
     private ChessPiece[][] board; //the board will consist of an array of chess pieces
 
-    public ChessPiece[][] getBoard() { return board; }
+    public void setBoard(ChessPiece[][] board) {
+        this.board = board;
+    }
+
+    public ChessPiece[][] getBoard() {
+        return this.board;
+    }
+
+    public ChessBoard makeMove(ChessBoard newBoard, ChessMove move, ChessPiece piece){
+        newBoard.addPiece(move.getStartPosition(), null);
+        newBoard.addPiece(move.getEndPosition(), piece);
+        return newBoard;
+    }
 
     public ChessBoard() {
         this.board = new ChessPiece[boardRow][boardCol]; //sets board to a ChessPiece 2d array
@@ -69,6 +81,9 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
+        if (isOutOfBounds(position)){
+            return null;
+        }
         return this.board[position.getRow()][position.getColumn()]; // position object holds row and col. Need to call .getrow and .getcol to seperate
     }
 
@@ -214,6 +229,7 @@ public class ChessBoard {
             }
             stringBuilder.append(i + 1); // label the row number
         }
+        stringBuilder.append("\n\n");
         return stringBuilder.toString();
     }
 }

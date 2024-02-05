@@ -125,7 +125,7 @@ public class ChessPiece {
         } else if (this.type == PieceType.BISHOP) {
             typeName = " [B] ";
         } else if (this.type == PieceType.KNIGHT) {
-            typeName = " [K] ";
+            typeName = " [N] ";
         } else if (this.type == PieceType.ROOK){
             typeName = " [R] ";
         } else if (this.type == PieceType.PAWN) {
