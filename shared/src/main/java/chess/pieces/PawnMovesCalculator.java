@@ -43,7 +43,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                     }
                 }
                 piece.setFirstMove(false);
-            } else if (pieceRow < 6){ //white move up 1 (straight forward move)
+            } if (pieceRow < 6){ //white move up 1 (straight forward move)
                 ChessPosition movePosition = new ChessPosition(pieceRow + 2,pieceCol + 1);
                 ChessMove move = new ChessMove(startPosition, movePosition, null);
                 if (!pieceAtPosition(board, movePosition)){ //if there is not a piece at double move position
@@ -108,7 +108,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                     }
                 }
                 piece.setFirstMove(false);
-            } else if (pieceRow > 1){ //black move down 1
+            } if (pieceRow > 1){ //black move down 1
                 ChessPosition movePosition = new ChessPosition(pieceRow + 0,pieceCol + 1);
                 ChessMove move = new ChessMove(startPosition, movePosition, null);
                 if (!pieceAtPosition(board, movePosition)){ //if there is not a piece at double move position
