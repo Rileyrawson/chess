@@ -225,63 +225,6 @@ public class ChessGame {
             return false;
         }
 
-//        for
-
-
-
-//        //king can escape logic
-//        getSameTeamKingMoves(board, sameTeamKingMoves, teamColor);
-//        // makes 8 new boards to account for king's 8 potential moves
-//        ArrayList<ChessBoard> kingMoveBoards = new ArrayList<>();
-//        for (ChessMove i : sameTeamKingMoves){
-//            ChessBoard simBoard = new ChessBoard();
-//            ChessPiece[][] simPieceArray = new ChessPiece[8][8];
-//            for (int j = 0; j < originalPieceArray.length; ++j) { // copying the new board into a new board. will later make move and store in array of possible moves
-//                simPieceArray[j] = new ChessPiece[originalPieceArray[j].length];      // allocating space for each row of destination array
-//                System.arraycopy(originalPieceArray[j], 0, simPieceArray[j], 0, originalPieceArray[j].length);
-//            }
-//            simBoard.setBoard(simPieceArray);
-////            simBoard.makeMove(simBoard, i, kingPiece);
-//            simBoard.makeMove(i);
-//            kingMoveBoards.add(simBoard);
-//        }
-////        System.out.println(kingMoveBoards);
-//        int kingCounter = 0;
-//        for (ChessBoard i : kingMoveBoards){
-//            kingCounter++;
-////            System.out.println(i);
-////            System.out.println(counter);
-//            getOtherTeamMoves(i, otherTeamMoves, teamColor);
-//            getSameTeamMoves(i, sameTeamMoves, teamColor);
-//        }
-
-        //capture threatening piece logic
-//        // makes x new boards to account for my piece's x potential moves
-//        ArrayList<ChessBoard> sameTeamMoveBoards = new ArrayList<>();
-//        for (ChessMove i : sameTeamMoves){
-//            ChessBoard simBoard = new ChessBoard();
-//            ChessPiece[][] simPieceArray = new ChessPiece[8][8];
-//            for (int j = 0; j < originalPieceArray.length; ++j) { // copying the new board into a new board. will later make move and store in array of possible moves
-//                simPieceArray[j] = new ChessPiece[originalPieceArray[j].length];      // allocating space for each row of destination array
-//                System.arraycopy(originalPieceArray[j], 0, simPieceArray[j], 0, originalPieceArray[j].length);
-//            }
-//            simBoard.setBoard(simPieceArray);
-//            ChessPosition piecePosition;
-////            piecePosition = board.getPiece(i.getStartPosition());
-////            simBoard.makeMove(simBoard, i, board.getPiece(piecePosition));
-//            simBoard.makeMove(i);
-//            sameTeamMoveBoards.add(simBoard);
-//        }
-//        System.out.println(sameTeamMoveBoards);
-//        int counter = 0;
-//        for (ChessBoard i : sameTeamMoveBoards){
-//            counter++;
-//            System.out.println(i);
-//            System.out.println(counter);
-//            getOtherTeamMoves(i, otherTeamMoves, teamColor);
-//            getSameTeamMoves(i, sameTeamMoves, teamColor);
-//        }
-
 
         if(kingCanEscape(otherTeamMoves, sameTeamKingMoves, kingPosition)){   //king can move to escape
             return false;
