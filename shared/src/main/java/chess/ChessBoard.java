@@ -1,6 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -23,11 +25,6 @@ public class ChessBoard {
         return this.board;
     }
 
-    public ChessBoard makeMove(ChessBoard newBoard, ChessMove move, ChessPiece piece){
-        newBoard.addPiece(move.getStartPosition(), null);
-        newBoard.addPiece(move.getEndPosition(), piece);
-        return newBoard;
-    }
 
     public ChessBoard() {
         this.board = new ChessPiece[boardRow][boardCol]; //sets board to a ChessPiece 2d array
@@ -46,6 +43,56 @@ public class ChessBoard {
         int result = Objects.hash(boardRow, boardCol);
         result = 31 * result + Arrays.deepHashCode(board);
         return result;
+    }
+
+    public void makeMove(ChessMove move){
+        ChessPiece piece = getPiece(move.getStartPosition());
+        addPiece(move.getEndPosition(),piece);
+        addPiece(move.getStartPosition(), null);
+    }
+
+    public Collection<ChessPosition> getTeamPositions (ChessGame.TeamColor teamColor){
+        ArrayList<ChessPosition> positions = new ArrayList<>();
+        for (int i = 0; i < boardRow; i++){
+            for (int j = 0; j < boardCol; j++){
+                ChessPosition currPosition = new ChessPosition(i+1,j+1);
+                if (getPiece(currPosition).getTeamColor() == teamColor){
+                    positions.add(currPosition);
+                }
+            }
+        }
+        return positions;
+    }
+
+    public ChessPiece[][] getCopy(){
+        ChessPiece[][] copy = new ChessPiece[boardRow][boardCol];
+        for (int row = 0 ; row < boardRow; row++){
+            copy[row] = board[row].clone();
+        }
+        return copy;
+    }
+
+    public boolean isInCheck(ChessGame.TeamColor teamColor) {
+        //check if that piece has a possible move at kingPosition
+
+        ChessPosition kingPosition = getKingPosition(teamColor);
+        ChessPiece[][] pieceArray = getBoard();
+
+        ArrayList<ChessMove> captureMoves = new ArrayList<>();// just used for checkmate
+
+        for (int i = boardRow - 1; i >= 0; i--) {
+            for (int j = 0; j < boardCol; j++) { //iterate through board
+                if (pieceArray[i][j] != null && pieceArray[i][j].getTeamColor() != teamColor){ //if this position on the board isn't null and not the same team
+                    ArrayList<ChessMove> moves = (ArrayList<ChessMove>) pieceArray[i][j].pieceMoves(this, new ChessPosition(i + 1,j + 1)); // get all possible moves for piece
+                    for(ChessMove k : moves){
+                        if (k.getEndPosition().equals(kingPosition)){ // if the ending position == where the king is -> capture
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public ChessPosition getKingPosition(ChessGame.TeamColor teamColor){
@@ -221,7 +268,8 @@ public class ChessBoard {
             for (int j = 0; j < boardCol; j++) {
                 ChessPosition position = new ChessPosition(i + 1,j + 1);
                 if (getPiece(position) == null) {
-                    stringBuilder.append(" [").append(j + 1).append("] "); // label the column number
+                    //stringBuilder.append(" [").append(j + 1).append("] "); // label the column number
+                    stringBuilder.append(" [_] ");
                 }
                 else {
                     stringBuilder.append(getPiece(position).toString());

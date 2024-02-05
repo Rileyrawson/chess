@@ -53,23 +53,27 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+        ChessPiece currPiece = board.getPiece(startPosition);
 
-        if (board.getPiece(startPosition) == null){ // if no piece, return null
+        if (currPiece == null){ // if no piece, return null
             return null;
         }
-        if (isInCheck(board.getTeamAtPosition(startPosition))){
 
-            //moves limited to ones that can't keep in check
+        ArrayList<ChessMove> validMoves = new ArrayList<>();
+        TeamColor currTeam = board.getTeamAtPosition(startPosition);
+        ArrayList<ChessMove> pieceMoves = new ArrayList<>();
+        pieceMoves = (ArrayList<ChessMove>) currPiece.pieceMoves(board, startPosition);
+
+        for (ChessMove move : pieceMoves){
+            ChessBoard simBoard = new ChessBoard();
+            simBoard.setBoard(board.getCopy());
+            simBoard.makeMove(move);
+            if (!simBoard.isInCheck(currTeam)){
+                validMoves.add(move);
+            }
         }
-        if (isInCheckmate(board.getTeamAtPosition(startPosition))){
-            //no valid moves
-            return null;
-        }
-        if (isInStalemate(board.getTeamAtPosition(startPosition))){
-            //no valid moves
-            return null;
-        }
-        throw new RuntimeException("Not implemented");                                                          //TODO 4
+        return validMoves;
+
     }
 
     /**
@@ -79,8 +83,10 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-
-        throw new RuntimeException("Not implemented");                                                          //TODO 5
+        if (validMoves(move.getStartPosition()) == null){
+            throw new InvalidMoveException();
+        }
+//        throw new RuntimeException("Not implemented");                                                          //TODO 5
     }
 
 
@@ -92,24 +98,7 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        //check if that piece has a possible move at kingPosition
-
-        ChessPosition kingPosition = board.getKingPosition(teamColor);
-        ChessPiece[][] pieceArray = this.board.getBoard();
-
-        ArrayList<ChessMove> captureMoves = new ArrayList<>();// just used for checkmate
-
-        for (int i = boardRow - 1; i >= 0; i--) {
-            for (int j = 0; j < boardCol; j++) { //iterate through board
-                if (pieceArray[i][j] != null && pieceArray[i][j].getTeamColor() != teamColor){ //if this position on the board isn't null and not the same team
-                    ArrayList<ChessMove> moves = (ArrayList<ChessMove>) pieceArray[i][j].pieceMoves(board, new ChessPosition(i + 1,j + 1)); // get all possible moves for piece
-                    if (canCapture(moves, kingPosition)){
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return this.board.isInCheck(teamColor);
     }
 
     private boolean canCapture(ArrayList<ChessMove> otherTeamMoves, ChessPosition piecePosition){
@@ -123,7 +112,6 @@ public class ChessGame {
         return false;
     }
     public boolean kingCanEscape(ArrayList<ChessMove> otherTeamMoves, ArrayList<ChessMove> sameTeamKingMoves, ChessPosition kingPosition){
-
         for(ChessMove i : sameTeamKingMoves) {
             if (!canCapture(otherTeamMoves, i.getEndPosition())) { //when you can't capture the king, the king can escape and is no longer in checkmate;
                 return true;
@@ -140,7 +128,15 @@ public class ChessGame {
         }
         return threateningPiecePosition;
     }
-
+    private ArrayList<ChessMove> collectThreateningPieceMoves(ArrayList<ChessMove> otherTeamMoves, ChessPosition kingPosition){
+        ArrayList<ChessMove> threateningPieceMoves = new ArrayList<>();
+        for(ChessMove i : otherTeamMoves){
+            if (i.getEndPosition().equals(kingPosition)){ // if the ending position == where the king is -> capture
+                threateningPieceMoves.add(i);
+            }
+        }
+        return threateningPieceMoves;
+    }
     //capture moves
     public boolean canCaptureThreateningPiece(ArrayList<ChessMove> otherTeamMoves, ArrayList<ChessMove> sameTeamMoves, ChessPosition kingPosition){
         ArrayList<ChessPosition> threateningPiecePositions = collectThreateningPiecePosition(otherTeamMoves, kingPosition);
@@ -151,22 +147,12 @@ public class ChessGame {
         }
         return false;
     }
-
-    private ArrayList<ChessMove> collectThreateningPieceMoves(ArrayList<ChessMove> otherTeamMoves, ChessPosition kingPosition){
-        ArrayList<ChessMove> threateningPieceMoves = new ArrayList<>();
-        for(ChessMove i : otherTeamMoves){
-            if (i.getEndPosition().equals(kingPosition)){ // if the ending position == where the king is -> capture
-                threateningPieceMoves.add(i);
-            }
-        }
-        return threateningPieceMoves;
-    }
     //block moves
-    public boolean canBlockThreateningPiece(ArrayList<ChessMove> otherTeamMoves, ArrayList<ChessMove> sameTeamMoves, ChessPosition kingPosition){
+    public boolean canBlockThreateningPiece(ArrayList<ChessMove> otherTeamMoves, ArrayList<ChessMove> sameTeamMoves, ChessPosition kingPosition, TeamColor teamColor){
         ArrayList<ChessMove> threateningPieceMoves = collectThreateningPieceMoves(otherTeamMoves, kingPosition);
         for(ChessMove i : threateningPieceMoves) {
             for(ChessMove j : sameTeamMoves) {
-                if (i.getEndPosition().equals(j.getEndPosition())) {
+                if (i.getEndPosition().equals(j.getEndPosition()) && !isInCheck(teamColor)) {
                     return true;
                 }
             }
@@ -202,7 +188,6 @@ public class ChessGame {
                 }
             }
         }
-
     }
 
     /**
@@ -214,43 +199,73 @@ public class ChessGame {
     public boolean isInCheckmate(TeamColor teamColor) {   //same as in check?
 
         ChessPosition kingPosition = board.getKingPosition(teamColor);
-        ChessPiece[][] pieceArray = this.board.getBoard(); //all pieces on board
+        ChessPiece kingPiece =  board.getPiece(kingPosition);
+        ChessPiece[][] originalPieceArray = this.board.getBoard(); //all pieces on original board
         ArrayList<ChessMove> otherTeamMoves = new ArrayList<>();
         ArrayList<ChessMove> sameTeamMoves = new ArrayList<>();
         ArrayList<ChessMove> sameTeamKingMoves = new ArrayList<>();
+
 
         if (!isInCheck(teamColor)){
             return false;
         }
 
-        getSameTeamKingMoves(board, sameTeamKingMoves, teamColor);
+//        for
 
-        ChessPiece kingPiece =  board.getPiece(kingPosition);
-        System.out.println("Original Hashcode: " + this.board.hashCode());
-        // makes 8 new boards to account for king's 8 potential moves
-        ArrayList<ChessBoard> kingMoveBoards = new ArrayList<>();
-        for (ChessMove i : sameTeamKingMoves){
-            ChessBoard simBoard = new ChessBoard();
-            ChessPiece[][] simPieceArray = new ChessPiece[8][8];
-            for (int j = 0; j < pieceArray.length; ++j) { // copying the new board into a new board. will later make move and store in array of possible moves
-                simPieceArray[j] = new ChessPiece[pieceArray[j].length];      // allocating space for each row of destination array
-                System.arraycopy(pieceArray[j], 0, simPieceArray[j], 0, pieceArray[j].length);
-            }
-            simBoard.setBoard(simPieceArray);
-            simBoard.makeMove(simBoard, i, kingPiece);
-            kingMoveBoards.add(simBoard);
-        }
 
-        System.out.println(kingMoveBoards);
 
-        int counter = 0;
-        for (ChessBoard i : kingMoveBoards){
-            counter++;
-            System.out.println(i);
-            System.out.println(counter);
-            getOtherTeamMoves(i, otherTeamMoves, teamColor);
-            getSameTeamMoves(i, sameTeamMoves, teamColor);
-        }
+//        //king can escape logic
+//        getSameTeamKingMoves(board, sameTeamKingMoves, teamColor);
+//        // makes 8 new boards to account for king's 8 potential moves
+//        ArrayList<ChessBoard> kingMoveBoards = new ArrayList<>();
+//        for (ChessMove i : sameTeamKingMoves){
+//            ChessBoard simBoard = new ChessBoard();
+//            ChessPiece[][] simPieceArray = new ChessPiece[8][8];
+//            for (int j = 0; j < originalPieceArray.length; ++j) { // copying the new board into a new board. will later make move and store in array of possible moves
+//                simPieceArray[j] = new ChessPiece[originalPieceArray[j].length];      // allocating space for each row of destination array
+//                System.arraycopy(originalPieceArray[j], 0, simPieceArray[j], 0, originalPieceArray[j].length);
+//            }
+//            simBoard.setBoard(simPieceArray);
+////            simBoard.makeMove(simBoard, i, kingPiece);
+//            simBoard.makeMove(i);
+//            kingMoveBoards.add(simBoard);
+//        }
+////        System.out.println(kingMoveBoards);
+//        int kingCounter = 0;
+//        for (ChessBoard i : kingMoveBoards){
+//            kingCounter++;
+////            System.out.println(i);
+////            System.out.println(counter);
+//            getOtherTeamMoves(i, otherTeamMoves, teamColor);
+//            getSameTeamMoves(i, sameTeamMoves, teamColor);
+//        }
+
+        //capture threatening piece logic
+//        // makes x new boards to account for my piece's x potential moves
+//        ArrayList<ChessBoard> sameTeamMoveBoards = new ArrayList<>();
+//        for (ChessMove i : sameTeamMoves){
+//            ChessBoard simBoard = new ChessBoard();
+//            ChessPiece[][] simPieceArray = new ChessPiece[8][8];
+//            for (int j = 0; j < originalPieceArray.length; ++j) { // copying the new board into a new board. will later make move and store in array of possible moves
+//                simPieceArray[j] = new ChessPiece[originalPieceArray[j].length];      // allocating space for each row of destination array
+//                System.arraycopy(originalPieceArray[j], 0, simPieceArray[j], 0, originalPieceArray[j].length);
+//            }
+//            simBoard.setBoard(simPieceArray);
+//            ChessPosition piecePosition;
+////            piecePosition = board.getPiece(i.getStartPosition());
+////            simBoard.makeMove(simBoard, i, board.getPiece(piecePosition));
+//            simBoard.makeMove(i);
+//            sameTeamMoveBoards.add(simBoard);
+//        }
+//        System.out.println(sameTeamMoveBoards);
+//        int counter = 0;
+//        for (ChessBoard i : sameTeamMoveBoards){
+//            counter++;
+//            System.out.println(i);
+//            System.out.println(counter);
+//            getOtherTeamMoves(i, otherTeamMoves, teamColor);
+//            getSameTeamMoves(i, sameTeamMoves, teamColor);
+//        }
 
 
         if(kingCanEscape(otherTeamMoves, sameTeamKingMoves, kingPosition)){   //king can move to escape
@@ -259,7 +274,7 @@ public class ChessGame {
         if (canCaptureThreateningPiece(otherTeamMoves, sameTeamMoves, kingPosition)){  //team can capture other team's moves to protect
             return false;
         }
-        if (canBlockThreateningPiece(otherTeamMoves, sameTeamMoves, kingPosition)){ // team can block path
+        if (canBlockThreateningPiece(otherTeamMoves, sameTeamMoves, kingPosition, teamColor)){ // team can block path
             return false;
         }
 
@@ -275,13 +290,19 @@ public class ChessGame {
      */
     public boolean isInStalemate(TeamColor teamColor) {
 
-        /*
-        if both teams are in checkmate? so call isInCheckmate on both teams
-         */
+        ArrayList<ChessMove> validMoves = new ArrayList<>();
+        ArrayList<ChessPosition> teamPositions = new ArrayList<>();
+        teamPositions = (ArrayList<ChessPosition>) board.getTeamPositions(teamColor);
 
-//        return false;
+        for (ChessPosition i : teamPositions){
+            validMoves.addAll(validMoves(i));
+        }
 
-        throw new RuntimeException("Not implemented");                                                         //TODO 3
+        if(validMoves.size() == 0){
+            return true;
+        }
+
+        return false;
     }
 
     /**
