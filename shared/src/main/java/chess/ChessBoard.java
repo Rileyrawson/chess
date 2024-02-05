@@ -47,7 +47,9 @@ public class ChessBoard {
 
     public void makeMove(ChessMove move){
         ChessPiece piece = getPiece(move.getStartPosition());
-        if (move.getPromotionPiece() == null){
+        if(isOutOfBounds(move.getEndPosition())){
+
+        } else if (move.getPromotionPiece() == null){
             addPiece(move.getEndPosition(), piece);
         }
         else{
