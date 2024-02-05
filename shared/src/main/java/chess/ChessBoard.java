@@ -47,8 +47,14 @@ public class ChessBoard {
 
     public void makeMove(ChessMove move){
         ChessPiece piece = getPiece(move.getStartPosition());
-        addPiece(move.getEndPosition(),piece);
-        addPiece(move.getStartPosition(), null);
+        if (move.getPromotionPiece() == null){
+            addPiece(move.getEndPosition(), piece);
+        }
+        else{
+            ChessPiece promotionPiece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
+            addPiece(move.getEndPosition(), promotionPiece);
+        }
+        addPiece(move.getStartPosition(), null); // clear old space (remove piece)
     }
 
     public Collection<ChessPosition> getTeamPositions (ChessGame.TeamColor teamColor){
@@ -56,8 +62,10 @@ public class ChessBoard {
         for (int i = 0; i < boardRow; i++){
             for (int j = 0; j < boardCol; j++){
                 ChessPosition currPosition = new ChessPosition(i+1,j+1);
-                if (getPiece(currPosition).getTeamColor() == teamColor){
-                    positions.add(currPosition);
+                if (getPiece(currPosition) != null){
+                    if (getPiece(currPosition).getTeamColor() == teamColor){
+                        positions.add(currPosition);
+                    }
                 }
             }
         }

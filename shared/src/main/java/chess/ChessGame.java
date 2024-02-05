@@ -18,7 +18,6 @@ public class ChessGame {
     private final int boardCol = 8;
 
     public ChessGame() {
-
     }
 
     /**
@@ -83,10 +82,12 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        if (validMoves(move.getStartPosition()) == null){
-            throw new InvalidMoveException();
+        ArrayList<ChessMove> validMoves = (ArrayList<ChessMove>) validMoves(move.getStartPosition());
+        if (validMoves.contains(move)){
+            board.makeMove(move);
+        } else {
+            throw new InvalidMoveException("Invalid Move.");
         }
-//        throw new RuntimeException("Not implemented");                                                          //TODO 5
     }
 
 
