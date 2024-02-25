@@ -10,9 +10,15 @@ public class Server {
 
         Spark.staticFiles.location("web");
 
-        // Register your endpoints and handle exceptions here.
 
-//        Spark.externalStaticFileLocation("/Users/rr/IdeaProjects/chess/server/src/main/resources/web");
+        Spark.post("/user", (req, resp) -> new RegisterHandler().handle(req, resp));//register user
+        Spark.post("/session", (req, resp) -> new LoginHandler().handle(req, resp)); //login user
+        Spark.delete("/session", (req, resp) -> new LogoutHandler().handle(req, resp));  //logout user
+        Spark.get("/game", (req, resp) -> new ListGameHandler().handle(req, resp)); //list all games
+        Spark.post("/game", (req, resp) -> new CreateGameHandler().handle(req, resp)); //create new game
+        Spark.put("/game", (req, resp) -> new JoinGameHandler().handle(req, resp));  //join game
+        Spark.delete("/db",(req, resp) -> new ClearDBHandler().handle(req, resp)); //clear db
+
 
         Spark.get("/test", this::Test);
 
