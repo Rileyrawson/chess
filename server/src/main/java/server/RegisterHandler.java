@@ -2,8 +2,7 @@ package server;
 
 import com.google.gson.Gson;
 import model.requests.RegisterRequest;
-import service.CreateGameService;
-import service.RegisterService;
+import service.UserService;
 import spark.Request;
 import spark.Response;
 
@@ -18,7 +17,7 @@ public class RegisterHandler {
 
         res.type("application/json");
 
-        RegisterService service = new RegisterService();
+        UserService service = new UserService();
 
         return gson.toJson(service.register(request));
 

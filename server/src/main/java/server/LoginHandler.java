@@ -1,8 +1,9 @@
 package server;
 
 import com.google.gson.Gson;
+import model.requests.CreateGameRequest;
 import model.requests.LoginRequest;
-import service.LoginService;
+import service.UserService;
 import spark.Request;
 import spark.Response;
 
@@ -17,7 +18,7 @@ public class LoginHandler {
 
         res.type("application/json");
 
-        LoginService service = new LoginService();
+        UserService service = new UserService();
 
         return gson.toJson(service.login(request));
 

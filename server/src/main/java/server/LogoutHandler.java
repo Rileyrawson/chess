@@ -2,7 +2,7 @@ package server;
 
 import com.google.gson.Gson;
 import model.requests.LogoutRequest;
-import service.LogoutService;
+import service.UserService;
 import spark.Request;
 import spark.Response;
 
@@ -16,7 +16,7 @@ public class LogoutHandler {
 
         res.type("application/json");
 
-        LogoutService service = new LogoutService();
+        UserService service = new UserService();
 
         return gson.toJson(service.logout(request));
 
