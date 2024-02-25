@@ -2,6 +2,7 @@ package server;
 
 import com.google.gson.Gson;
 import model.requests.CreateGameRequest;
+import service.LoginService;
 import spark.Request;
 import spark.Response;
 
@@ -15,6 +16,12 @@ public class LoginHandler {
         request.setAuthToken(authToken);
 
         res.type("application/json");
-        return gson.toJson(request);
+
+        LoginService service = new LoginService();
+
+        return gson.toJson(service.login(request));
+
+
+//        return gson.toJson(request);
     }
 }

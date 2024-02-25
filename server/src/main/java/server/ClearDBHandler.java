@@ -2,6 +2,8 @@ package server;
 
 import com.google.gson.Gson;
 import model.requests.CreateGameRequest;
+import service.ClearDBService;
+import service.CreateGameService;
 import spark.Request;
 import spark.Response;
 
@@ -12,6 +14,12 @@ public class ClearDBHandler {
 //        res.type("text/plain");
 
         res.type("application/json");
-        return gson.toJson("{'Status': 'OK',}");
+
+
+
+        ClearDBService service = new ClearDBService();
+
+        return gson.toJson(service.clear(request));
+//        return gson.toJson("{'Status': 'OK',}");
     }
 }
