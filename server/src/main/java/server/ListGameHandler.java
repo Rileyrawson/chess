@@ -2,6 +2,7 @@ package server;
 
 import com.google.gson.Gson;
 import model.requests.CreateGameRequest;
+import model.requests.ListGamesRequest;
 import service.ListGameService;
 import spark.Request;
 import spark.Response;
@@ -20,6 +21,7 @@ public class ListGameHandler {
 
         ListGameService service = new ListGameService();
 
+        ListGamesRequest request = null;
         return gson.toJson(service.listGame(request));
 
 //        return gson.toJson(gameList);
