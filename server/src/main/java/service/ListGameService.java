@@ -4,7 +4,7 @@ import model.requests.ListGamesRequest;
 
 public class ListGameService {
 
-    public Object listGames(ListGamesRequest request){
+    public Object listGame(ListGamesRequest request){
 
         //NOTE: White or Black username may be null
 

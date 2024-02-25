@@ -3,7 +3,7 @@ package service;
 
 public class ClearDBService {
 
-    public Object clearDB(){
+    public Object clear(){
 
         //delete everything without authorization
 

@@ -18,7 +18,6 @@ public class ListGameHandler {
         gameList.add("game3");
 
 
-
         ListGameService service = new ListGameService();
 
         return gson.toJson(service.listGame(request));

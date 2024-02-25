@@ -19,7 +19,7 @@ public class ClearDBHandler {
 
         ClearDBService service = new ClearDBService();
 
-        return gson.toJson(service.clear(request));
+        return gson.toJson(service.clear());
 //        return gson.toJson("{'Status': 'OK',}");
     }
 }
