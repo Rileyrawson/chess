@@ -10,7 +10,7 @@ public class MemoryAuthDAO implements AuthDAO {
     private HashMap<String,String> authTokens = new HashMap<>();
 
     public MemoryAuthDAO() { //FOR TESTING
-        authTokens.put("123","testusername");
+        authTokens.put("123","un");
     }
 
     @Override

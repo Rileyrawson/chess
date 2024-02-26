@@ -24,7 +24,7 @@ public class CreateGameHandler {
                 res.status(401);
                 return gson.toJson(errorResponse);
             }
-            CreateGameRequest request = (CreateGameRequest) gson.fromJson(req.body(), CreateGameRequest.class);
+            CreateGameRequest request = (CreateGameRequest)gson.fromJson(req.body(), CreateGameRequest.class);
             Object result = service.createGame(request);
             return gson.toJson(result);
         } catch (DataAccessException exception) {

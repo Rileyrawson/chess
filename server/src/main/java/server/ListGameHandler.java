@@ -19,7 +19,6 @@ public class ListGameHandler {
         GameService service = new GameService(new MemoryAuthDAO(), new MemoryGameDAO());
         res.type("application/json");
 
-
         try {
             Collection<GameData> games = null;
             games = service.listGame(authToken);

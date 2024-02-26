@@ -9,9 +9,8 @@ public class MemoryGameDAO implements GameDAO{
 
     ArrayList<GameData> games = new ArrayList<>();
 
-
     public MemoryGameDAO() { //FOR TESTING
-        GameData data = new GameData(0, "white", "black", "game", new ChessGame());
+        GameData data = new GameData(1, null, "black", "game", new ChessGame());
         games.add(data);
     }
 
