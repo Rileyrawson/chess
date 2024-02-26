@@ -1,30 +1,37 @@
 package server;
 
 import com.google.gson.Gson;
-import model.requests.CreateGameRequest;
-import model.requests.ListGamesRequest;
-import service.ListGameService;
+import dataAccess.DataAccessException;
+import dataAccess.MemoryAuthDAO;
+import dataAccess.MemoryGameDAO;
+import model.GameData;
+import model.response.ErrorResponse;
+import service.GameService;
 import spark.Request;
 import spark.Response;
-
-import java.util.ArrayList;
+import java.util.Collection;
 
 public class ListGameHandler {
     public Object handle(Request req, Response res) {
         Gson gson = new Gson();
-        ArrayList<String> gameList = new ArrayList<>();
 
-        gameList.add("game1");
-        gameList.add("game2");
-        gameList.add("game3");
+        String authToken = req.headers("authorization");
+        GameService service = new GameService(new MemoryAuthDAO(), new MemoryGameDAO());
+        res.type("application/json");
 
 
-        ListGameService service = new ListGameService();
-
-        ListGamesRequest request = null;
-        return gson.toJson(service.listGame(request));
-
-//        return gson.toJson(gameList);
+        try {
+            Collection<GameData> games = null;
+            games = service.listGame(authToken);
+            return gson.toJson(games);
+        } catch (DataAccessException exception) {
+            if (exception.getMessage().equals("Error: unauthorized")) {
+                res.status(401);
+            } else {
+                res.status(500);
+            }
+            return gson.toJson(new ErrorResponse(exception.getMessage()));
+        }
     }
 
 }

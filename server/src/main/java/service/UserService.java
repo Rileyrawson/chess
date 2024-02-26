@@ -1,7 +1,6 @@
 package service;
 
 import model.requests.LoginRequest;
-import model.requests.LogoutRequest;
 import model.requests.RegisterRequest;
 
 public class UserService {
@@ -24,7 +23,7 @@ public class UserService {
 
         return null;
     }
-    public Object logout(LogoutRequest request){
+    public Object logout(){
 
         //200
         //401 error: unauthorized

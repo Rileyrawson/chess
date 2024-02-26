@@ -2,16 +2,10 @@ package model.response;
 
 public class ErrorResponse {
 
-    private int statusCode;
     private String errorMessage;
 
-    public ErrorResponse(int statusCode, String errorMessage) {
-        this.statusCode = statusCode;
+    public ErrorResponse(String errorMessage) {
         this.errorMessage = errorMessage;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
     }
 
     public String getErrorMessage() {

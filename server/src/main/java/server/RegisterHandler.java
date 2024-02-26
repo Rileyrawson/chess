@@ -13,7 +13,7 @@ public class RegisterHandler {
         RegisterRequest request = (RegisterRequest) gson.fromJson(req.body(), RegisterRequest.class);
         String authToken = req.headers("authorization");
 
-        request.setAuthToken(authToken);
+//        request.setAuthToken(authToken);
 
         res.type("application/json");
 

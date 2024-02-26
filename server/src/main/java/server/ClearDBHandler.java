@@ -3,7 +3,6 @@ package server;
 import com.google.gson.Gson;
 import model.requests.CreateGameRequest;
 import service.ClearDBService;
-import service.CreateGameService;
 import spark.Request;
 import spark.Response;
 

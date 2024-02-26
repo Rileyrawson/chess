@@ -1,12 +1,13 @@
 package model.response;
 
-public class LogInResponse {
+public class LoginResponse {
+
     private int statusCode;
     private int authToken;
     private String username;
     private String password;
 
-    public LogInResponse(int statusCode, int authToken, String username, String password) {
+    public LoginResponse(int statusCode, int authToken, String username, String password) {
         this.statusCode = statusCode;
         this.authToken = authToken;
         this.username = username;
@@ -28,4 +29,5 @@ public class LogInResponse {
     public String getPassword() {
         return password;
     }
+
 }

@@ -1,7 +1,6 @@
 package server;
 
 import com.google.gson.Gson;
-import model.requests.CreateGameRequest;
 import model.requests.LoginRequest;
 import service.UserService;
 import spark.Request;
@@ -14,7 +13,7 @@ public class LoginHandler {
         LoginRequest request = (LoginRequest) gson.fromJson(req.body(), LoginRequest.class);
         String authToken = req.headers("authorization");
 
-        request.setAuthToken(authToken);
+        //request.setAuthToken(authToken);
 
         res.type("application/json");
 
