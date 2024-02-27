@@ -23,7 +23,7 @@ public class GameService {
         this.gameDAO = gameDAO;
     }
 
-    public Object notAuthorized(String authToken) throws DataAccessException {
+    private Object notAuthorized(String authToken) throws DataAccessException {
         AuthData data = authDAO.getAuth(AuthDAO.authToken);
         if (data == null) {
             return new ErrorResponse("Error: unauthorized");
