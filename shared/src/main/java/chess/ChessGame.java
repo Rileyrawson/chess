@@ -23,9 +23,9 @@ public class ChessGame {
     /**
      * @return Which team's turn it is
      */
-//    public TeamColor getTeamTurn() {
-//        return this.team;
-//    }
+    public TeamColor getTeamTurn() {
+        return this.team;
+    }
 
     /**
      * Set's which teams turn it is
@@ -119,8 +119,6 @@ public class ChessGame {
     private boolean canCapture(ArrayList<ChessMove> otherTeamMoves, ChessPosition piecePosition){
         for(ChessMove i : otherTeamMoves){
             if (i.getEndPosition().equals(piecePosition)){ // if the ending position == where the king is -> capture
-//                System.out.print("other team: " + i.getStartPosition() + ", " + i.getEndPosition());
-//                System.out.print("king team: " + piecePosition);
                 return true;
             }
         }
@@ -174,36 +172,6 @@ public class ChessGame {
         }
         return false;
     }
-//    private void getSameTeamKingMoves(ChessBoard currBoard, ArrayList<ChessMove> sameTeamKingMoves, TeamColor teamColor){
-//        ChessPiece[][] pieceArray = currBoard.getBoard();
-//        for (int i = boardRow - 1; i >= 0; i--) {
-//            for (int j = 0; j < boardCol; j++) { //iterate through board
-//                if (pieceArray[i][j] != null && pieceArray[i][j].getTeamColor() == teamColor && pieceArray[i][j].getPieceType() == ChessPiece.PieceType.KING){ //is a piece and on same team
-//                    sameTeamKingMoves.addAll(pieceArray[i][j].pieceMoves(currBoard, new ChessPosition(i + 1,j + 1))); // get all possible moves for piece
-//                }
-//            }
-//        }
-//    }
-//    private void getOtherTeamMoves(ChessBoard currBoard, ArrayList<ChessMove> otherTeamMoves, TeamColor teamColor){
-//        ChessPiece[][] pieceArray = currBoard.getBoard();
-//        for (int i = boardRow - 1; i >= 0; i--) {
-//            for (int j = 0; j < boardCol; j++) { //iterate through board
-//                if (pieceArray[i][j] != null && pieceArray[i][j].getTeamColor() != teamColor){ //is a piece and is not the same team
-//                    otherTeamMoves.addAll(pieceArray[i][j].pieceMoves(currBoard, new ChessPosition(i + 1,j + 1))); // get all possible moves for piece
-//                }
-//            }
-//        }
-//    }
-//    private void getSameTeamMoves(ChessBoard currBoard, ArrayList<ChessMove> sameTeamMoves, TeamColor teamColor){
-//        ChessPiece[][] pieceArray = currBoard.getBoard();
-//        for (int i = boardRow - 1; i >= 0; i--) {
-//            for (int j = 0; j < boardCol; j++) { //iterate through board
-//                if (pieceArray[i][j] != null && pieceArray[i][j].getTeamColor() == teamColor){ //is a piece and on same team
-//                    sameTeamMoves.addAll(pieceArray[i][j].pieceMoves(currBoard, new ChessPosition(i + 1,j + 1))); // get all possible moves for piece
-//                }
-//            }
-//        }
-//    }
 
     /**
      * Determines if the given team is in checkmate
@@ -220,11 +188,9 @@ public class ChessGame {
         ArrayList<ChessMove> sameTeamMoves = new ArrayList<>();
         ArrayList<ChessMove> sameTeamKingMoves = new ArrayList<>();
 
-
         if (!isInCheck(teamColor)){
             return false;
         }
-
 
         if(kingCanEscape(otherTeamMoves, sameTeamKingMoves, kingPosition)){   //king can move to escape
             return false;

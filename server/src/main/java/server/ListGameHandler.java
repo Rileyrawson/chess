@@ -14,9 +14,7 @@ import java.util.Collection;
 public class ListGameHandler {
     public Object handle(Request req, Response res) {
         Gson gson = new Gson();
-
         Singleton singleton = Singleton.getInstance();
-
         String authToken = req.headers("authorization");
         GameService service =singleton.getGameServiceInstance();
         res.type("application/json");
@@ -35,5 +33,4 @@ public class ListGameHandler {
             return gson.toJson(new ErrorResponse(exception.getMessage()));
         }
     }
-
 }
