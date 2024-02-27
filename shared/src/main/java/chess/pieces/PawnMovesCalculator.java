@@ -55,7 +55,8 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
         final int pieceCol = myPosition.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
         ChessPiece piece = new ChessPiece(board.getTeamAtPosition(myPosition), ChessPiece.PieceType.PAWN);
-        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){             //White up
+        if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+            //White up
             if (piece.isFirstMove() == true && pieceRow == 1) { //white first move = up 2
                 ChessPosition singleMovePosition = new ChessPosition(pieceRow + 2,pieceCol + 1);
                 ChessMove singleMove = new ChessMove(startPosition, singleMovePosition, null);
@@ -63,9 +64,9 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                     possibleMoves.add(singleMove);
                     ChessPosition doubleMovePosition = new ChessPosition(pieceRow + 3,pieceCol + 1);
                     ChessMove doubleMove = new ChessMove(startPosition, doubleMovePosition, null);
-                    if (!pieceAtPosition(board, doubleMovePosition)){
+                    if (!pieceAtPosition(board, doubleMovePosition)){ //if there is not a piece at double move position
                         possibleMoves.add(doubleMove);
-                    }//if there is not a piece at double move position
+                    }
                 }
                 piece.setFirstMove(false);
             } if (pieceRow < 6){ //white move up 1 (straight forward move)
@@ -81,7 +82,8 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 whiteDiagonalCapture(pieceRow, pieceCol, startPosition, board, myPosition, possibleMoves);
             }
         }
-        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK){         //Black down
+        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK){
+            //Black down
             if (piece.isFirstMove() == true && pieceRow == 6) { //black first move = down 2
                 ChessPosition singleMovePosition = new ChessPosition(pieceRow + 0,pieceCol + 1);
                 ChessMove singleMove = new ChessMove(startPosition, singleMovePosition, null);
@@ -89,9 +91,9 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                     possibleMoves.add(singleMove);
                     ChessPosition doubleMovePosition = new ChessPosition(pieceRow - 1,pieceCol + 1);
                     ChessMove doubleMove = new ChessMove(startPosition, doubleMovePosition, null);
-                    if (!pieceAtPosition(board, doubleMovePosition) ){
+                    if (!pieceAtPosition(board, doubleMovePosition) ){ //if there is not a piece at double move position
                         possibleMoves.add(doubleMove);
-                    }//if there is not a piece at double move position
+                    }
                 }
                 piece.setFirstMove(false);
             } if (pieceRow > 1){ //black move down 1
@@ -102,22 +104,22 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 ChessPosition rightDiagonalPosition = new ChessPosition(pieceRow + 0,pieceCol + 2); // pieceCol + 2 moves right
                 ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null);
                 if (pieceAtPosition(board, rightDiagonalPosition)){ //if there is a piece at right diagonal move position
-                    if (!isSameColor(board, myPosition, rightDiagonalPosition)){
+                    if (!isSameColor(board, myPosition, rightDiagonalPosition)){ //if the piece is the other team's
                         possibleMoves.add(rightDiagonalMove);
-                    } //if the piece is the other team's
+                    }
                 }
                 ChessPosition leftDiagonalPosition = new ChessPosition(pieceRow + 0, pieceCol); // pieceCol + 0 moves left
                 ChessMove leftDiagonalMove = new ChessMove(startPosition, leftDiagonalPosition, null);
                 if (pieceAtPosition(board, leftDiagonalPosition)){ //if there is a piece at left diagonal move position
-                    if (!isSameColor(board, myPosition, leftDiagonalPosition)){
+                    if (!isSameColor(board, myPosition, leftDiagonalPosition)){ //if the piece is the other team's
                         possibleMoves.add(leftDiagonalMove);
-                    } //if the piece is the other team's
+                    }
                 }
             } else if (pieceRow == 1) {//promotion on row 1 (0 in array)
                 ChessPosition movePosition = new ChessPosition(1,pieceCol + 1);
                 possibleMoves = (ArrayList<ChessMove>) makePromorionOptions(startPosition, movePosition, possibleMoves);
                 ChessPosition rightDiagonalPosition = new ChessPosition(pieceRow + 0,pieceCol + 2); // pieceCol + 2 moves right
-                ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null);                        //add promotion piece
+                ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null); //add promotion piece
                 if (pieceAtPosition(board, rightDiagonalPosition)){ //if there is a piece at right diagonal move position
                     if (!isSameColor(board, myPosition, rightDiagonalPosition)){ //if the piece is the other team's
                         ChessMove queenPromotionCaptureRight = new ChessMove(startPosition, rightDiagonalPosition, ChessPiece.PieceType.QUEEN);
