@@ -127,7 +127,7 @@ public class ServiceTests {
         CreateGameRequest request = new CreateGameRequest("testName");
         GameData response;
         response = (GameData) gameService.createGame(request, validAuthToken);
-        GameData correctResponse = singleton.getMemoryGameDAOInstance().getGameByName(request.gameName());
+        GameData correctResponse = singleton.getMemoryGameDAOInstance().getGameByName(request.gameName());      //TODO: don't use getGameByName
         Assertions.assertEquals(response, correctResponse, "responses didn't match");
     }
     @Test
