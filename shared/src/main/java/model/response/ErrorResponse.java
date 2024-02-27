@@ -2,13 +2,13 @@ package model.response;
 
 public class ErrorResponse {
 
-    private String errorMessage;
+    private String message;
 
     public ErrorResponse(String errorMessage) {
-        this.errorMessage = errorMessage;
+        this.message = errorMessage;
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return message;
     }
 }

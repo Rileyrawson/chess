@@ -16,7 +16,7 @@ public class GameService {
 
     AuthDAO authDAO;
     GameDAO gameDAO;
-    private int counter = 0;
+    private int counter = 1;
 
     public GameService(AuthDAO authDAO, GameDAO gameDAO) {
         this.authDAO = authDAO;
@@ -32,7 +32,13 @@ public class GameService {
         }
     }
 
-    public Object createGame(CreateGameRequest request) throws DataAccessException {
+    public Object createGame(CreateGameRequest request, String authToken) throws DataAccessException {
+
+        AuthData authData = authDAO.getAuth(authToken);
+
+        if (authData == null){
+            throw new DataAccessException("Error: unauthorized");
+        }
 
         int gameId = counter++;
         String whiteUsername = null;
@@ -53,10 +59,14 @@ public class GameService {
     }
 
     public Object joinGame(JoinGameRequest request, String authToken) throws DataAccessException {
-
         int gameId = request.gameID();
         String playerColor = request.playerColor();
 
+        AuthData authData = authDAO.getAuth(authToken);
+
+        if (authData == null){
+            throw new DataAccessException("Error: unauthorized");
+        }
         GameData data = gameDAO.getGameByID(gameId);
         String username = authDAO.getAuth(authToken).username();
         String whiteUsername = null;
@@ -67,11 +77,10 @@ public class GameService {
             throw new DataAccessException("Error: bad request"); //400 error: bad request
         }
 
-        if (username == null){
-            throw new DataAccessException("Error: unauthorized");
-        }
-
-        if (request.playerColor().equals("WHITE")){
+        if (request.playerColor() == null) {
+            //if no color, user is joined as an observer
+            updatedData = new GameData(data.gameID(), data.whiteUsername(), data.blackUsername(), data.gameName(), data.game());
+        } else if (request.playerColor().equals("WHITE")){
             if (data.whiteUsername() == null){
                 whiteUsername = username; //if color specified, adds the caller as the requested color to the game
                 updatedData = new GameData(data.gameID(), whiteUsername, data.blackUsername(), data.gameName(), data.game());
@@ -86,34 +95,23 @@ public class GameService {
                 throw new DataAccessException("Error: already taken");
             }
         } else {
-            //if no color, user is joined as an observer
-            updatedData = new GameData(data.gameID(), data.whiteUsername(), data.blackUsername(), data.gameName(), data.game());
-            //TODO: add an observer client?
+            throw new DataAccessException("Error: bad request");
         }
 
         gameDAO.updateGame(updatedData);
-
-        return "success";
-
-        //200
-        //401 error: unauthorized
-        //403 error: already taken
-        //500 error: description
+        
+        Object response = new Object();
+        return response;//return empty json body on success
     }
 
-    public Collection<GameData> listGame(String authToken) throws DataAccessException {
+    public Object listGame(String authToken) throws DataAccessException {
 
         AuthData data = authDAO.getAuth(authToken);
 
         if (data == null){
             throw new DataAccessException("Error: unauthorized");   // 401 error: unauthorized
-
         } else {
             return gameDAO.listGames();
         }
-
-        // NOTE: White or Black username may be null
-        // 200 success { "games": [{"gameID": 1234, "whiteUsername":"", "blackUsername":"", "gameName:""} ]}
-        // 500 error: description
     }
 }

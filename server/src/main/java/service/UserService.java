@@ -41,11 +41,6 @@ public class UserService {
 
         userDAO.createUser(data);
 
-        //200 { "username":"", "authToken":"" }
-        //400 error: bad request
-        //403 error: already taken
-        //500 error: description
-
         return authData;
     }
     public Object login(LoginRequest request) throws DataAccessException {
@@ -67,10 +62,6 @@ public class UserService {
             authDAO.createAuth(authData);
         }
 
-        // 200 success { "username":"", "authToken":"" }
-        // 401 error: unauthorized
-        // 500 error: description
-
         return authData;
     }
     public Object logout(String authToken) throws DataAccessException {
@@ -83,9 +74,7 @@ public class UserService {
 
         authDAO.deleteAuth(authData);
 
-        return "success";
-        //200
-        //401 error: unauthorized
-        //500 error: description
+        Object response = new Object();
+        return response;//return empty json body on success
     }
 }

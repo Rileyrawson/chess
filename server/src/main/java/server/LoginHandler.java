@@ -1,11 +1,9 @@
 package server;
 
+import Singleton.Singleton;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryUserDAO;
 import model.requests.LoginRequest;
-import model.requests.RegisterRequest;
 import model.response.ErrorResponse;
 import service.UserService;
 import spark.Request;
@@ -15,14 +13,22 @@ public class LoginHandler {
     public Object handle(Request req, Response res) {
         Gson gson = new Gson();
 
-        UserService service = new UserService(new MemoryAuthDAO(), new MemoryUserDAO());
+        Singleton singleton = Singleton.getInstance();
+
+        UserService service = singleton.getUserServiceInstance();
         res.type("application/json");
 
         try{
             LoginRequest request = gson.fromJson(req.body(), LoginRequest.class);
             Object result = service.login(request);
+            res.status(200);
             return gson.toJson(result);
         } catch (DataAccessException exception) {
+            if (exception.getMessage().equals("Error: unauthorized")){
+                res.status(401);
+            } else{
+                res.status(500);
+            }
             return gson.toJson(new ErrorResponse(exception.getMessage()));
         }
     }

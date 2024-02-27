@@ -8,10 +8,7 @@ public class MemoryUserDAO implements UserDAO {
 
     HashSet<UserData> users = new HashSet<>();
 
-    public MemoryUserDAO() { //FOR TESTING
-        UserData data = new UserData("un", "pa", "em");
-        users.add(data);
-    }
+    public MemoryUserDAO() {}
 
     @Override
     public void clear() throws DataAccessException {

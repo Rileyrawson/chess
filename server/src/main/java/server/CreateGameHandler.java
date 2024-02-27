@@ -1,9 +1,8 @@
 package server;
 
+import Singleton.Singleton;
 import com.google.gson.Gson;
 import dataAccess.DataAccessException;
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
 import model.requests.CreateGameRequest;
 import model.response.ErrorResponse;
 import service.GameService;
@@ -15,19 +14,24 @@ public class CreateGameHandler {
     public Object handle(Request req, Response res) {
         Gson gson = new Gson();
 
+        Singleton singleton = Singleton.getInstance();
+
         String authToken = req.headers("authorization");
-        GameService service = new GameService(new MemoryAuthDAO(), new MemoryGameDAO());
+        GameService service = singleton.getGameServiceInstance();
         res.type("application/json");
         try {
-            Object errorResponse = service.notAuthorized(authToken);
-            if (errorResponse != null) {
-                res.status(401);
-                return gson.toJson(errorResponse);
-            }
-            CreateGameRequest request = (CreateGameRequest)gson.fromJson(req.body(), CreateGameRequest.class);
-            Object result = service.createGame(request);
+            CreateGameRequest request = gson.fromJson(req.body(), CreateGameRequest.class);
+            Object result = service.createGame(request, authToken);
+            res.status(200);
             return gson.toJson(result);
         } catch (DataAccessException exception) {
+            if (exception.getMessage().equals("Error: bad request")){
+                res.status(400); //400 error: bad request
+            } else if (exception.getMessage().equals("Error: unauthorized")) {
+                res.status(401);//400 error: bad request
+            } else{
+                res.status(500);//500 error: description
+            }
             return gson.toJson(new ErrorResponse(exception.getMessage()));
         }
     }

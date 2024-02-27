@@ -2,6 +2,8 @@ package dataAccess;
 
 import chess.ChessGame;
 import model.GameData;
+import model.GameListData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +11,7 @@ public class MemoryGameDAO implements GameDAO{
 
     ArrayList<GameData> games = new ArrayList<>();
 
-    public MemoryGameDAO() { //FOR TESTING
-        GameData data = new GameData(1, null, "black", "game", new ChessGame());
-        games.add(data);
+    public MemoryGameDAO() {
     }
 
     @Override
@@ -45,8 +45,9 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public List<GameData> listGames() throws DataAccessException {
-        return games;
+    public GameListData listGames() throws DataAccessException {
+        GameListData data = new GameListData(games);
+        return data;
     }
 
     @Override
@@ -54,8 +55,7 @@ public class MemoryGameDAO implements GameDAO{
         GameData tempData = getGameByID(data.gameID());
         if (tempData != null){
             games.remove(tempData);
-            GameData updatedData = tempData.updateWhiteUser(data.whiteUsername());
-            updatedData = tempData.updateBlackUser(data.blackUsername());
+            createGame(data);
         } else {
             throw new DataAccessException("Error: bad request");
         }

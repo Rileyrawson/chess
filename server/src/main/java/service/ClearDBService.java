@@ -28,11 +28,7 @@ public class ClearDBService {
             return new ErrorResponse(exception.getMessage());
         }
 
-        //delete everything without authorization
-
-        //successfully clear = status 200
-        //other error status 500
-
-        return "success";
+        Object response = new Object();
+        return response;//return empty json body on success
     }
 }

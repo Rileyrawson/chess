@@ -9,9 +9,7 @@ public class MemoryAuthDAO implements AuthDAO {
 
     private HashMap<String,String> authTokens = new HashMap<>();
 
-    public MemoryAuthDAO() { //FOR TESTING
-        authTokens.put("123","un");
-    }
+    public MemoryAuthDAO() {}
 
     @Override
     public void clear() throws DataAccessException {
