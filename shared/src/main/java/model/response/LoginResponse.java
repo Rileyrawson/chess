@@ -18,16 +18,16 @@ public class LoginResponse {
         return statusCode;
     }
 
-    public int getAuthToken() {
-        return authToken;
-    }
+//    public int getAuthToken() {
+//        return authToken;
+//    }
 
-    public String getUsername() {
-        return username;
-    }
+//    public String getUsername() {
+//        return username;
+//    }
 
-    public String getPassword() {
-        return password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
 
 }

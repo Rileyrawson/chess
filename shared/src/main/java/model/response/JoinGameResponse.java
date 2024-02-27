@@ -15,9 +15,9 @@ public class JoinGameResponse {
         return statusCode;
     }
 
-    public String getPlayerColor() {
-        return playerColor;
-    }
+//    public String getPlayerColor() {
+//        return playerColor;
+//    }
 
     public int getGameId() {
         return gameId;

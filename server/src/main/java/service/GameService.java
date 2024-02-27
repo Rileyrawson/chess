@@ -23,14 +23,14 @@ public class GameService {
         this.gameDAO = gameDAO;
     }
 
-    private Object notAuthorized(String authToken) throws DataAccessException {
-        AuthData data = authDAO.getAuth(AuthDAO.authToken);
-        if (data == null) {
-            return new ErrorResponse("Error: unauthorized");
-        } else {
-            return null;
-        }
-    }
+//    private Object notAuthorized(String authToken) throws DataAccessException {
+//        AuthData data = authDAO.getAuth(AuthDAO.authToken);
+//        if (data == null) {
+//            return new ErrorResponse("Error: unauthorized");
+//        } else {
+//            return null;
+//        }
+//    }
 
     public Object createGame(CreateGameRequest request, String authToken) throws DataAccessException {
 

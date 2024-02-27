@@ -21,8 +21,6 @@ public class Server {
         Spark.put("/game", (req, resp) -> singleton.getJoinGameHandlerInstance().handle(req, resp));  //join game
         Spark.delete("/db",(req, resp) -> singleton.getClearDBHandlerInstance().handle(req, resp)); //clear db
 
-        Spark.get("/test", this::Test);
-
         Spark.awaitInitialization();
         return Spark.port();
     }
@@ -30,10 +28,5 @@ public class Server {
     public void stop() {
         Spark.stop();
         Spark.awaitStop();
-    }
-
-    private Object Test(Request req, Response res) {
-        res.type("application/json");
-        return new Gson().toJson("{test: 'test',}");
     }
 }

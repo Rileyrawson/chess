@@ -28,9 +28,9 @@ public class RegisterResponse {
         return password;
     }
 
-    public String getEmail() {
-        return email;
-    }
+//    public String getEmail() {
+//        return email;
+//    }
 
     public String getAuthToken() {
         return authToken;

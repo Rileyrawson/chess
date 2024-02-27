@@ -7,7 +7,6 @@ import java.util.Collection;
 
 public class KnightMovesCalculator implements PieceMovesCalculator {
 
-
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.getTeamAtPosition(piecePosition) == board.getTeamAtPosition(movePosition)){
             return true;
@@ -26,8 +25,6 @@ public class KnightMovesCalculator implements PieceMovesCalculator {
         final int pieceRow = myPosition.getRow();
         final int pieceCol = myPosition.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
-//        System.out.println("pieceRow: " + pieceRow);
-//        System.out.println("pieceCol: " + pieceCol);
 
         int right2 = pieceCol + 2;
         int right1 = pieceCol + 1;
@@ -38,16 +35,6 @@ public class KnightMovesCalculator implements PieceMovesCalculator {
         int up1 = pieceRow + 1;
         int down2 = pieceRow - 2;
         int down1 = pieceRow - 1;
-//
-//        System.out.println("r2: " + right2);
-//        System.out.println("l1: " + right1);
-//        System.out.println("l2: " + left2);
-//        System.out.println("l1: " + left1);
-//
-//        System.out.println("u2: " + up2);
-//        System.out.println("u1: " + up1);
-//        System.out.println("d2: " + down2);
-//        System.out.println("d1: " + down1);
 
         //up 1 right 2
         if (up1 < 8 && right2 < 8){
@@ -155,6 +142,4 @@ public class KnightMovesCalculator implements PieceMovesCalculator {
 
         return possibleMoves;
     }
-
-
 }

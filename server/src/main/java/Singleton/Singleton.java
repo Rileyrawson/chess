@@ -43,8 +43,8 @@ public class Singleton {
     public LogoutHandler getLogoutHandlerInstance() {return  logoutHandler;}
     public RegisterHandler getRegisterHandlerInstance() { return registerHandler;}
     public MemoryAuthDAO getMemoryAuthDAOInstance() {return memoryAuthDAO;}
-    public MemoryGameDAO getMemoryGameDAOInstance() {return memoryGameDAO;}
-    public MemoryUserDAO getMemoryUserDAOInstance() {return memoryUserDAO;}
+//    public MemoryGameDAO getMemoryGameDAOInstance() {return memoryGameDAO;}
+//    public MemoryUserDAO getMemoryUserDAOInstance() {return memoryUserDAO;}
     public ClearDBService getClearDBServiceInstance() {return clearDBService;}
     public GameService getGameServiceInstance() {return gameService;}
     public UserService getUserServiceInstance() {return userService;}
