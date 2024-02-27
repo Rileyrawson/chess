@@ -16,23 +16,23 @@ public class ListGameResponse {
         this.gameName = gameName;
     }
 
-//    public int getStatusCode() {
-//        return statusCode;
-//    }
+    public int getStatusCode() {
+        return statusCode;
+    }
 
-//    public int getGameId() {
-//        return gameId;
-//    }
+    public int getGameId() {
+        return gameId;
+    }
 
-//    public String getWhiteUsername() {
-//        return whiteUsername;
-//    }
+    public String getWhiteUsername() {
+        return whiteUsername;
+    }
 
-//    public String getBlackUsername() {
-//        return blackUsername;
-//    }
+    public String getBlackUsername() {
+        return blackUsername;
+    }
 
-//    public String getGameName() {
-//        return gameName;
-//    }
+    public String getGameName() {
+        return gameName;
+    }
 }

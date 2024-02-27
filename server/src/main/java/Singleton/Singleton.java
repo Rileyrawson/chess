@@ -20,9 +20,9 @@ public class Singleton {
     private MemoryAuthDAO memoryAuthDAO = new MemoryAuthDAO();
     private MemoryGameDAO memoryGameDAO = new MemoryGameDAO();
     private MemoryUserDAO memoryUserDAO = new MemoryUserDAO();
-    private ClearDBService clearDBService = new ClearDBService(memoryUserDAO, memoryGameDAO, memoryAuthDAO);
-    private GameService gameService = new GameService(memoryAuthDAO, memoryGameDAO);
-    private UserService userService = new UserService(memoryAuthDAO, memoryUserDAO);
+    private ClearDBService clearDBService = new ClearDBService(getMemoryUserDAOInstance(), getMemoryGameDAOInstance(), getMemoryAuthDAOInstance());
+    private GameService gameService = new GameService(getMemoryAuthDAOInstance(), getMemoryGameDAOInstance());
+    private UserService userService = new UserService(getMemoryAuthDAOInstance(), getMemoryUserDAOInstance());
 
     private static Singleton instance;
 
@@ -43,8 +43,8 @@ public class Singleton {
     public LogoutHandler getLogoutHandlerInstance() {return  logoutHandler;}
     public RegisterHandler getRegisterHandlerInstance() { return registerHandler;}
     public MemoryAuthDAO getMemoryAuthDAOInstance() {return memoryAuthDAO;}
-//    public MemoryGameDAO getMemoryGameDAOInstance() {return memoryGameDAO;}
-//    public MemoryUserDAO getMemoryUserDAOInstance() {return memoryUserDAO;}
+    public MemoryGameDAO getMemoryGameDAOInstance() {return memoryGameDAO;}
+    public MemoryUserDAO getMemoryUserDAOInstance() {return memoryUserDAO;}
     public ClearDBService getClearDBServiceInstance() {return clearDBService;}
     public GameService getGameServiceInstance() {return gameService;}
     public UserService getUserServiceInstance() {return userService;}

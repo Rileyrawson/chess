@@ -24,15 +24,15 @@ public class MemoryGameDAO implements GameDAO{
         games.add(data);
     }
 
-//    @Override
-//    public GameData getGameByName(String gameName) throws DataAccessException {
-//        for (GameData data: games){
-//            if (data.gameName().equals(gameName)){
-//                return data;
-//            }
-//        }
-//        return null;
-//    }
+    @Override
+    public GameData getGameByName(String gameName) throws DataAccessException {
+        for (GameData data: games){
+            if (data.gameName().equals(gameName)){
+                return data;
+            }
+        }
+        return null;
+    }
 
     @Override
     public GameData getGameByID(int gameID) throws DataAccessException{
