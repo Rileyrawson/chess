@@ -1,25 +1,17 @@
 package chess.pieces;
-
 import chess.*;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class PawnMovesCalculator implements PieceMovesCalculator{
-
-
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
-        if (board.getTeamAtPosition(piecePosition) == board.getTeamAtPosition(movePosition)){
-            return true;
-        }
+        if (board.getTeamAtPosition(piecePosition) == board.getTeamAtPosition(movePosition)){return true;}
         return false;
     }
     public boolean pieceAtPosition(ChessBoard board, ChessPosition movePosition){
         ChessPiece piece = board.getPiece(movePosition);
         return piece != null; //if there is a piece return true. if no piece at position return false
     }
-
-
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
@@ -75,7 +67,6 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 possibleMoves.add(queenPromotion);
                 ChessMove knightPromotion = new ChessMove(startPosition, movePosition, ChessPiece.PieceType.KNIGHT);
                 possibleMoves.add(knightPromotion);
-
                 //check diagonal capture
                 ChessPosition rightDiagonalPosition = new ChessPosition(pieceRow + 2,pieceCol + 2); // pieceCol + 2 moves right
                 ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null);
@@ -93,9 +84,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 }
             }
         }
-
-        //Black down
-        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK){
+        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK){         //Black down
             if (piece.isFirstMove() == true && pieceRow == 6) { //black first move = down 2
                 ChessPosition singleMovePosition = new ChessPosition(pieceRow + 0,pieceCol + 1);
                 ChessMove singleMove = new ChessMove(startPosition, singleMovePosition, null);
@@ -140,7 +129,6 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 possibleMoves.add(rookPromotion);
                 ChessMove knightPromotion = new ChessMove(startPosition, movePosition, ChessPiece.PieceType.KNIGHT);
                 possibleMoves.add(knightPromotion);
-
                 //check diagonal capture
                 ChessPosition rightDiagonalPosition = new ChessPosition(pieceRow + 0,pieceCol + 2); // pieceCol + 2 moves right
                 ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null);                        //add promotion piece
@@ -172,9 +160,6 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 }
             }
         }
-
         return possibleMoves;
     }
-
-
 }
