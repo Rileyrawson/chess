@@ -10,6 +10,9 @@ import spark.Request;
 import spark.Response;
 
 public class LogoutHandler {
+
+
+
     public Object handle(Request req, Response res) {
         Gson gson = new Gson();
 
@@ -24,13 +27,18 @@ public class LogoutHandler {
             res.status(200);
             return gson.toJson(result);
         } catch (DataAccessException exception) {
-            if (exception.getMessage().equals("Error: unauthorized")){
-                res.status(401);
-            } else{
-                res.status(500);
-            }
+            res = handleResponse(res, exception);
             return gson.toJson(new ErrorResponse(exception.getMessage()));
         }
 
+    }
+
+    private Response handleResponse(Response res, DataAccessException exception) {
+        if (exception.getMessage().equals("Error: unauthorized")){
+            res.status(401);
+        } else{
+            res.status(500);
+        }
+        return res;
     }
 }
