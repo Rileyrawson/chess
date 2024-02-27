@@ -7,7 +7,6 @@ import java.util.Collection;
 
 public class PawnMovesCalculator implements PieceMovesCalculator{
 
-
     public boolean isSameColor(ChessBoard board, ChessPosition piecePosition, ChessPosition movePosition){
         if (board.getTeamAtPosition(piecePosition) == board.getTeamAtPosition(movePosition)){
             return true;
@@ -82,8 +81,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 whiteDiagonalCapture(pieceRow, pieceCol, startPosition, board, myPosition, possibleMoves);
             }
         }
-        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK){
-            //Black down
+        if (piece.getTeamColor() == ChessGame.TeamColor.BLACK){ //Black down
             if (piece.isFirstMove() == true && pieceRow == 6) { //black first move = down 2
                 ChessPosition singleMovePosition = new ChessPosition(pieceRow + 0,pieceCol + 1);
                 ChessMove singleMove = new ChessMove(startPosition, singleMovePosition, null);
