@@ -53,19 +53,24 @@ public class DatabaseManager {
     public static void createTables() throws DataAccessException {
         try {
             var conn = getConnection();
-            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS auth" +
-                    "(authToken VARCHAR(255), " +
-                    " username VARCHAR(255))");
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS user" +
-                    "( userName VARCHAR(255), " +
-                    " password VARCHAR(255), " +
-                    " email VARCHAR(255))");
+                    "( username VARCHAR(255) NOT NULL, " + //primary key
+                    " password VARCHAR(255) NOT NULL, " +
+                    " email VARCHAR(255) NOT NULL, " +
+                    " PRIMARY KEY (userName))");
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS auth" +
+                    "(authToken VARCHAR(255) NOT NULL, " + //primary key
+                    " username VARCHAR(255) NOT NULL, " +//foreign key
+                    " PRIMARY KEY (authToken), " +
+                    " FOREIGN KEY (username) REFERENCES USER(username))");
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS game" +
-                    "(gameID INTEGER not NULL, " +
-                    " whiteUsername VARCHAR(255), " +
-                    " blackUsername VARCHAR(255), " +
-                    " gameName VARCHAR(255), " +
-                    " chessGame VARCHAR(255))");
+                    "(PRIMARY KEY (gameID), " + //primary key
+                    " whiteUsername VARCHAR(255), " + //foreign key
+                    " blackUsername VARCHAR(255), " + // foreign key
+                    " gameName VARCHAR(255) NOT NULL, " +
+                    " chessGame VARCHAR(255) NOT NULL," +
+                    " FOREIGN KEY (whiteUsername) REFERENCES USER(username), " +
+                    "FOREIGN KEY (blackUsername) REFERENCES USER(username))");
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
