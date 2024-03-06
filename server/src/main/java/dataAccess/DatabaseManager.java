@@ -9,6 +9,9 @@ public class DatabaseManager {
     private static final String password;
     private static final String connectionUrl;
 
+
+
+
     /*
      * Load the database information for the db.properties file.
      */
@@ -41,6 +44,28 @@ public class DatabaseManager {
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();
             }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+    }
+
+
+    public static void createTables() throws DataAccessException {
+        try {
+            var conn = getConnection();
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS auth" +
+                    "(authToken VARCHAR(255), " +
+                    " username VARCHAR(255))");
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS user" +
+                    "( userName VARCHAR(255), " +
+                    " password VARCHAR(255), " +
+                    " email VARCHAR(255))");
+            conn.createStatement().execute("CREATE TABLE IF NOT EXISTS game" +
+                    "(gameID INTEGER not NULL, " +
+                    " whiteUsername VARCHAR(255), " +
+                    " blackUsername VARCHAR(255), " +
+                    " gameName VARCHAR(255), " +
+                    " chessGame VARCHAR(255))");
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
