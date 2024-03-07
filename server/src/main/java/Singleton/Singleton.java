@@ -1,8 +1,6 @@
 package Singleton;
 
-import dataAccess.MemoryAuthDAO;
-import dataAccess.MemoryGameDAO;
-import dataAccess.MemoryUserDAO;
+import dataAccess.*;
 import server.*;
 import service.ClearDBService;
 import service.GameService;
@@ -17,12 +15,12 @@ public class Singleton {
     private LoginHandler loginHandler = new LoginHandler();
     private LogoutHandler logoutHandler = new LogoutHandler();
     private RegisterHandler registerHandler = new RegisterHandler();
-    private MemoryAuthDAO memoryAuthDAO = new MemoryAuthDAO();
-    private MemoryGameDAO memoryGameDAO = new MemoryGameDAO();
-    private MemoryUserDAO memoryUserDAO = new MemoryUserDAO();
-    private ClearDBService clearDBService = new ClearDBService(getMemoryUserDAOInstance(), getMemoryGameDAOInstance(), getMemoryAuthDAOInstance());
-    private GameService gameService = new GameService(getMemoryAuthDAOInstance(), getMemoryGameDAOInstance());
-    private UserService userService = new UserService(getMemoryAuthDAOInstance(), getMemoryUserDAOInstance());
+    private SQLAuthDAO authDAO = new SQLAuthDAO();
+    private SQLGameDAO gameDAO = new SQLGameDAO();
+    private SQLUserDAO userDAO = new SQLUserDAO();
+    private ClearDBService clearDBService = new ClearDBService(getUserDAOInstance(), getGameDAOInstance(), getAuthDAOInstance());
+    private GameService gameService = new GameService(getAuthDAOInstance(), getGameDAOInstance());
+    private UserService userService = new UserService(getAuthDAOInstance(), getUserDAOInstance());
 
     private static Singleton instance;
 
@@ -42,9 +40,9 @@ public class Singleton {
     public LoginHandler getLoginHandlerInstance(){ return loginHandler;}
     public LogoutHandler getLogoutHandlerInstance() {return  logoutHandler;}
     public RegisterHandler getRegisterHandlerInstance() { return registerHandler;}
-    public MemoryAuthDAO getMemoryAuthDAOInstance() {return memoryAuthDAO;}
-    public MemoryGameDAO getMemoryGameDAOInstance() {return memoryGameDAO;}
-    public MemoryUserDAO getMemoryUserDAOInstance() {return memoryUserDAO;}
+    public AuthDAO getAuthDAOInstance() {return authDAO;}
+    public GameDAO getGameDAOInstance() {return gameDAO;}
+    public UserDAO getUserDAOInstance() {return userDAO;}
     public ClearDBService getClearDBServiceInstance() {return clearDBService;}
     public GameService getGameServiceInstance() {return gameService;}
     public UserService getUserServiceInstance() {return userService;}
