@@ -12,6 +12,7 @@ public class Main {
         int port = server.run(8080);
         System.out.println(port);
 
+
         DatabaseManager.createDatabase();
         DatabaseManager.createTables();
 

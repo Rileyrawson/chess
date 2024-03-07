@@ -16,7 +16,7 @@ public class GameService {
 
     AuthDAO authDAO;
     GameDAO gameDAO;
-    private int counter = 1;
+    private int counter = 0;
 
     public GameService(AuthDAO authDAO, GameDAO gameDAO) {
         this.authDAO = authDAO;
@@ -42,7 +42,7 @@ public class GameService {
         }
 
         GameData data = new GameData(gameId, whiteUsername, blackUsername, gameName, game);
-                // try to create game if not 400(request/client error) or 500(server error)
+                // try to creaeete game if not 400(request/client error) or 500(server error)
 
         gameDAO.createGame(data);
 

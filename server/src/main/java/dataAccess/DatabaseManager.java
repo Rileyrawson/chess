@@ -61,16 +61,17 @@ public class DatabaseManager {
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS auth" +
                     "(authToken VARCHAR(255) NOT NULL, " + //primary key
                     " username VARCHAR(255) NOT NULL, " +//foreign key
-                    " PRIMARY KEY (authToken), " +
-                    " FOREIGN KEY (username) REFERENCES USER(username))");
+                    " PRIMARY KEY (authToken))");
+//                    " FOREIGN KEY (username) REFERENCES USER(username))");
             conn.createStatement().execute("CREATE TABLE IF NOT EXISTS game" +
-                    "(PRIMARY KEY (gameID), " + //primary key
+                    "( gameID INTEGER not NULL AUTO_INCREMENT, " + //primary key
                     " whiteUsername VARCHAR(255), " + //foreign key
                     " blackUsername VARCHAR(255), " + // foreign key
                     " gameName VARCHAR(255) NOT NULL, " +
-                    " chessGame VARCHAR(255) NOT NULL," +
-                    " FOREIGN KEY (whiteUsername) REFERENCES USER(username), " +
-                    "FOREIGN KEY (blackUsername) REFERENCES USER(username))");
+                    " chessGame VARCHAR(255)," +
+//                    " FOREIGN KEY (whiteUsername) REFERENCES USER(username), " +
+//                    " FOREIGN KEY (blackUsername) REFERENCES USER(username)," +
+                    "PRIMARY KEY (gameID))");
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
