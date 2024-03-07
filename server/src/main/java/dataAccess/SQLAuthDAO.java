@@ -8,7 +8,7 @@ public class SQLAuthDAO implements AuthDAO{
     public void clear() throws DataAccessException {
         try {
             var conn = DatabaseManager.getConnection();
-            var statement = conn.prepareStatement("DROP TABLE auth");
+            var statement = conn.prepareStatement("DELETE FROM auth");
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());

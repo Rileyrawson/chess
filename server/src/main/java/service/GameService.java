@@ -45,6 +45,7 @@ public class GameService {
                 // try to creaeete game if not 400(request/client error) or 500(server error)
 
         gameDAO.createGame(data);
+        data = gameDAO.getGameByName(data.gameName());
 
         return data;
     }

@@ -101,7 +101,7 @@ public class ServiceTests {
     @DisplayName("Logout Service Test Positive")
     public void positiveLogout() throws TestException, DataAccessException  {
         userService.logout(validAuthToken);
-        AuthDAO authDAO = singleton.getMemoryAuthDAOInstance();
+        AuthDAO authDAO = singleton.getAuthDAOInstance();
         AuthData data = authDAO.getAuth(validAuthToken);
         Assertions.assertEquals(data, null, "authToken not removed from DB");
     }
@@ -127,7 +127,7 @@ public class ServiceTests {
         CreateGameRequest request = new CreateGameRequest("testName");
         GameData response;
         response = (GameData) gameService.createGame(request, validAuthToken);
-        GameData correctResponse = singleton.getMemoryGameDAOInstance().getGameByName(request.gameName());
+        GameData correctResponse = singleton.getGameDAOInstance().getGameByName(request.gameName());
         Assertions.assertEquals(response, correctResponse, "responses didn't match");
     }
     @Test
@@ -177,7 +177,7 @@ public class ServiceTests {
     @DisplayName("List Game Service Test Positive")
     public void positiveListGame() throws TestException, DataAccessException  {
         GameListData response = (GameListData) gameService.listGame(validAuthToken);
-        GameDAO gameDAO = singleton.getMemoryGameDAOInstance();
+        GameDAO gameDAO = singleton.getGameDAOInstance();
         GameListData gameList = gameDAO.listGames();
         Assertions.assertEquals(response, gameList, "list of games doesn't match");
     }
@@ -189,7 +189,7 @@ public class ServiceTests {
         String correctResponse = null;
         try{
             GameListData response = (GameListData) gameService.listGame(invalidAuthToken);
-            GameDAO gameDAO = singleton.getMemoryGameDAOInstance();
+            GameDAO gameDAO = singleton.getGameDAOInstance();
             GameListData gameList = gameDAO.listGames();
         } catch (DataAccessException exception){
             errorResponse = exception;
@@ -204,7 +204,7 @@ public class ServiceTests {
     @DisplayName("Clear Service Test")
     public void clear() throws TestException, DataAccessException {
         clearDBService.clear();
-        AuthDAO authDAO = singleton.getMemoryAuthDAOInstance();
+        AuthDAO authDAO = singleton.getAuthDAOInstance();
         AuthData data = authDAO.getAuth(validAuthToken);
         Assertions.assertEquals(data, null, "authToken not removed from DB");
     }
