@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class SQLGameDAO implements GameDAO{
     @Override
     public void clear() throws DataAccessException {
+        DatabaseManager.createDatabase();
         try {
             var conn = DatabaseManager.getConnection();
             var statement = conn.prepareStatement("DELETE FROM game");
@@ -22,6 +23,7 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public void createGame(GameData data) throws DataAccessException {
+        DatabaseManager.createDatabase();
         try {
             var conn = DatabaseManager.getConnection();
             var statement = conn.prepareStatement("INSERT INTO game (gameID, whiteUsername, blackUsername, gameName, chessGame) VALUES (?, ?, ?, ?, ?)");
@@ -37,6 +39,7 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public GameData getGameByName(String gameName) throws DataAccessException {
+        DatabaseManager.createDatabase();
         try (var conn = DatabaseManager.getConnection()) {
             var statement = conn.prepareStatement("SELECT * FROM game WHERE gameName = ?");
             statement.setNString(1, gameName);
@@ -59,6 +62,7 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public GameData getGameByID(int gameID) throws DataAccessException {
+        DatabaseManager.createDatabase();
         try (var conn = DatabaseManager.getConnection()) {
             if (gameID < 0) {
                 throw new DataAccessException("Invalid Game ID");
@@ -82,6 +86,7 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public GameListData listGames() throws DataAccessException {
+        DatabaseManager.createDatabase();
         try (var conn = DatabaseManager.getConnection()) {
             var statement = conn.prepareStatement("SELECT * FROM game");
             ArrayList<GameData> games = new ArrayList<GameData>(); //list
@@ -107,6 +112,7 @@ public class SQLGameDAO implements GameDAO{
 
     @Override
     public void updateGame(GameData data) throws DataAccessException {
+        DatabaseManager.createDatabase();
         GameData tempData = getGameByID(data.gameID());
         if (tempData != null) {
             try {

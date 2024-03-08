@@ -8,6 +8,7 @@ import java.sql.SQLException;
 public class SQLUserDAO implements UserDAO{
     @Override
     public void clear() throws DataAccessException {
+        DatabaseManager.createDatabase();
         try {
             var conn = DatabaseManager.getConnection();
             var statement = conn.prepareStatement("DELETE FROM user");
@@ -19,6 +20,7 @@ public class SQLUserDAO implements UserDAO{
 
     @Override
     public void createUser(UserData data) throws DataAccessException {
+        DatabaseManager.createDatabase();
         try {
             var conn = DatabaseManager.getConnection();
             var statement = conn.prepareStatement("INSERT INTO user (username, password, email) VALUES (?, ?, ?)");
@@ -33,6 +35,7 @@ public class SQLUserDAO implements UserDAO{
 
     @Override
     public UserData getUser(String username) throws DataAccessException {
+        DatabaseManager.createDatabase();
         try (var conn = DatabaseManager.getConnection()) {
             var statement = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
             statement.setNString(1, username);
