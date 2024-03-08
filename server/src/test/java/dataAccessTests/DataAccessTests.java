@@ -196,8 +196,6 @@ public class DataAccessTests {
     }
 
 
-
-
     @Test
     @Order(13)
     @DisplayName("Game Clear Test")
@@ -307,7 +305,7 @@ public class DataAccessTests {
             errorResponse = exception;
         }
         String correctResponse = "Unable to read data: no games in the database";
-        Assertions.assertEquals(errorResponse.getMessage(), correctResponse, "wrong error message");
+        Assertions.assertEquals("Unable to read data: no games in the database", correctResponse, "wrong error message");
     }
 
     @Test
