@@ -10,8 +10,6 @@ public class DatabaseManager {
     private static final String connectionUrl;
 
 
-
-
     /*
      * Load the database information for the db.properties file.
      */
@@ -43,6 +41,7 @@ public class DatabaseManager {
             var conn = DriverManager.getConnection(connectionUrl, user, password);
             try (var preparedStatement = conn.prepareStatement(statement)) {
                 preparedStatement.executeUpdate();
+                createTables();
             }
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());

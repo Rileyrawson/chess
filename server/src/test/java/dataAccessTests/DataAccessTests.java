@@ -39,7 +39,9 @@ public class DataAccessTests {
 
     @AfterEach
     public void clearAll() throws TestException, DataAccessException {
-        singleton.getClearDBServiceInstance();
+        gameDAO.clear();
+        authDAO.clear();
+        userDao.clear();
     }
 
     @Test
@@ -285,6 +287,7 @@ public class DataAccessTests {
     @Order(20)
     @DisplayName("List Games Test Positive")
     public void positiveListGames() throws TestException, DataAccessException {
+//        userDao.clear();
         GameData gameData = new GameData(1,null, null, "name", new ChessGame());
         gameDAO.createGame(gameData);
         GameListData expected = (GameListData) gameService.listGame(validAuthToken);
