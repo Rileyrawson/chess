@@ -60,18 +60,19 @@ public class SQLGameDAO implements GameDAO{
     @Override
     public GameData getGameByID(int gameID) throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()) {
+            if (gameID < 0) {
+                throw new DataAccessException("Invalid Game ID");
+            }
             var statement = conn.prepareStatement("SELECT * FROM game WHERE gameID = ?");
             statement.setInt(1, gameID);
-            try (var rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    String dbGameName = rs.getString("gameName");
-                    String dbWhiteUsername = rs.getString("whiteUsername");
-                    String dbBlackUsername = rs.getString("blackUsername");
-                    var json = rs.getString("chessGame");
-                    ChessGame dbGame = new Gson().fromJson(json, ChessGame.class);
-
-                    return new GameData(gameID,dbWhiteUsername, dbBlackUsername, dbGameName, dbGame);
-                }
+            var rs = statement.executeQuery();
+            if (rs.next()) {
+                String dbGameName = rs.getString("gameName");
+                String dbWhiteUsername = rs.getString("whiteUsername");
+                String dbBlackUsername = rs.getString("blackUsername");
+                var json = rs.getString("chessGame");
+                ChessGame dbGame = new Gson().fromJson(json, ChessGame.class);
+                return new GameData(gameID,dbWhiteUsername, dbBlackUsername, dbGameName, dbGame);
             }
         } catch (Exception e) {
             throw new DataAccessException(String.format("Unable to read data: %s", e.getMessage()));
@@ -93,6 +94,9 @@ public class SQLGameDAO implements GameDAO{
                     var json = rs.getString("chessGame");
                     ChessGame dbGame = new Gson().fromJson(json, ChessGame.class);
                     games.add(new GameData(dbGameID,dbWhiteUsername, dbBlackUsername, dbGameName, dbGame)); //append to list
+                }
+                if (games.isEmpty()){
+                    throw new DataAccessException("no games in the database");
                 }
                 return new GameListData(games); //return list as gamelistdata
             }

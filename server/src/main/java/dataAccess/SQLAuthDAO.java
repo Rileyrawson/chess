@@ -22,9 +22,7 @@ public class SQLAuthDAO implements AuthDAO{
             var statement = conn.prepareStatement("INSERT INTO auth (authToken, username) VALUES (?, ?)");
             statement.setNString(1, data.authToken());
             statement.setNString(2, data.username());
-
             statement.executeUpdate();
-
         } catch (SQLException e) { throw new DataAccessException(e.getMessage());}
     }
 
@@ -49,9 +47,8 @@ public class SQLAuthDAO implements AuthDAO{
 
     @Override
     public void deleteAuth(AuthData data) throws DataAccessException {
-        String oldAuthToken = data.authToken();
-
         try (var conn = DatabaseManager.getConnection()) {
+            String oldAuthToken = data.authToken();
             var statement = conn.prepareStatement("DELETE FROM auth WHERE authToken = ?");
             statement.setNString(1, oldAuthToken);
             statement.executeUpdate();
