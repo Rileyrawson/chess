@@ -3,6 +3,7 @@ package passoffTests.serviceTests;
 import Singleton.Singleton;
 import dataAccess.AuthDAO;
 import dataAccess.DataAccessException;
+import dataAccess.DatabaseManager;
 import dataAccess.GameDAO;
 import model.AuthData;
 import model.GameData;
@@ -30,10 +31,17 @@ public class ServiceTests {
 
     @BeforeEach
     public void prepare() throws DataAccessException {
+        DatabaseManager.createDatabase();
+        DatabaseManager.createTables();
         clearDBService.clear();
         AuthData response = (AuthData) userService.register(new RegisterRequest("username", "pass", "email"));
         validAuthToken = response.authToken();
         testGame = (GameData) gameService.createGame(new CreateGameRequest("gameName"), validAuthToken);
+    }
+
+    @AfterEach
+    public void clearAll() throws TestException, DataAccessException {
+        singleton.getClearDBServiceInstance();
     }
 
     //register
@@ -208,6 +216,7 @@ public class ServiceTests {
         AuthData data = authDAO.getAuth(validAuthToken);
         Assertions.assertEquals(data, null, "authToken not removed from DB");
     }
+
 
 
 }

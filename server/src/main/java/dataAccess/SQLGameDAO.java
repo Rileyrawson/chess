@@ -114,7 +114,6 @@ public class SQLGameDAO implements GameDAO{
                 var json = new Gson().toJson(data.game());
                 statement.setNString(4, json);
                 statement.setInt(5, data.gameID());
-
                 statement.executeUpdate();
             } catch (SQLException e) {
                 throw new DataAccessException(e.getMessage());
