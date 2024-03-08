@@ -101,7 +101,9 @@ public class SQLGameDAO implements GameDAO{
                     games.add(new GameData(dbGameID,dbWhiteUsername, dbBlackUsername, dbGameName, dbGame)); //append to list
                 }
                 if (games.isEmpty()){
-                    throw new DataAccessException("no games in the database");
+                    GameListData emptyGameListData = new GameListData(new ArrayList<GameData>());
+                    return emptyGameListData;
+//                    throw new DataAccessException("no games in the database");
                 }
                 return new GameListData(games); //return list as gamelistdata
             }
