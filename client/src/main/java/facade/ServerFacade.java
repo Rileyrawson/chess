@@ -2,6 +2,7 @@ package facade;
 
 import com.google.gson.Gson;
 import model.AuthData;
+import model.GameData;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -74,7 +75,7 @@ public class ServerFacade {
             http.setRequestMethod("POST");
             http.addRequestProperty("Content-Type", "application/json");
             http.setRequestProperty("Authorization", authData.authToken());
-            var body = Map.of("gameName", gameName); //TODO: add auth token to authorize request
+            var body = Map.of("gameName", gameName);
             try (var outputStream = http.getOutputStream()) {
                 var jsonBody = new Gson().toJson(body);
                 outputStream.write(jsonBody.getBytes());
@@ -101,6 +102,8 @@ public class ServerFacade {
             try (InputStream respBody = http.getInputStream()) {      // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
                 System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+                GameData data = new Gson().fromJson(inputStreamReader, GameData.class);
+//                System.out.println(data);
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -112,19 +115,24 @@ public class ServerFacade {
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("PUT");
+
             http.setRequestProperty("Authorization", authData.authToken());
             http.addRequestProperty("Content-Type", "application/json");
 
-            var body = Map.of("color", color, "gameID", gameID);
-            try (var outputStream = http.getOutputStream()) {
-                var jsonBody = new Gson().toJson(body);
-                outputStream.write(jsonBody.getBytes());
-            }
+            String bodyColor = color.toUpperCase();
+            var body = Map.of("playerColor", bodyColor, "gameID", gameID, "username", authData.username());
+
+
+            var outputStream = http.getOutputStream();
+            var jsonBody = new Gson().toJson(body);
+            outputStream.write(jsonBody.getBytes());
+
             http.connect();   // Make the request
-            try (InputStream respBody = http.getInputStream()) {      // Output the response body
-                InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
-            }
+
+            InputStream respBody = http.getInputStream();     // Output the response body
+            InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -136,6 +144,7 @@ public class ServerFacade {
             http.setDoOutput(true);
             http.setRequestMethod("PUT");
             http.setRequestProperty("Authorization", authData.authToken());
+            http.setRequestProperty("Username", authData.username());
             http.addRequestProperty("Content-Type", "application/json");
 
             var body = Map.of("gameID", gameID);
@@ -143,7 +152,9 @@ public class ServerFacade {
                 var jsonBody = new Gson().toJson(body);
                 outputStream.write(jsonBody.getBytes());
             }
+
             http.connect();  // Make the request
+
             try (InputStream respBody = http.getInputStream()) {  // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
                 System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
