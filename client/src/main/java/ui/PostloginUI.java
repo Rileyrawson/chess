@@ -130,14 +130,14 @@ public class PostloginUI {
     }
 
 
-    public static void drawBoard(){
+    public static StringBuilder drawBoard(){
         ChessBoard board = new ChessBoard();
         StringBuilder stringBuilder = new StringBuilder();
         board.resetBoard();
         stringBuilder = whiteBottom(board, stringBuilder);
         stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
         stringBuilder = blackBottom(board, stringBuilder);
-        System.out.println(stringBuilder);
+        return stringBuilder;
     }
 
 }

@@ -3,6 +3,7 @@ package facade;
 import com.google.gson.Gson;
 import model.AuthData;
 import model.GameData;
+import ui.PostloginUI;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -135,6 +136,9 @@ public class ServerFacade {
             InputStream respBody = http.getInputStream();     // Output the response body
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
             System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+
+            StringBuilder sb = PostloginUI.drawBoard();
+            System.out.println(sb);
 
         } catch (Exception e){
             System.out.println(e.getMessage());
