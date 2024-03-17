@@ -28,27 +28,14 @@ public class PostloginUI {
 
 
 
-    public static void whiteBottom(){
-
-    }
-
-
-
-
-    public static void drawBoard(){
-        ChessBoard board = new ChessBoard();
-        StringBuilder stringBuilder = new StringBuilder();
-
-        board.resetBoard();
-//        System.out.println(board.toString());
+    public static StringBuilder whiteBottom(ChessBoard board, StringBuilder stringBuilder){
         int rowLabel = 1;
-
-        stringBuilder.append(RESET_TEXT_COLOR + SET_BG_COLOR_LIGHT_GREY + "    a  b  c  d  e  f  g  h");
+        stringBuilder.append(RESET_TEXT_COLOR + SET_BG_COLOR_LIGHT_GREY + "    a  b  c  d  e  f  g  h    ");
         for (int i = boardRow - 1; i >= 0; i--) {
-
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY);
             stringBuilder.append("\n");
+            stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
             stringBuilder.append(" " + rowLabel + " ");
-
             for (int j = 0; j < boardCol; j++) {
                 ChessPosition position = new ChessPosition(i + 1,j + 1);
                 if (j % 2 == 0){
@@ -64,8 +51,6 @@ public class PostloginUI {
                         stringBuilder.append(SET_BG_COLOR_BLACK);
                     }
                 }
-
-
                 if (board.getPiece(position) == null) {
                     stringBuilder.append("   ");
                 }
@@ -81,20 +66,78 @@ public class PostloginUI {
                 }
                 stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
             }
-
-            stringBuilder.append(" " + rowLabel); // label the row number
+            stringBuilder.append(" " + rowLabel  + " "); // label the row number
             rowLabel = rowLabel + 1;
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY);
         }
-
         stringBuilder.append("\n");
-        stringBuilder.append("   a  b  c  d  e  f  g  h");
+        stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
+        stringBuilder.append("    a  b  c  d  e  f  g  h    ");
+        stringBuilder.append(SET_BG_COLOR_DARK_GREY);
         stringBuilder.append("\n");
+        stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
+        return stringBuilder;
+    }
 
-        System.out.println(stringBuilder);
-
+    public static StringBuilder blackBottom(ChessBoard board, StringBuilder stringBuilder){
+        int rowLabel = 1;
+        stringBuilder.append(RESET_TEXT_COLOR + SET_BG_COLOR_LIGHT_GREY + "    h  g  f  e  d  c  b  a    ");
+        for (int i = 0; i < boardRow; i++) {
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY);
+            stringBuilder.append("\n");
+            stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
+            stringBuilder.append(" " + rowLabel + " ");
+            for (int j = boardCol - 1; j >= 0; j--) {
+                ChessPosition position = new ChessPosition(i + 1,j + 1);
+                if (j % 2 == 0){
+                    if (i % 2 == 0){
+                        stringBuilder.append(SET_BG_COLOR_BLACK);
+                    } else {
+                        stringBuilder.append(SET_BG_COLOR_WHITE);
+                    }
+                } else {
+                    if (i % 2 == 0){
+                        stringBuilder.append(SET_BG_COLOR_WHITE);
+                    } else {
+                        stringBuilder.append(SET_BG_COLOR_BLACK);
+                    }
+                }
+                if (board.getPiece(position) == null ) {
+                    stringBuilder.append("   ");
+                }
+                else {
+                    if (board.getTeamAtPosition(position) == ChessGame.TeamColor.WHITE){
+                        stringBuilder.append(SET_TEXT_COLOR_BLUE + board.getPiece(position).toString() + RESET_TEXT_COLOR);
+                    }
+                    else if (board.getTeamAtPosition(position) == ChessGame.TeamColor.BLACK){
+                        stringBuilder.append(SET_TEXT_COLOR_RED + board.getPiece(position).toString() + RESET_TEXT_COLOR);
+                    } else {
+                        stringBuilder.append(board.getPiece(position).toString());
+                    }
+                }
+                stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
+            }
+            stringBuilder.append(" " + rowLabel + " "); // label the row number
+            rowLabel = rowLabel + 1;
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY);
+        }
+        stringBuilder.append("\n");
+        stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
+        stringBuilder.append("    h  g  f  e  d  c  b  a    ");
+        stringBuilder.append(SET_BG_COLOR_DARK_GREY);
+        stringBuilder.append("\n");
+        return stringBuilder;
     }
 
 
-    //"  h  g  f  e  d  c  b  a"
+    public static void drawBoard(){
+        ChessBoard board = new ChessBoard();
+        StringBuilder stringBuilder = new StringBuilder();
+        board.resetBoard();
+        stringBuilder = whiteBottom(board, stringBuilder);
+        stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
+        stringBuilder = blackBottom(board, stringBuilder);
+        System.out.println(stringBuilder);
+    }
 
 }
