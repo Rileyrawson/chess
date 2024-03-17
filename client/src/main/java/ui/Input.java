@@ -12,7 +12,7 @@ public class Input {
 
     public static List<String> parseInput(){
         Scanner scanner = new Scanner(System.in);
-        System.out.printf("Type input here >>>> ");
+        System.out.printf("Type input here > ");
         String line = scanner.nextLine();
         line = line.toLowerCase();
 
@@ -21,15 +21,13 @@ public class Input {
         return new ArrayList<>(args);
     }
 
-    public static void input() throws Exception { // TODO: break into seperate functions? check for incorrect input (not enough args/too many args)
-        boolean isLoggedIn = false;
+    static void preLogin (){
         AuthData authData = new AuthData("uninitialized", "uninitialized");
-        while (!isLoggedIn) {
+        while (true) {
+//            for (String x : args) {
+////                System.out.println(x);
+//            }
             ArrayList<String> args = (ArrayList<String>) parseInput();
-            for(String x: args){
-//                System.out.println(x);
-            }
-
             if (args.get(0).equals("help")) {
                 PreloginUI.help();
             } else if (args.get(0).equals("quit")) {
@@ -38,18 +36,23 @@ public class Input {
             } else if (args.get(0).equals("login") && args.size() == 3) {
                 authData = ServerFacade.login(args.get(1), args.get(2));
 //                System.out.println(authData.authToken());
-                if (!authData.authToken().equals("error")){
-                    isLoggedIn = true;
+                if (!authData.authToken().equals("error")) {
+                    postLogin(authData);
                     break;
-                } else { System.out.println("invalid login credentials");}
+                } else {
+                    System.out.println("invalid login credentials");
+                }
             } else if (args.get(0).equals("register") && args.size() == 4) {
                 authData = ServerFacade.register(args.get(1), args.get(2), args.get(3));
             } else {
-               System.out.println("Invlaid Input\n");
-               PreloginUI.help();
+                System.out.println("Invlaid Input\n");
+                PreloginUI.help();
             }
         }
-        while (isLoggedIn){
+    }
+
+    static void postLogin (AuthData authData){
+        while (true){
             ArrayList<String> args = (ArrayList<String>) parseInput();
             for(String x: args){
 //                System.out.println(x);
@@ -57,7 +60,9 @@ public class Input {
             if (args.get(0).equals("help")){
                 PostloginUI.help();
             } else if (args.get(0).equals("logout")) {
-                PostloginUI.logout(authData);
+                ServerFacade.logout(authData);
+                preLogin();
+                break;
             } else if (args.get(0).equals("create") && args.get(1).equals("game") && args.size() == 3) {
                 ServerFacade.CreateGame(args.get(2), authData);
             } else if (args.get(0).equals("list") && args.get(1).equals("games")) {
@@ -71,5 +76,9 @@ public class Input {
                 PostloginUI.help();
             }
         }
+    }
+
+    public static void input() throws Exception { //Todo: check for incorrect input (not enough args/too many args)
+        preLogin();
     }
 }

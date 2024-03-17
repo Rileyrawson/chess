@@ -164,6 +164,27 @@ public class ServerFacade {
         }
     }
 
+    public static void logout(AuthData authData){
+        try {
+            URI uri = new URI("http://localhost:8080/session");
+            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
+            http.setDoOutput(true);
+            http.setRequestMethod("DELETE");
+            http.setRequestProperty("Authorization", authData.authToken());
+            http.addRequestProperty("Content-Type", "application/json");
+
+            http.connect();   // Make the request
+            try (InputStream respBody = http.getInputStream()) {      // Output the response body
+                InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+                GameData data = new Gson().fromJson(inputStreamReader, GameData.class);
+//                System.out.println(data);
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 
 }

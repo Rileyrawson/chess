@@ -17,9 +17,7 @@ public class PostloginUI {
         System.out.println("Join Observer: Create new game Input: <GAMEID>");
     }
 
-    public static void logout(AuthData authData){
 
-    }
 
 
 }
