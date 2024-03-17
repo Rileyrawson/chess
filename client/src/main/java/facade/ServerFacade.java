@@ -3,12 +3,14 @@ package facade;
 import com.google.gson.Gson;
 import model.AuthData;
 import model.GameData;
+import model.GameListData;
 import ui.PostloginUI;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.io.InputStreamReader;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Map;
 public class ServerFacade {
 
@@ -57,7 +59,7 @@ public class ServerFacade {
             InputStream respBody = http.getInputStream();  // Output the response body
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
             AuthData data = new Gson().fromJson(inputStreamReader, AuthData.class);
-            System.out.println(data);
+//            System.out.println(data);
 
             return data;
 
@@ -84,7 +86,7 @@ public class ServerFacade {
             http.connect();  // Make the request
             try (InputStream respBody = http.getInputStream()) {  // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+//                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -102,8 +104,14 @@ public class ServerFacade {
             http.connect();   // Make the request
             try (InputStream respBody = http.getInputStream()) {      // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
-                GameData data = new Gson().fromJson(inputStreamReader, GameData.class);
+                GameListData data = new Gson().fromJson(inputStreamReader, GameListData.class);
+                ArrayList<GameData> games = data.games();
+                for (int i = 0; i < games.size(); i++){
+                    System.out.println( (i + 1) + ": " + games.get(i));
+                }
+
+
+//                GameListData data = new Gson().fromJson(inputStreamReader, GameListData.class);
 //                System.out.println(data);
             }
         } catch (Exception e){
@@ -135,7 +143,7 @@ public class ServerFacade {
 
             InputStream respBody = http.getInputStream();     // Output the response body
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+//            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
 
             StringBuilder sb = PostloginUI.drawBoard();
             System.out.println(sb);
@@ -164,7 +172,9 @@ public class ServerFacade {
 
             try (InputStream respBody = http.getInputStream()) {  // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+//                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+                StringBuilder sb = PostloginUI.drawBoard();
+                System.out.println(sb);
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -183,9 +193,9 @@ public class ServerFacade {
             http.connect();   // Make the request
             try (InputStream respBody = http.getInputStream()) {      // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+//                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
                 GameData data = new Gson().fromJson(inputStreamReader, GameData.class);
-//                System.out.println(data);
+                System.out.println("Logged out");
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
