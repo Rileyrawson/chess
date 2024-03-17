@@ -89,7 +89,7 @@ public class ServerFacade {
             System.out.println(e.getMessage());
         }
     }
-    public static void listGames(AuthData authData){
+    public static void listGames(AuthData authData){ //TODO: list games as a numbered list, not just json
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -109,7 +109,10 @@ public class ServerFacade {
             System.out.println(e.getMessage());
         }
     }
-    public static void joinGame(String color, String gameID, AuthData authData){
+
+
+
+    public static void joinGame(String color, String gameID, AuthData authData){  // todo: draw board
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -137,7 +140,7 @@ public class ServerFacade {
             System.out.println(e.getMessage());
         }
     }
-    public static void joinObserver(String gameID, AuthData authData){
+    public static void joinObserver(String gameID, AuthData authData){ //todo: draw board
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
