@@ -1,6 +1,7 @@
 package ui;
 
 import facade.ServerFacade;
+import model.AuthData;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,11 +23,11 @@ public class Input {
 
     public static void input() throws Exception {
         boolean isLoggedIn = false;
-
+        AuthData authData = new AuthData("uninitialized", "uninitialized");
         while (!isLoggedIn) {
             ArrayList<String> args = (ArrayList<String>) parseInput();
             for(String x: args){
-                System.out.println(x);
+//                System.out.println(x);
             }
 
             if (args.get(0).equals("help")) {
@@ -35,11 +36,11 @@ public class Input {
                 PreloginUI.quit();
                 break;
             } else if (args.get(0).equals("login")) {
-                ServerFacade.login(args.get(1), args.get(2));
+                authData = ServerFacade.login(args.get(1), args.get(2));
                 isLoggedIn = true;
                 break;
             } else if (args.get(0).equals("register")) {
-                ServerFacade.register(args.get(1), args.get(2), args.get(3));            //todo
+                authData = ServerFacade.register(args.get(1), args.get(2), args.get(3));            //todo
             } else {
                System.out.println("Invlaid Input\n");
                PreloginUI.help();
@@ -48,25 +49,24 @@ public class Input {
         while (isLoggedIn){
             ArrayList<String> args = (ArrayList<String>) parseInput();
             for(String x: args){
-                System.out.println(x);
+//                System.out.println(x);
             }
             if (args.get(0).equals("help")){
                 PostloginUI.help();
             } else if (args.get(0).equals("logout")) {
-                PostloginUI.logout();
+                PostloginUI.logout(authData);
             } else if (args.get(0).equals("create") && args.get(1).equals("game") ) {
-                ServerFacade.CreateGame(args.get(1));
+                ServerFacade.CreateGame(args.get(2), authData);
             } else if (args.get(0).equals("list") && args.get(1).equals("games")) {
-                ServerFacade.listGames();
+                ServerFacade.listGames(authData);
             } else if (args.get(0).equals("join") && args.get(1).equals("game")) {
-                ServerFacade.joinGame(args.get(1), args.get(2));
+                ServerFacade.joinGame(args.get(2), args.get(3), authData);
             } else if (args.get(0).equals("join") && args.get(1).equals("observer")) {
-                ServerFacade.joinObserver(args.get(1));
+                ServerFacade.joinObserver(args.get(2), authData);
             } else {
                 System.out.println("Invlaid Input\n");
                 PostloginUI.help();
             }
-
         }
     }
 }

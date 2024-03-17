@@ -1,48 +1,152 @@
 package facade;
 
 import com.google.gson.Gson;
-import model.requests.LoginRequest;
-import model.requests.RegisterRequest;
-
+import model.AuthData;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.io.InputStreamReader;
 import java.io.InputStream;
+import java.util.Map;
 public class ServerFacade {
 
 
-    public static void login(String username, String password){
-        new LoginRequest(username, password);
+    public static AuthData register(String username, String password, String email){
+        try {
+            URI uri = new URI("http://localhost:8080/user");
+            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
+            http.setDoOutput(true);
+            http.setRequestMethod("POST");
+            http.addRequestProperty("Content-Type", "application/json");
+            var body = Map.of("username", username, "password", password, "email", email);
 
-//        URI uri = new URI("http://localhost:8080/session");
-//        HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
-//        http.setRequestMethod("POST");
-//
-//        // Make the request
-//        http.connect();
-//
-//        // Output the response body
-//        try (InputStream respBody = http.getInputStream()) {
-//            InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-//            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
-//        }
+            var outputStream = http.getOutputStream();
+            var jsonBody = new Gson().toJson(body);
+            outputStream.write(jsonBody.getBytes());
 
+            http.connect();  // Make the request
+
+            InputStream respBody = http.getInputStream();  // Output the response body
+            InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+            AuthData data = new Gson().fromJson(inputStreamReader, AuthData.class);
+            System.out.println(data);
+
+            return data;
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return new AuthData("error", "error");
     }
-    public static void register(String username, String password, String email){
-        new RegisterRequest(username, password, email);
-    }
-    public static void CreateGame(String gameName){
+    public static AuthData login(String username, String password){
+        try {
+            URI uri = new URI("http://localhost:8080/session");
+            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
+            http.setDoOutput(true);
+            http.setRequestMethod("POST");
+            http.addRequestProperty("Content-Type", "application/json");
+            var body = Map.of("username", username, "password", password);
 
-    }
-    public static void listGames(){
+            var outputStream = http.getOutputStream();
+            var jsonBody = new Gson().toJson(body);
+            outputStream.write(jsonBody.getBytes());
 
-    }
-    public static void joinGame(String color, String gameID){
+            http.connect();  // Make the request
 
-    }
-    public static void joinObserver(String gameID){
+            InputStream respBody = http.getInputStream();  // Output the response body
+            InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+            AuthData data = new Gson().fromJson(inputStreamReader, AuthData.class);
+            System.out.println(data);
 
+            return data;
+
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return new AuthData("error", "error");
+    }
+
+    public static void CreateGame(String gameName, AuthData authData){
+        try {
+            URI uri = new URI("http://localhost:8080/game");
+            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
+            http.setDoOutput(true);
+            http.setRequestMethod("POST");
+            http.addRequestProperty("Content-Type", "application/json");
+            var body = Map.of("gameName", gameName);
+            try (var outputStream = http.getOutputStream()) {
+                var jsonBody = new Gson().toJson(body);
+                outputStream.write(jsonBody.getBytes());
+            }
+            http.connect();  // Make the request
+            try (InputStream respBody = http.getInputStream()) {  // Output the response body
+                InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void listGames(AuthData authData){
+        try {
+            URI uri = new URI("http://localhost:8080/game");
+            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
+            http.setDoOutput(true);
+            http.setRequestMethod("GET");
+            http.addRequestProperty("Content-Type", "application/json");
+
+            http.connect();   // Make the request
+            try (InputStream respBody = http.getInputStream()) {      // Output the response body
+                InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void joinGame(String color, String gameID, AuthData authData){
+        try {
+            URI uri = new URI("http://localhost:8080/game");
+            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
+            http.setDoOutput(true);
+            http.setRequestMethod("PUT");
+            http.addRequestProperty("Content-Type", "application/json");
+
+            var body = Map.of("color", color, "gameID", gameID);
+            try (var outputStream = http.getOutputStream()) {
+                var jsonBody = new Gson().toJson(body);
+                outputStream.write(jsonBody.getBytes());
+            }
+            http.connect();   // Make the request
+            try (InputStream respBody = http.getInputStream()) {      // Output the response body
+                InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void joinObserver(String gameID, AuthData authData){
+        try {
+            URI uri = new URI("http://localhost:8080/game");
+            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
+            http.setDoOutput(true);
+            http.setRequestMethod("PUT");
+            http.addRequestProperty("Content-Type", "application/json");
+
+            var body = Map.of("gameID", gameID);
+            try (var outputStream = http.getOutputStream()) {
+                var jsonBody = new Gson().toJson(body);
+                outputStream.write(jsonBody.getBytes());
+            }
+            http.connect();  // Make the request
+            try (InputStream respBody = http.getInputStream()) {  // Output the response body
+                InputStreamReader inputStreamReader = new InputStreamReader(respBody);
+                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
