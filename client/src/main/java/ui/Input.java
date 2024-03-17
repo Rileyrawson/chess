@@ -35,11 +35,14 @@ public class Input {
             } else if (args.get(0).equals("quit")) {
                 PreloginUI.quit();
                 break;
-            } else if (args.get(0).equals("login")) {
+            } else if (args.get(0).equals("login") && args.size() == 3) {
                 authData = ServerFacade.login(args.get(1), args.get(2));
-                isLoggedIn = true;
-                break;
-            } else if (args.get(0).equals("register")) {
+//                System.out.println(authData.authToken());
+                if (!authData.authToken().equals("error")){
+                    isLoggedIn = true;
+                    break;
+                } else { System.out.println("invalid login credentials");}
+            } else if (args.get(0).equals("register") && args.size() == 4) {
                 authData = ServerFacade.register(args.get(1), args.get(2), args.get(3));
             } else {
                System.out.println("Invlaid Input\n");
@@ -55,13 +58,13 @@ public class Input {
                 PostloginUI.help();
             } else if (args.get(0).equals("logout")) {
                 PostloginUI.logout(authData);
-            } else if (args.get(0).equals("create") && args.get(1).equals("game") ) {
+            } else if (args.get(0).equals("create") && args.get(1).equals("game") && args.size() == 3) {
                 ServerFacade.CreateGame(args.get(2), authData);
             } else if (args.get(0).equals("list") && args.get(1).equals("games")) {
                 ServerFacade.listGames(authData);
-            } else if (args.get(0).equals("join") && args.get(1).equals("game")) {
+            } else if (args.get(0).equals("join") && args.get(1).equals("game") && args.size() == 4) {
                 ServerFacade.joinGame(args.get(2), args.get(3), authData);
-            } else if (args.get(0).equals("join") && args.get(1).equals("observer")) {
+            } else if (args.get(0).equals("join") && args.get(1).equals("observer") && args.size() == 3) {
                 ServerFacade.joinObserver(args.get(2), authData);
             } else {
                 System.out.println("Invlaid Input\n");
