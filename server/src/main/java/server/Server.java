@@ -1,7 +1,6 @@
 package server;
 
 import Singleton.Singleton;
-import com.google.gson.Gson;
 import spark.*;
 
 public class Server {
