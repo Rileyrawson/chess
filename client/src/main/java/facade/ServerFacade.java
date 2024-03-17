@@ -46,7 +46,6 @@ public class ServerFacade {
             http.setRequestMethod("POST");
             http.addRequestProperty("Content-Type", "application/json");
             var body = Map.of("username", username, "password", password);
-
             var outputStream = http.getOutputStream();
             var jsonBody = new Gson().toJson(body);
             outputStream.write(jsonBody.getBytes());
@@ -66,6 +65,7 @@ public class ServerFacade {
         return new AuthData("error", "error");
     }
 
+
     public static void CreateGame(String gameName, AuthData authData){
         try {
             URI uri = new URI("http://localhost:8080/game");
@@ -73,7 +73,8 @@ public class ServerFacade {
             http.setDoOutput(true);
             http.setRequestMethod("POST");
             http.addRequestProperty("Content-Type", "application/json");
-            var body = Map.of("gameName", gameName);
+            http.setRequestProperty("Authorization", authData.authToken());
+            var body = Map.of("gameName", gameName); //TODO: add auth token to authorize request
             try (var outputStream = http.getOutputStream()) {
                 var jsonBody = new Gson().toJson(body);
                 outputStream.write(jsonBody.getBytes());
@@ -93,6 +94,7 @@ public class ServerFacade {
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("GET");
+            http.setRequestProperty("Authorization", authData.authToken());
             http.addRequestProperty("Content-Type", "application/json");
 
             http.connect();   // Make the request
@@ -110,6 +112,7 @@ public class ServerFacade {
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("PUT");
+            http.setRequestProperty("Authorization", authData.authToken());
             http.addRequestProperty("Content-Type", "application/json");
 
             var body = Map.of("color", color, "gameID", gameID);
@@ -132,6 +135,7 @@ public class ServerFacade {
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("PUT");
+            http.setRequestProperty("Authorization", authData.authToken());
             http.addRequestProperty("Content-Type", "application/json");
 
             var body = Map.of("gameID", gameID);

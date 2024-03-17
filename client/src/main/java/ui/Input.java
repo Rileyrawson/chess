@@ -21,7 +21,7 @@ public class Input {
         return new ArrayList<>(args);
     }
 
-    public static void input() throws Exception {
+    public static void input() throws Exception { // TODO: break into seperate functions? check for incorrect input (not enough args/too many args)
         boolean isLoggedIn = false;
         AuthData authData = new AuthData("uninitialized", "uninitialized");
         while (!isLoggedIn) {
@@ -40,7 +40,7 @@ public class Input {
                 isLoggedIn = true;
                 break;
             } else if (args.get(0).equals("register")) {
-                authData = ServerFacade.register(args.get(1), args.get(2), args.get(3));            //todo
+                authData = ServerFacade.register(args.get(1), args.get(2), args.get(3));
             } else {
                System.out.println("Invlaid Input\n");
                PreloginUI.help();
