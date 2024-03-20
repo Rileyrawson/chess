@@ -74,7 +74,7 @@ public class Input {
                 preLogin();
                 break;
             } else if (args.get(0).equals("create") && args.get(1).equals("game") && args.size() == 3) {
-                ServerFacade.CreateGame(args.get(2), authData);
+                ServerFacade.createGame(args.get(2), authData);
             } else if (args.get(0).equals("list") && args.get(1).equals("games")) {
                 ServerFacade.listGames(authData);
             } else if (args.get(0).equals("join") && args.get(1).equals("game") && args.size() == 4) {

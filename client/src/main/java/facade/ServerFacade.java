@@ -70,7 +70,7 @@ public class ServerFacade {
     }
 
 
-    public static void CreateGame(String gameName, AuthData authData){
+    public static void createGame(String gameName, AuthData authData){
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -92,7 +92,7 @@ public class ServerFacade {
             System.out.println(e.getMessage());
         }
     }
-    public static void listGames(AuthData authData){ //TODO: list games as a numbered list, not just json
+    public static String listGames(AuthData authData){ //TODO: list games as a numbered list, not just json
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -109,14 +109,14 @@ public class ServerFacade {
                 for (int i = 0; i < games.size(); i++){
                     System.out.println( (i + 1) + ": " + games.get(i));
                 }
-
-
 //                GameListData data = new Gson().fromJson(inputStreamReader, GameListData.class);
 //                System.out.println(data);
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
+            return "error";
         }
+        return "success";
     }
 
 
