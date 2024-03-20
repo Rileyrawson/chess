@@ -22,7 +22,7 @@ public class PostloginUI {
         System.out.println("Create Game: Create new game Input: <GAMENAME>");
         System.out.println("List Games");
         System.out.println("Join Game: Joins existing game as player Input: color(WHITE/BLACK) <GAMEID>");
-        System.out.println("Join Observer: Create new game Input: <GAMEID>");
+        System.out.println("Join Observer: Joins existing game Input: <GAMEID>");
     }
 
 

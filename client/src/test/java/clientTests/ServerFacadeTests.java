@@ -6,7 +6,6 @@ import org.junit.jupiter.api.*;
 import server.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.*;
 
 
@@ -19,6 +18,7 @@ public class ServerFacadeTests {
     public static void init() {
         server = new Server();
         port = server.run(8080);
+//        port = server.run(0);
         System.out.println("Started test HTTP server on " + port);
     }
 
@@ -28,23 +28,19 @@ public class ServerFacadeTests {
         HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
         http.setDoOutput(true);
         http.setRequestMethod("DELETE");
-
         http.connect();
-
-        InputStream respBody = http.getInputStream();  // Output the response body
+//        InputStream respBody = http.getInputStream();  // Output the response body
 //        System.out.println(respBody);
     }
 
-    @BeforeEach
+    @AfterEach
     public void clear() throws URISyntaxException, IOException {
         URI uri = new URI("http://localhost:" + port + "/db");
         HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
         http.setDoOutput(true);
         http.setRequestMethod("DELETE");
-
         http.connect();
-
-        InputStream respBody = http.getInputStream();  // Output the response body
+//        InputStream respBody = http.getInputStream();  // Output the response body
 //        System.out.println(respBody);
     }
 
@@ -58,7 +54,7 @@ public class ServerFacadeTests {
     @Test
     @Order(1)
     public void positiveRegister(){
-        AuthData data = ServerFacade.register("u", "p", "e");
+        AuthData data = ServerFacade.register("username", "p", "e");
         Assertions.assertNotEquals("error", data.authToken());
     }
 
@@ -92,18 +88,17 @@ public class ServerFacadeTests {
     public void positiveCreateGame(){
         AuthData register = ServerFacade.register("u5", "p", "e");
         AuthData login = ServerFacade.login("u5", "p");
-        ServerFacade.createGame("name", login);
-        String list = ServerFacade.listGames(login);
-        Assertions.assertEquals("success", list);
+        String response = ServerFacade.createGame("name", login);
+        Assertions.assertEquals("success", response);
     }
 
     @Test
     @Order(6)
     public void negativeCreateGame(){
+        AuthData register = ServerFacade.register("u5", "p", "e");
         AuthData login = ServerFacade.login("u6", "p");
-        ServerFacade.createGame("name", login);
-        String list = ServerFacade.listGames(login);
-        Assertions.assertEquals("error", list);
+        String response = ServerFacade.createGame(null, login);
+        Assertions.assertEquals("error", response);
     }
 
     //list games
@@ -155,9 +150,9 @@ public class ServerFacadeTests {
         AuthData register = ServerFacade.register("u11", "p", "e");
         AuthData login = ServerFacade.login("u11", "p");
         ServerFacade.createGame("name", login);
-        ServerFacade.joinObserver("1",login);
-        String list = ServerFacade.listGames(login);
-        Assertions.assertEquals("success", list);
+        ServerFacade.listGames(login);
+        String response = ServerFacade.joinObserver("1",login);
+        Assertions.assertEquals("success", response);
     }
 
     @Test
@@ -166,9 +161,8 @@ public class ServerFacadeTests {
         AuthData register = ServerFacade.register("u12", "p", "e");
         AuthData login = ServerFacade.login("u12", "p");
         ServerFacade.createGame("name", login);
-        ServerFacade.joinObserver("1", register);
-        String list = ServerFacade.listGames(login);
-        Assertions.assertEquals("error", list);
+        String response = ServerFacade.joinObserver("1", register);
+        Assertions.assertEquals("error", response);
     }
 
 
@@ -178,9 +172,8 @@ public class ServerFacadeTests {
         AuthData register = ServerFacade.register("u12", "p", "e");
         AuthData login = ServerFacade.login("u12", "p");
         ServerFacade.logout(login);
-        ServerFacade.createGame("name", login);
-        String list = ServerFacade.listGames(login);
-        Assertions.assertEquals("error", list);
+        String response = ServerFacade.createGame("name", login);
+        Assertions.assertEquals("error", response);
     }
     @Test
     @Order(14)
@@ -188,9 +181,10 @@ public class ServerFacadeTests {
         AuthData register = ServerFacade.register("u12", "p", "e");
         ServerFacade.logout(register);
         ServerFacade.createGame("name", register);
-        String list = ServerFacade.listGames(register);
-        Assertions.assertEquals("error", list);
+        String response =  ServerFacade.listGames(register);
+        Assertions.assertEquals("error", response);
     }
+
 
 
 }

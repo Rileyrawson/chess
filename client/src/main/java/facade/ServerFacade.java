@@ -70,7 +70,7 @@ public class ServerFacade {
     }
 
 
-    public static void createGame(String gameName, AuthData authData){
+    public static String createGame(String gameName, AuthData authData){
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -90,7 +90,9 @@ public class ServerFacade {
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
+            return "error";
         }
+        return "success";
     }
     public static String listGames(AuthData authData){ //TODO: list games as a numbered list, not just json
         try {
@@ -121,7 +123,7 @@ public class ServerFacade {
 
 
 
-    public static void joinGame(String color, String gameID, AuthData authData){  // todo: draw board
+    public static String joinGame(String color, String gameID, AuthData authData){  // todo: draw board
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -147,12 +149,13 @@ public class ServerFacade {
 
             StringBuilder sb = PostloginUI.drawBoard();
             System.out.println(sb);
-
         } catch (Exception e){
             System.out.println(e.getMessage());
+            return "error";
         }
+        return "success";
     }
-    public static void joinObserver(String gameID, AuthData authData){ //todo: draw board
+    public static String joinObserver(String gameID, AuthData authData){ //todo: draw board
         try {
             URI uri = new URI("http://localhost:8080/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -178,10 +181,12 @@ public class ServerFacade {
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
+            return "error";
         }
+        return "success";
     }
 
-    public static void logout(AuthData authData){
+    public static String logout(AuthData authData){
         try {
             URI uri = new URI("http://localhost:8080/session");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -191,6 +196,7 @@ public class ServerFacade {
             http.addRequestProperty("Content-Type", "application/json");
 
             http.connect();   // Make the request
+
             try (InputStream respBody = http.getInputStream()) {      // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
 //                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
@@ -199,7 +205,9 @@ public class ServerFacade {
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
+            return "error";
         }
+        return "success";
     }
 
 
