@@ -14,10 +14,15 @@ import java.util.ArrayList;
 import java.util.Map;
 public class ServerFacade {
 
+    private static int port;
+
+    public static void setPort(int port) {
+        ServerFacade.port = port;
+    }
 
     public static AuthData register(String username, String password, String email){
         try {
-            URI uri = new URI("http://localhost:8080/user");
+            URI uri = new URI("http://localhost:" + port + "/user");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("POST");
@@ -44,7 +49,7 @@ public class ServerFacade {
     }
     public static AuthData login(String username, String password){
         try {
-            URI uri = new URI("http://localhost:8080/session");
+            URI uri = new URI("http://localhost:" + port + "/session");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("POST");
@@ -72,7 +77,7 @@ public class ServerFacade {
 
     public static String createGame(String gameName, AuthData authData){
         try {
-            URI uri = new URI("http://localhost:8080/game");
+            URI uri = new URI("http://localhost:" + port + "/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("POST");
@@ -96,7 +101,7 @@ public class ServerFacade {
     }
     public static String listGames(AuthData authData){ //TODO: list games as a numbered list, not just json
         try {
-            URI uri = new URI("http://localhost:8080/game");
+            URI uri = new URI("http://localhost:" + port + "/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("GET");
@@ -125,7 +130,7 @@ public class ServerFacade {
 
     public static String joinGame(String color, String gameID, AuthData authData){  // todo: draw board
         try {
-            URI uri = new URI("http://localhost:8080/game");
+            URI uri = new URI("http://localhost:" + port + "/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("PUT");
@@ -157,7 +162,7 @@ public class ServerFacade {
     }
     public static String joinObserver(String gameID, AuthData authData){ //todo: draw board
         try {
-            URI uri = new URI("http://localhost:8080/game");
+            URI uri = new URI("http://localhost:" + port + "/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("PUT");
@@ -188,7 +193,7 @@ public class ServerFacade {
 
     public static String logout(AuthData authData){
         try {
-            URI uri = new URI("http://localhost:8080/session");
+            URI uri = new URI("http://localhost:" + port + "/session");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
             http.setDoOutput(true);
             http.setRequestMethod("DELETE");

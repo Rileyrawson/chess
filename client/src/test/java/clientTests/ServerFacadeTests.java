@@ -17,8 +17,9 @@ public class ServerFacadeTests {
     @BeforeAll
     public static void init() {
         server = new Server();
-        port = server.run(8080);
-//        port = server.run(0);
+//        port = server.run(8080);
+        port = server.run(0);
+        ServerFacade.setPort(port);
         System.out.println("Started test HTTP server on " + port);
     }
 
@@ -88,7 +89,7 @@ public class ServerFacadeTests {
     public void positiveCreateGame(){
         AuthData register = ServerFacade.register("u5", "p", "e");
         AuthData login = ServerFacade.login("u5", "p");
-        String response = ServerFacade.createGame("name", login);
+        String response = ServerFacade.createGame("name5", login);
         Assertions.assertEquals("success", response);
     }
 
@@ -149,9 +150,9 @@ public class ServerFacadeTests {
     public void positiveJoinObserver(){
         AuthData register = ServerFacade.register("u11", "p", "e");
         AuthData login = ServerFacade.login("u11", "p");
-        ServerFacade.createGame("name", login);
+        ServerFacade.createGame("name76", login);
         ServerFacade.listGames(login);
-        String response = ServerFacade.joinObserver("1",login);
+        String response = ServerFacade.joinObserver("1", login);
         Assertions.assertEquals("success", response);
     }
 
