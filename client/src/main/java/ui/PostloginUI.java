@@ -28,7 +28,7 @@ public class PostloginUI {
 
 
     public static StringBuilder whiteBottom(ChessBoard board, StringBuilder stringBuilder){
-        int rowLabel = 1;
+        int rowLabel = 8;
         stringBuilder.append(RESET_TEXT_COLOR + SET_BG_COLOR_LIGHT_GREY + "    a  b  c  d  e  f  g  h    ");
         for (int i = boardRow - 1; i >= 0; i--) {
             stringBuilder.append(SET_BG_COLOR_DARK_GREY);
@@ -66,7 +66,7 @@ public class PostloginUI {
                 stringBuilder.append(SET_BG_COLOR_LIGHT_GREY);
             }
             stringBuilder.append(" " + rowLabel  + " "); // label the row number
-            rowLabel = rowLabel + 1;
+            rowLabel = rowLabel - 1;
             stringBuilder.append(SET_BG_COLOR_DARK_GREY);
         }
         stringBuilder.append("\n");

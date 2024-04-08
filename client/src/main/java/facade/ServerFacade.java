@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Map;
 public class ServerFacade {
 
-    private static int port;
+    private static int port = 8080;
 
     public static void setPort(int port) {
         ServerFacade.port = port;
@@ -38,7 +38,9 @@ public class ServerFacade {
             InputStream respBody = http.getInputStream();  // Output the response body
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
             AuthData data = new Gson().fromJson(inputStreamReader, AuthData.class);
-            System.out.println(data);
+
+//            login(username, String.valueOf(data));
+//            System.out.println(data);
 
             return data;
 

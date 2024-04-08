@@ -45,80 +45,7 @@ public class ChessBoard {
         return result;
     }
 
-    public void makeMove(ChessMove move){
-        ChessPiece piece = getPiece(move.getStartPosition());
-        if(isOutOfBounds(move.getEndPosition())){
 
-        } else if (move.getPromotionPiece() == null){
-            addPiece(move.getEndPosition(), piece);
-            addPiece(move.getStartPosition(), null); // clear old space (remove piece)
-        }
-        else{
-            ChessPiece promotionPiece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
-            addPiece(move.getEndPosition(), promotionPiece);
-            addPiece(move.getStartPosition(), null); // clear old space (remove piece)
-        }
-    }
-
-    public Collection<ChessPosition> getTeamPositions (ChessGame.TeamColor teamColor){
-        ArrayList<ChessPosition> positions = new ArrayList<>();
-        for (int i = 0; i < boardRow; i++){
-            for (int j = 0; j < boardCol; j++){
-                ChessPosition currPosition = new ChessPosition(i+1,j+1);
-                if (getPiece(currPosition) != null){
-                    if (getPiece(currPosition).getTeamColor() == teamColor){
-                        positions.add(currPosition);
-                    }
-                }
-            }
-        }
-        return positions;
-    }
-
-    public ChessPiece[][] getCopy(){
-        ChessPiece[][] copy = new ChessPiece[boardRow][boardCol];
-        for (int row = 0 ; row < boardRow; row++){
-            copy[row] = board[row].clone();
-        }
-        return copy;
-    }
-
-    public boolean isInCheck(ChessGame.TeamColor teamColor) {
-        //check if that piece has a possible move at kingPosition
-
-        ChessPosition kingPosition = getKingPosition(teamColor);
-        ChessPiece[][] pieceArray = getBoard();
-
-        ArrayList<ChessMove> captureMoves = new ArrayList<>();// just used for checkmate
-
-        for (int i = boardRow - 1; i >= 0; i--) {
-            for (int j = 0; j < boardCol; j++) { //iterate through board
-                if (pieceArray[i][j] != null && pieceArray[i][j].getTeamColor() != teamColor){ //if this position on the board isn't null and not the same team
-                    ArrayList<ChessMove> moves = (ArrayList<ChessMove>) pieceArray[i][j].pieceMoves(this, new ChessPosition(i + 1,j + 1)); // get all possible moves for piece
-                    for(ChessMove k : moves){
-                        if (k.getEndPosition().equals(kingPosition)){ // if the ending position == where the king is -> capture
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public ChessPosition getKingPosition(ChessGame.TeamColor teamColor){
-        ChessPiece[][] pieceArray = this.board;
-        for (int i = boardRow - 1; i >= 0; i--) {
-            for (int j = 0; j < boardCol; j++) {
-                if (pieceArray[i][j] != null){ //if this position on the board isn't null
-                    if (pieceArray[i][j].getPieceType() == ChessPiece.PieceType.KING && pieceArray[i][j].getTeamColor() == teamColor){ //if king and same team
-                        return new ChessPosition(i + 1,j + 1); //iterating through array so already 0 based
-                    }
-                }
-            }
-        }
-        return null;
-    }
     /**
      * Adds a chess piece to the chessboard
      *
@@ -170,7 +97,7 @@ public class ChessBoard {
         }
     }
 
-    public boolean isCapturePosition(ChessPosition endPosition, ChessGame.TeamColor currTeam){
+    public boolean isCapturePosition(ChessPosition endPosition, ChessGame.TeamColor currTeam){ //Double checking
         if (!isValidMove(endPosition,currTeam)){ // false == out of bounds or blocked by same team
             return false;
         } else if (getPiece(endPosition) == null) { //empty square
@@ -290,5 +217,81 @@ public class ChessBoard {
         }
         stringBuilder.append("\n\n");
         return stringBuilder.toString();
+    }
+
+
+    //ONLY CALLED BY CHESS GAME
+    public void makeMove(ChessMove move){
+        ChessPiece piece = getPiece(move.getStartPosition());
+        if(isOutOfBounds(move.getEndPosition())){
+        } else if (move.getPromotionPiece() == null){
+            addPiece(move.getEndPosition(), piece);
+            addPiece(move.getStartPosition(), null); // clear old space (remove piece)
+        }
+        else{
+            ChessPiece promotionPiece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
+            addPiece(move.getEndPosition(), promotionPiece);
+            addPiece(move.getStartPosition(), null); // clear old space (remove piece)
+        }
+    }
+
+    public Collection<ChessPosition> getTeamPositions (ChessGame.TeamColor teamColor){
+        ArrayList<ChessPosition> positions = new ArrayList<>();
+        for (int i = 0; i < boardRow; i++){
+            for (int j = 0; j < boardCol; j++){
+                ChessPosition currPosition = new ChessPosition(i+1,j+1);
+                if (getPiece(currPosition) != null){
+                    if (getPiece(currPosition).getTeamColor() == teamColor){
+                        positions.add(currPosition);
+                    }
+                }
+            }
+        }
+        return positions;
+    }
+
+    public ChessPiece[][] getCopy(){
+        ChessPiece[][] copy = new ChessPiece[boardRow][boardCol];
+        for (int row = 0 ; row < boardRow; row++){
+            copy[row] = board[row].clone();
+        }
+        return copy;
+    }
+
+    public boolean isInCheck(ChessGame.TeamColor teamColor) {
+        //check if that piece has a possible move at kingPosition
+
+        ChessPosition kingPosition = getKingPosition(teamColor);
+        ChessPiece[][] pieceArray = getBoard();
+
+        ArrayList<ChessMove> captureMoves = new ArrayList<>();// just used for checkmate
+
+        for (int i = boardRow - 1; i >= 0; i--) {
+            for (int j = 0; j < boardCol; j++) { //iterate through board
+                if (pieceArray[i][j] != null && pieceArray[i][j].getTeamColor() != teamColor){ //if this position on the board isn't null and not the same team
+                    ArrayList<ChessMove> moves = (ArrayList<ChessMove>) pieceArray[i][j].pieceMoves(this, new ChessPosition(i + 1,j + 1)); // get all possible moves for piece
+                    for(ChessMove k : moves){
+                        if (k.getEndPosition().equals(kingPosition)){ // if the ending position == where the king is -> capture
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public ChessPosition getKingPosition(ChessGame.TeamColor teamColor){
+        ChessPiece[][] pieceArray = this.board;
+        for (int i = boardRow - 1; i >= 0; i--) {
+            for (int j = 0; j < boardCol; j++) {
+                if (pieceArray[i][j] != null){ //if this position on the board isn't null
+                    if (pieceArray[i][j].getPieceType() == ChessPiece.PieceType.KING && pieceArray[i][j].getTeamColor() == teamColor){ //if king and same team
+                        return new ChessPosition(i + 1,j + 1); //iterating through array so already 0 based
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

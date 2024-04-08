@@ -13,6 +13,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
         }
         return false;
     }
+
     public boolean pieceAtPosition(ChessBoard board, ChessPosition movePosition){
         ChessPiece piece = board.getPiece(movePosition);
         return piece != null; //if there is a piece return true. if no piece at position return false
@@ -26,7 +27,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 possibleMoves.add(rightDiagonalMove);
             }
         }
-        ChessPosition leftDiagonalPosition = new ChessPosition(pieceRow + 2,pieceCol ); // pieceCol + 0 moves left
+        ChessPosition leftDiagonalPosition = new ChessPosition(pieceRow + 2, pieceCol); // pieceCol + 0 moves left
         ChessMove leftDiagonalMove = new ChessMove(startPosition, leftDiagonalPosition, null);
         if (pieceAtPosition(board, leftDiagonalPosition)){ //if there is a piece at left diagonal move position
             if (!isSameColor(board, myPosition, leftDiagonalPosition)){ //if the piece is the other team's
@@ -35,7 +36,8 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
         }
         return possibleMoves;
     }
-    public Collection<ChessMove> makePromorionOptions (ChessPosition startPosition, ChessPosition movePosition, Collection<ChessMove> possibleMoves){
+    
+    public Collection<ChessMove> makePromotionOptions (ChessPosition startPosition, ChessPosition movePosition, Collection<ChessMove> possibleMoves){
         ChessMove queenPromotion = new ChessMove(startPosition, movePosition, ChessPiece.PieceType.QUEEN);
         possibleMoves.add(queenPromotion);
         ChessMove bishopPromotion = new ChessMove(startPosition, movePosition, ChessPiece.PieceType.BISHOP);
@@ -49,7 +51,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
 
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1);
+        ChessPosition startPosition = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn() + 1); // + 1 to put it back to base 1, not base 0 like in constructor
         final int pieceRow = myPosition.getRow(); //gets current row. Will not change
         final int pieceCol = myPosition.getColumn();
         ArrayList<ChessMove> possibleMoves = new ArrayList<ChessMove>();
@@ -77,7 +79,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 whiteDiagonalCapture(pieceRow, pieceCol, startPosition, board, myPosition, possibleMoves);
             } else if (pieceRow == 6) {//promotion on row 8 (7 in array)
                 ChessPosition movePosition = new ChessPosition(8,pieceCol + 1);
-                possibleMoves = (ArrayList<ChessMove>) makePromorionOptions(startPosition, movePosition, possibleMoves);
+                possibleMoves = (ArrayList<ChessMove>) makePromotionOptions(startPosition, movePosition, possibleMoves);
                 whiteDiagonalCapture(pieceRow, pieceCol, startPosition, board, myPosition, possibleMoves);
             }
         }
@@ -115,9 +117,9 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                 }
             } else if (pieceRow == 1) {//promotion on row 1 (0 in array)
                 ChessPosition movePosition = new ChessPosition(1,pieceCol + 1);
-                possibleMoves = (ArrayList<ChessMove>) makePromorionOptions(startPosition, movePosition, possibleMoves);
+                possibleMoves = (ArrayList<ChessMove>) makePromotionOptions(startPosition, movePosition, possibleMoves);
                 ChessPosition rightDiagonalPosition = new ChessPosition(pieceRow + 0,pieceCol + 2); // pieceCol + 2 moves right
-                ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null); //add promotion piece
+//                ChessMove rightDiagonalMove = new ChessMove(startPosition, rightDiagonalPosition, null); //add promotion piece
                 if (pieceAtPosition(board, rightDiagonalPosition)){ //if there is a piece at right diagonal move position
                     if (!isSameColor(board, myPosition, rightDiagonalPosition)){ //if the piece is the other team's
                         ChessMove queenPromotionCaptureRight = new ChessMove(startPosition, rightDiagonalPosition, ChessPiece.PieceType.QUEEN);
@@ -131,7 +133,7 @@ public class PawnMovesCalculator implements PieceMovesCalculator{
                     }
                 }
                 ChessPosition leftDiagonalPosition = new ChessPosition(pieceRow + 0, pieceCol + 0); // pieceCol + 0 moves left
-                ChessMove leftDiagonalMove = new ChessMove(startPosition, leftDiagonalPosition, null);
+//                ChessMove leftDiagonalMove = new ChessMove(startPosition, leftDiagonalPosition, null);
                 if (pieceAtPosition(board, leftDiagonalPosition)){ //if there is a piece at left diagonal move position
                     if (!isSameColor(board, myPosition, leftDiagonalPosition)){ //if the piece is the other team's
                         ChessMove queenPromotionCaptureLeft = new ChessMove(startPosition, leftDiagonalPosition, ChessPiece.PieceType.QUEEN);

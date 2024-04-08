@@ -45,6 +45,12 @@ public class Input {
                 break;
             } else if (args.get(0).equals("register") && args.size() == 4) {
                 authData = ServerFacade.register(args.get(1), args.get(2), args.get(3));
+                if (!authData.authToken().equals("error")) {
+                    postLogin(authData);
+                    break;
+                } else {
+                    System.out.println("invalid login credentials");
+                }
             } else if (args.get(0).equals("login") && args.size() == 3) {
                 authData = ServerFacade.login(args.get(1), args.get(2));
 //                System.out.println(authData.authToken());
