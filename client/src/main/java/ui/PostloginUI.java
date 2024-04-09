@@ -26,7 +26,6 @@ public class PostloginUI {
     }
 
 
-
     public static StringBuilder whiteBottom(ChessBoard board, StringBuilder stringBuilder){
         int rowLabel = 8;
         stringBuilder.append(RESET_TEXT_COLOR + SET_BG_COLOR_LIGHT_GREY + "    a  b  c  d  e  f  g  h    ");
@@ -129,14 +128,24 @@ public class PostloginUI {
     }
 
 
-    public static StringBuilder drawBoard(){
-        ChessBoard board = new ChessBoard();
+    public static StringBuilder drawBoard(String color){ //working
+        ChessBoard board = new ChessBoard();                        //todo get chessboard from websocket
         StringBuilder stringBuilder = new StringBuilder();
         board.resetBoard();
-        stringBuilder = whiteBottom(board, stringBuilder);
-        stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
-        stringBuilder = blackBottom(board, stringBuilder);
-        stringBuilder.append(SET_TEXT_COLOR_WHITE);
+        color.toLowerCase();
+        if (color.equals("white")){
+            stringBuilder = whiteBottom(board, stringBuilder);
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
+        } else if (color.equals("black")) {
+            stringBuilder = blackBottom(board, stringBuilder);
+            stringBuilder.append(SET_TEXT_COLOR_WHITE);
+        } else if (color.equals("observer")){
+            stringBuilder = whiteBottom(board, stringBuilder);
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
+        }else{
+            stringBuilder.append("draw board error");
+
+        }
         return stringBuilder;
     }
 

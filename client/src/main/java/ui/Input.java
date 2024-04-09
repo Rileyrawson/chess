@@ -84,9 +84,16 @@ public class Input {
             } else if (args.get(0).equals("list") && args.get(1).equals("games")) {
                 ServerFacade.listGames(authData);
             } else if (args.get(0).equals("join") && args.get(1).equals("game") && args.size() == 4) {
-                ServerFacade.joinGame(args.get(2), args.get(3), authData);
-            } else if (args.get(0).equals("join") && args.get(1).equals("observer") && args.size() == 3) { // TODO: check if this is working?
+                String playerColor = args.get(2);
+                ServerFacade.joinGame(playerColor, args.get(3), authData);
+                //Open a WebSocket connection with the server (using the /connect endpoint) so it can send and receive gameplay messages.
+                gamePlay(authData, playerColor);
+                break;
+            } else if (args.get(0).equals("join") && args.get(1).equals("observer") && args.size() == 3) {
                 ServerFacade.joinObserver(args.get(2), authData);
+                //Open a WebSocket connection with the server (using the /connect endpoint) so it can send and receive gameplay messages.
+                gamePlay(authData, "observer");
+                break;
             } else {
                 System.out.println("Invlaid Input\n");
                 PostloginUI.help();
@@ -94,7 +101,71 @@ public class Input {
         }
     }
 
-    public static void input() throws Exception { //Todo: check for incorrect input (not enough args/too many args)
+    static void gamePlay (AuthData authData, String color){
+        while (true) {
+            ArrayList<String> args = (ArrayList<String>) parseInputPost(authData);
+            for (String x : args) {
+                System.out.println(x);
+            }
+            if (args.get(0).equals("help")) {
+                GameplayUI.help();
+            }
+            else if (args.get(0).equals("redraw chess board")) {
+                PostloginUI.drawBoard(color);
+            }
+            else if (args.get(0).equals("leave")) {         //TODO
+                //**checks color is/not observer
+                //remove user from game in db using http
+                //send notification to the server "user has left"
+                //closes websocket session
+                postLogin(authData);
+            }
+            else if (args.get(0).equals("make move")) {     //TODO
+                //make the move
+                //update board (already handled in lab 1?)
+            }
+            else if (args.get(0).equals("resign")) {        //TODO
+                System.out.println("Are you sure you want to resign? YES/no");
+                if (args.get(0).equals("yes")){
+                    //send a message to the server "user has resigned"
+                    //end the game.
+
+                    //player doesn't leave game
+                    //how to make sure game is ended(no more moves, cannot join, etc.?)
+                } else if (args.get(0).equals("no")) {
+                    System.out.println("Continue playing");
+                    GameplayUI.help();
+                }
+                else {
+                    System.out.println("invalid input");
+                    GameplayUI.help();
+                }
+            }
+            else if (args.get(0).equals("highlight legal moves")) { //TODO
+
+            }
+            else {
+                System.out.println("Invlaid Input\n");
+                GameplayUI.help();
+            }
+        }
+    }
+
+
+    /*  TODO:
+    leave
+        player
+        observer
+    resign
+    make move
+    display legal moves
+    no moves after resign, checkmate, or stalemate
+
+    check notification
+    checkmate notification
+     */
+
+    public static void input() throws Exception {
         preLogin();
     }
 }

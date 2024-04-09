@@ -129,7 +129,6 @@ public class ServerFacade {
     }
 
 
-
     public static String joinGame(String color, String gameID, AuthData authData){  // todo: draw board
         try {
             URI uri = new URI("http://localhost:" + port + "/game");
@@ -154,8 +153,16 @@ public class ServerFacade {
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
 //            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
 
-            StringBuilder sb = PostloginUI.drawBoard();
+            StringBuilder sb = new StringBuilder();
+            sb.append(authData.username());
+            sb.append(" has joined game ");
+            sb.append(gameID);
+            sb.append(" as ");
+            sb.append(bodyColor);
+            sb.append("\n");
+            sb.append(PostloginUI.drawBoard(color));
             System.out.println(sb);
+
         } catch (Exception e){
             System.out.println(e.getMessage());
             return "error";
@@ -183,7 +190,13 @@ public class ServerFacade {
             try (InputStream respBody = http.getInputStream()) {  // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
 //                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
-                StringBuilder sb = PostloginUI.drawBoard();
+
+                StringBuilder sb = new StringBuilder();
+                sb.append(authData.username());
+                sb.append(" has joined game ");
+                sb.append(gameID);
+                sb.append(" as an observer  \n");
+                sb.append(PostloginUI.drawBoard(""));
                 System.out.println(sb);
             }
         } catch (Exception e){
@@ -217,6 +230,15 @@ public class ServerFacade {
         return "success";
     }
 
+    //leave game (remove user from game in db) (message w/player name)
+
+    //resign (forfeit game. can't play anymore but doesn't remove player from game) (message w/player name)
+
+    //Make Move (input (a,b) (x,y))? (update & print board) (probably invalid move error message & success message(move & player name))
 
 
+
+
+    //player in check notification
+    //player in checkmate notification
 }
