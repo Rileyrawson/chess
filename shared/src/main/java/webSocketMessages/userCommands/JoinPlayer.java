@@ -1,5 +1,6 @@
-package webSocketMessages.serverMessages;
+package webSocketMessages.userCommands;
 import chess.ChessGame;
+import webSocketMessages.serverMessages.ServerMessage;
 
 public class JoinPlayer extends ServerMessage {
 

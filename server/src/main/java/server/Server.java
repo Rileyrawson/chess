@@ -34,28 +34,23 @@ public class Server {
         return Spark.port();
     }
 
-    @OnWebSocketMessage
-    public void onMessage(Session session, String msg) throws Exception {
-        UserGameCommand command = readJson(msg, UserGameCommand.class); //do i need to code this?
-
-        var conn = getConnection(command.getAuthString(), session);  //do i need to code this?
-        if (conn != null) {
-            switch (command.getCommandType()) {
-                case JOIN_PLAYER -> join(conn, msg);  //functions that connect to web socket and do the logic?
-                case JOIN_OBSERVER -> observe(conn, msg);
-                case MAKE_MOVE -> move(conn, msg);
-                case LEAVE -> leave(conn, msg);
-                case RESIGN -> resign(conn, msg);
-            }
-        } else {
-            Connection.sendError(session.getRemote(), "unknown user");  //do i need to code this?
-        }
-    }
-
-
-
-
-
+//    @OnWebSocketMessage
+//    public void onMessage(Session session, String msg) throws Exception {
+//        UserGameCommand command = readJson(msg, UserGameCommand.class); //do i need to code this?
+//
+//        var conn = getConnection(command.getAuthString(), session);  //do i need to code this?
+//        if (conn != null) {
+//            switch (command.getCommandType()) {
+//                case JOIN_PLAYER -> join(conn, msg);  //functions that connect to web socket and do the logic?
+//                case JOIN_OBSERVER -> observe(conn, msg);
+//                case MAKE_MOVE -> move(conn, msg);
+//                case LEAVE -> leave(conn, msg);
+//                case RESIGN -> resign(conn, msg);
+//            }
+//        } else {
+//            Connection.sendError(session.getRemote(), "unknown user");  //do i need to code this?
+//        }
+//    }
 
 
     public void stop() {

@@ -1,8 +1,9 @@
-package webSocketMessages.userCommands;
+package webSocketMessages.serverMessages;
 
 import chess.ChessGame;
+import webSocketMessages.userCommands.UserGameCommand;
 
-public class LoadGame extends UserGameCommand{
+public class LoadGame extends UserGameCommand {
     public ChessGame game;
     public LoadGame(String authToken) {
         super(authToken);

@@ -1,8 +1,9 @@
-package webSocketMessages.serverMessages;
+package webSocketMessages.userCommands;
 
 import chess.ChessMove;
+import webSocketMessages.serverMessages.ServerMessage;
 
-public class MakeMove extends ServerMessage{
+public class MakeMove extends ServerMessage {
     public int gameID;
     public ChessMove move;
     public MakeMove(ServerMessageType type) {

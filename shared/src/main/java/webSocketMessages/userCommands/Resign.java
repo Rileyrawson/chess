@@ -1,10 +1,10 @@
-package webSocketMessages.serverMessages;
+package webSocketMessages.userCommands;
 
-public class JoinObserver extends ServerMessage {
+import webSocketMessages.serverMessages.ServerMessage;
 
+public class Resign extends ServerMessage {
     public int gameID;
-
-    public JoinObserver(ServerMessageType type) {
+    public Resign(ServerMessageType type) {
         super(type);
     }
 

@@ -1,4 +1,6 @@
-package webSocketMessages.userCommands;
+package webSocketMessages.serverMessages;
+
+import webSocketMessages.userCommands.UserGameCommand;
 
 public class Notification extends UserGameCommand {
     public String message;

@@ -1,6 +1,8 @@
-package webSocketMessages.serverMessages;
+package webSocketMessages.userCommands;
 
-public class Leave extends ServerMessage{
+import webSocketMessages.serverMessages.ServerMessage;
+
+public class Leave extends ServerMessage {
     public int gameID;
 
     public Leave(ServerMessageType type) {

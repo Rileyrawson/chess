@@ -1,6 +1,8 @@
-package webSocketMessages.userCommands;
+package webSocketMessages.serverMessages;
 
-public class Error extends UserGameCommand{
+import webSocketMessages.userCommands.UserGameCommand;
+
+public class Error extends UserGameCommand {
     public String errorMessage;
     public Error(String authToken) {
         super(authToken);
