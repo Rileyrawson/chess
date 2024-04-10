@@ -17,7 +17,7 @@ public class GameplayUI {
         System.out.println("Help: What commands are available");
         System.out.println("Redraw Chess Board");
         System.out.println("Leave: Remove yourself from the game");
-        System.out.println("Make Move: <>");
+        System.out.println("Make Move: starting coordinates \"(a,b)\" & new coordinated \"(x,y)\"  ");
         System.out.println("Resign: Forfeit game");
         System.out.println("Highlight Legal Moves: Display possible moves");
     }

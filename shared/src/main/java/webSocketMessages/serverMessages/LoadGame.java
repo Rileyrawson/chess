@@ -3,10 +3,12 @@ package webSocketMessages.serverMessages;
 import chess.ChessGame;
 import webSocketMessages.userCommands.UserGameCommand;
 
-public class LoadGame extends UserGameCommand {
+public class LoadGame extends ServerMessage {
     public ChessGame game;
-    public LoadGame(String authToken) {
-        super(authToken);
+
+    public LoadGame(ChessGame game) {
+        super(ServerMessageType.LOAD_GAME);
+        this.game = game;
     }
 
     public ChessGame getGame() {

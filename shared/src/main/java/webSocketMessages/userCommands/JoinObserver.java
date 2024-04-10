@@ -2,12 +2,12 @@ package webSocketMessages.userCommands;
 
 import webSocketMessages.serverMessages.ServerMessage;
 
-public class JoinObserver extends ServerMessage {
+public class JoinObserver extends UserGameCommand {
 
     public int gameID;
 
-    public JoinObserver(ServerMessageType type) {
-        super(type);
+    public JoinObserver(String authToken) {
+        super(authToken);
     }
 
     public int getGameID() {

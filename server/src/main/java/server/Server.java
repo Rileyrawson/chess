@@ -7,6 +7,7 @@ import org.eclipse.jetty.websocket.api.*;
 import Singleton.Singleton;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import spark.*;
+import webSocket.WebSocketHandler;
 import webSocketMessages.userCommands.UserGameCommand;
 
 @WebSocket
@@ -27,7 +28,7 @@ public class Server {
         Spark.put("/game", (req, resp) -> singleton.getJoinGameHandlerInstance().handle(req, resp));  //join game
         Spark.delete("/db",(req, resp) -> singleton.getClearDBHandlerInstance().handle(req, resp)); //clear db
 
-        Spark.webSocket("/connect", Server.class);
+        Spark.webSocket("/connect", WebSocketHandler.class);
         Spark.get("/echo/:msg", (req, res) -> "HTTP response: " + req.params(":msg"));
 
         Spark.awaitInitialization();

@@ -2,11 +2,11 @@ package webSocketMessages.userCommands;
 
 import webSocketMessages.serverMessages.ServerMessage;
 
-public class Leave extends ServerMessage {
+public class Leave extends UserGameCommand {
     public int gameID;
 
-    public Leave(ServerMessageType type) {
-        super(type);
+    public Leave(String authToken) {
+        super(authToken);
     }
 
     public int getGameID() {

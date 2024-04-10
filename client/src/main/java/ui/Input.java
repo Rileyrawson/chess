@@ -105,7 +105,7 @@ public class Input {
         while (true) {
             ArrayList<String> args = (ArrayList<String>) parseInputPost(authData);
             for (String x : args) {
-                System.out.println(x);
+//                System.out.println(x);
             }
             if (args.get(0).equals("help")) {
                 GameplayUI.help();
