@@ -128,8 +128,8 @@ public class PostloginUI {
     }
 
 
-    public static StringBuilder drawBoard(String color){ //working
-        ChessBoard board = new ChessBoard();                        //todo get chessboard from websocket
+    public static StringBuilder drawBoard(String color, ChessBoard board){ //working
+//        ChessBoard board = new ChessBoard();                        //todo get chessboard from websocket
         StringBuilder stringBuilder = new StringBuilder();
         board.resetBoard();
         color.toLowerCase();

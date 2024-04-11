@@ -153,15 +153,15 @@ public class ServerFacade {
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
 //            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
 
-            StringBuilder sb = new StringBuilder();
-            sb.append(authData.username());
-            sb.append(" has joined game ");
-            sb.append(gameID);
-            sb.append(" as ");
-            sb.append(bodyColor);
-            sb.append("\n");
-            sb.append(PostloginUI.drawBoard(color));
-            System.out.println(sb);
+//            StringBuilder sb = new StringBuilder();
+//            sb.append(authData.username());
+//            sb.append(" has joined game ");
+//            sb.append(gameID);
+//            sb.append(" as ");
+//            sb.append(bodyColor);
+//            sb.append("\n");
+//            sb.append(PostloginUI.drawBoard(color));
+//            System.out.println(sb);
 
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -191,13 +191,13 @@ public class ServerFacade {
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
 //                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
 
-                StringBuilder sb = new StringBuilder();
-                sb.append(authData.username());
-                sb.append(" has joined game ");
-                sb.append(gameID);
-                sb.append(" as an observer  \n");
-                sb.append(PostloginUI.drawBoard(""));
-                System.out.println(sb);
+//                StringBuilder sb = new StringBuilder();
+//                sb.append(authData.username());
+//                sb.append(" has joined game ");
+//                sb.append(gameID);
+//                sb.append(" as an observer  \n");
+//                sb.append(PostloginUI.drawBoard(""));
+//                System.out.println(sb);
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -229,6 +229,14 @@ public class ServerFacade {
         }
         return "success";
     }
+
+
+
+
+
+
+
+
 
     //leave game (remove user from game in db) (message w/player name)
 

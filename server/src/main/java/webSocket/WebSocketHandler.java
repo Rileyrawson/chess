@@ -39,7 +39,7 @@ public class WebSocketHandler {
     }
 
     private void joinPlayer(JoinPlayer command, Session session) throws IOException {
-        connections.add(command.getAuthString(), session);
+        connections.add(command.getGameID(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             String message;
@@ -59,7 +59,7 @@ public class WebSocketHandler {
         }
     }
     private void joinObserver(JoinObserver command, Session session) throws IOException {
-        connections.add(command.getAuthString(), session);
+        connections.add(command.getGameID(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
@@ -73,7 +73,7 @@ public class WebSocketHandler {
         }
     }
     private void makeMove(MakeMove command, Session session) throws IOException {
-        connections.add(command.getAuthString(), session);
+        connections.add(command.getGameID(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
@@ -88,7 +88,7 @@ public class WebSocketHandler {
     }
 
     private void leave(Leave command, Session session) throws IOException {
-        connections.add(command.getAuthString(), session);
+        connections.add(command.getGameID(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
@@ -102,7 +102,7 @@ public class WebSocketHandler {
         }
     }
     private void resign(Resign command, Session session) throws IOException {
-        connections.add(command.getAuthString(), session);
+        connections.add(command.getGameID(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());

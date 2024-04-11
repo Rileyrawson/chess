@@ -1,6 +1,7 @@
 package ui;
 
 import facade.ServerFacade;
+import facade.WebSocketFacade;
 import model.AuthData;
 
 import java.util.ArrayList;
@@ -85,9 +86,10 @@ public class Input {
                 ServerFacade.listGames(authData);
             } else if (args.get(0).equals("join") && args.get(1).equals("game") && args.size() == 4) {
                 String playerColor = args.get(2);
-                ServerFacade.joinGame(playerColor, args.get(3), authData);
+                String gameID = args.get(3);
+                ServerFacade.joinGame(playerColor, gameID, authData);
                 //Open a WebSocket connection with the server (using the /connect endpoint) so it can send and receive gameplay messages.
-                gamePlay(authData, playerColor);
+                gamePlay(authData, playerColor, gameID);
                 break;
             } else if (args.get(0).equals("join") && args.get(1).equals("observer") && args.size() == 3) {
                 ServerFacade.joinObserver(args.get(2), authData);
@@ -101,23 +103,29 @@ public class Input {
         }
     }
 
-    static void gamePlay (AuthData authData, String color){
+    static void gamePlay (AuthData authData, String color, String gameID){
+        WebSocketFacade webSocketFacade = new WebSocketFacade();
+        webSocketFacade.setColor(color);
+
         while (true) {
             ArrayList<String> args = (ArrayList<String>) parseInputPost(authData);
-            for (String x : args) {
-//                System.out.println(x);
-            }
             if (args.get(0).equals("help")) {
                 GameplayUI.help();
             }
             else if (args.get(0).equals("redraw chess board")) {
-                PostloginUI.drawBoard(color);
+                webSocketFacade.redrawBoard();
             }
             else if (args.get(0).equals("leave")) {         //TODO
                 //**checks color is/not observer
                 //remove user from game in db using http
                 //send notification to the server "user has left"
                 //closes websocket session
+                if (color.equals("black") || color.equals("white")) {
+                    ServerFacade.joinGame(null, gameID, authData);
+                }
+
+
+
                 postLogin(authData);
             }
             else if (args.get(0).equals("make move")) {     //TODO
@@ -145,7 +153,7 @@ public class Input {
 
             }
             else {
-                System.out.println("Invlaid Input\n");
+                System.out.println("Error: Invlaid Input\n");
                 GameplayUI.help();
             }
         }
