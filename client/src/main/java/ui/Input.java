@@ -116,11 +116,11 @@ public class Input {
                 webSocketFacade.leave(authData.authToken(), gameID);
                 postLogin(authData);
             }
-            else if (args.get(0).equals("make move")) {     //TODO
+            else if (args.get(0).equals("make move")) {     //TO DO
                 //make the move
                 //update board (already handled in lab 1?)
             }
-            else if (args.get(0).equals("resign")) {        //TODO
+            else if (args.get(0).equals("resign")) {        //TO DO
                 resign = true;
                 System.out.println("Are you sure you want to resign? YES/no");
             }
@@ -133,7 +133,7 @@ public class Input {
                 System.out.println("Continue playing");
                 GameplayUI.help();
             }
-            else if (args.get(0).equals("highlight legal moves")) { //TODO
+            else if (args.get(0).equals("highlight legal moves")) { //TO do
             }
             else {
                 System.out.println("Error: Invlaid Input\n");
@@ -160,7 +160,7 @@ public class Input {
                 webSocketFacade.leave(authData.authToken(), gameID);
                 postLogin(authData);
             }
-            else if (args.get(0).equals("highlight legal moves")) { //TODO
+            else if (args.get(0).equals("highlight legal moves")) { // to do
             }
             else {
                 System.out.println("Error: Invlaid Input\n");
