@@ -3,6 +3,8 @@ package ui;
 import facade.ServerFacade;
 import facade.WebSocketFacade;
 import model.AuthData;
+import webSocketMessages.userCommands.Leave;
+import webSocketMessages.userCommands.Resign;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,9 +94,10 @@ public class Input {
                 gamePlay(authData, playerColor, gameID);
                 break;
             } else if (args.get(0).equals("join") && args.get(1).equals("observer") && args.size() == 3) {
-                ServerFacade.joinObserver(args.get(2), authData);
+                String gameID = args.get(2);
+                ServerFacade.joinObserver(gameID, authData);
                 //Open a WebSocket connection with the server (using the /connect endpoint) so it can send and receive gameplay messages.
-                gamePlay(authData, "observer");
+                gamePlay(authData, "observer", gameID);
                 break;
             } else {
                 System.out.println("Invlaid Input\n");
@@ -115,17 +118,12 @@ public class Input {
             else if (args.get(0).equals("redraw chess board")) {
                 webSocketFacade.redrawBoard();
             }
-            else if (args.get(0).equals("leave")) {         //TODO
-                //**checks color is/not observer
-                //remove user from game in db using http
-                //send notification to the server "user has left"
-                //closes websocket session
-                if (color.equals("black") || color.equals("white")) {
-                    ServerFacade.joinGame(null, gameID, authData);
+            else if (args.get(0).equals("leave")) {
+                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
+                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
                 }
-
-
-
+                Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
+                webSocketFacade.close(); //closes websocket session
                 postLogin(authData);
             }
             else if (args.get(0).equals("make move")) {     //TODO
@@ -135,11 +133,11 @@ public class Input {
             else if (args.get(0).equals("resign")) {        //TODO
                 System.out.println("Are you sure you want to resign? YES/no");
                 if (args.get(0).equals("yes")){
-                    //send a message to the server "user has resigned"
+                    Resign resign = new Resign(authData.authToken()); //send a message to the server "user has resigned"
                     //end the game.
-
                     //player doesn't leave game
                     //how to make sure game is ended(no more moves, cannot join, etc.?)
+                    endGameLoop(authData, color, gameID, webSocketFacade);
                 } else if (args.get(0).equals("no")) {
                     System.out.println("Continue playing");
                     GameplayUI.help();
@@ -157,6 +155,32 @@ public class Input {
                 GameplayUI.help();
             }
         }
+    }
+
+
+    static void endGameLoop (AuthData authData, String color, String gameID, WebSocketFacade webSocketFacade){
+        while (true) {
+            ArrayList<String> args = (ArrayList<String>) parseInputPost(authData);
+            if (args.get(0).equals("help")) {
+                EndGameUI.help();
+            }
+            else if (args.get(0).equals("redraw chess board")) {
+                webSocketFacade.redrawBoard();
+            }
+            else if (args.get(0).equals("leave")) {
+                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
+                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
+                }
+                Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
+                webSocketFacade.close(); //closes websocket session
+                postLogin(authData);
+            }
+            else {
+                System.out.println("Error: Invlaid Input\n");
+                EndGameUI.help();
+            }
+        }
+
     }
 
 

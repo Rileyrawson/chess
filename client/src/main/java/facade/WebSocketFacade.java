@@ -74,6 +74,10 @@ public class WebSocketFacade extends Endpoint{
     public void redrawBoard(){
         PostloginUI.drawBoard(color, board);
     }
+
+    public void resign(){
+
+    }
 }
 
 

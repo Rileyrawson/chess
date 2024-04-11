@@ -1,6 +1,5 @@
 package webSocket;
 import org.eclipse.jetty.websocket.api.Session;
-import webSocketMessages.*;
 import webSocketMessages.serverMessages.ServerMessage;
 
 import java.io.IOException;

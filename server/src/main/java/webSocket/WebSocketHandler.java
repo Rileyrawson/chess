@@ -9,20 +9,13 @@ import model.GameData;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import webSocketMessages.*;
-import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.*;
 import webSocketMessages.serverMessages.*;
-
 import java.io.IOException;
-import java.util.Timer;
 
-import static webSocketMessages.userCommands.UserGameCommand.CommandType.*;
-
+@WebSocket
 public class WebSocketHandler {
-
 
     private final ConnectionManager connections = new ConnectionManager();
 
