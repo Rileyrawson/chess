@@ -32,7 +32,7 @@ public class WebSocketHandler {
     }
 
     private void joinPlayer(JoinPlayer command, Session session) throws IOException {
-        connections.add(command.getGameID(), session);
+        connections.add(command.getGameID(), command.getAuthString(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             String message;
@@ -44,7 +44,7 @@ public class WebSocketHandler {
                 message = String.format("USER joined game. There was an error retrieving username");
             }
             var loadGame = new LoadGame(gameData.game());
-            connections.broadcast(command.getAuthString(), loadGame);
+            sendMessage(loadGame, session);
             var notification = new Notification(message);
             connections.broadcast(command.getAuthString(), notification);
         } catch (DataAccessException e) {
@@ -52,7 +52,7 @@ public class WebSocketHandler {
         }
     }
     private void joinObserver(JoinObserver command, Session session) throws IOException {
-        connections.add(command.getGameID(), session);
+        connections.add(command.getGameID(), command.getAuthString(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
@@ -66,7 +66,7 @@ public class WebSocketHandler {
         }
     }
     private void makeMove(MakeMove command, Session session) throws IOException {
-        connections.add(command.getGameID(), session);
+        connections.add(command.getGameID(), command.getAuthString(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
@@ -81,7 +81,7 @@ public class WebSocketHandler {
     }
 
     private void leave(Leave command, Session session) throws IOException {
-        connections.add(command.getGameID(), session);
+        connections.add(command.getGameID(), command.getAuthString(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
@@ -95,7 +95,7 @@ public class WebSocketHandler {
         }
     }
     private void resign(Resign command, Session session) throws IOException {
-        connections.add(command.getGameID(), session);
+        connections.add(command.getGameID(), command.getAuthString(), session);
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
@@ -107,5 +107,9 @@ public class WebSocketHandler {
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void sendMessage(ServerMessage msg, Session session) throws IOException {
+        session.getRemote().sendString(new Gson().toJson(msg));
     }
 }

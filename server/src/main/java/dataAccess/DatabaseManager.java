@@ -67,7 +67,7 @@ public class DatabaseManager {
                     " whiteUsername VARCHAR(255), " + //foreign key
                     " blackUsername VARCHAR(255), " + // foreign key
                     " gameName VARCHAR(255) NOT NULL, " +
-                    " chessGame VARCHAR(255)," +
+                    " chessGame TEXT," +
 //                    " FOREIGN KEY (whiteUsername) REFERENCES USER(username), " +
 //                    " FOREIGN KEY (blackUsername) REFERENCES USER(username)," +
                     "PRIMARY KEY (gameID))");

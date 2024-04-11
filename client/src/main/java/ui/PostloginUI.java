@@ -129,9 +129,11 @@ public class PostloginUI {
 
 
     public static StringBuilder drawBoard(String color, ChessBoard board){ //working
-//        ChessBoard board = new ChessBoard();                        //todo get chessboard from websocket
+//        ChessBoard board = new ChessBoard();
+//        board.resetBoard();
         StringBuilder stringBuilder = new StringBuilder();
-        board.resetBoard();
+//        System.out.println(board);
+//        System.out.println(color);
         color.toLowerCase();
         if (color.equals("white")){
             stringBuilder = whiteBottom(board, stringBuilder);
@@ -144,8 +146,8 @@ public class PostloginUI {
             stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
         }else{
             stringBuilder.append("draw board error");
-
         }
+        stringBuilder.append(SET_TEXT_COLOR_WHITE);
         return stringBuilder;
     }
 

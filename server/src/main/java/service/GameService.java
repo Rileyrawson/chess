@@ -1,5 +1,6 @@
 package service;
 
+import chess.ChessBoard;
 import chess.ChessGame;
 import dataAccess.AuthDAO;
 import dataAccess.DataAccessException;
@@ -36,13 +37,16 @@ public class GameService {
         String blackUsername = null;
         String gameName = request.gameName();
         ChessGame game = new ChessGame();
+        ChessBoard board = new ChessBoard();
+        board.resetBoard();
+        game.setBoard(board);
 
         if (gameName == null){
             throw new DataAccessException("Error: bad request"); //try to create game if not 400(request/client error)
         }
 
         GameData data = new GameData(gameId, whiteUsername, blackUsername, gameName, game);
-                // try to creaeete game if not 400(request/client error) or 500(server error)
+                // try to create game if not 400(request/client error) or 500(server error)
 
         gameDAO.createGame(data);
         data = gameDAO.getGameByName(data.gameName());

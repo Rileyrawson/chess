@@ -109,21 +109,31 @@ public class Input {
     static void gamePlay (AuthData authData, String color, String gameID){
         WebSocketFacade webSocketFacade = new WebSocketFacade();
         webSocketFacade.setColor(color);
+        if (color.equals("black") || color.equals("white")){
+            webSocketFacade.joinPlayer(authData.authToken(), gameID, color);
+//            webSocketFacade.redrawBoard();
+        } else if (color.equals("observer")){
+            webSocketFacade.joinObserver(authData.authToken(), gameID);
+        } else {
+            System.out.println("websocket join error");
+        }
+
+        webSocketFacade.redrawBoard();
 
         while (true) {
             ArrayList<String> args = (ArrayList<String>) parseInputPost(authData);
             if (args.get(0).equals("help")) {
                 GameplayUI.help();
             }
-            else if (args.get(0).equals("redraw chess board")) {
+            else if (args.get(0).equals("redraw") && args.get(1).equals("chess") && args.get(2).equals("board")) {
                 webSocketFacade.redrawBoard();
             }
             else if (args.get(0).equals("leave")) {
-                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
-                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
-                }
                 Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
                 webSocketFacade.close(); //closes websocket session
+//                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
+//                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
+//                }
                 postLogin(authData);
             }
             else if (args.get(0).equals("make move")) {     //TODO

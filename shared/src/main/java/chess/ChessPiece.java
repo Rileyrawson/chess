@@ -17,22 +17,12 @@ public class ChessPiece {
     private ChessGame.TeamColor pieceColor;
     private ChessPiece.PieceType type;
     private boolean firstMove = true; // check if piece has moved yet. For pawn (rook and king later)
-    private PieceMovesCalculator movesCalculator;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) { // constructor - creating ChessPiece object
         this.pieceColor = pieceColor;
         this.type = type;
 
-        // decides what type of pieceMovesCalculator to use and sets local variable movesCalculator
-        switch (type){
-            case KING -> this.movesCalculator = new KingMovesCalculator();
-            case QUEEN -> this.movesCalculator = new QueenMovesCalculator();
-            case BISHOP -> this.movesCalculator = new BishopMovesCalculator();
-            case KNIGHT -> this.movesCalculator = new KnightMovesCalculator();
-            case ROOK -> this.movesCalculator = new RookMovesCalculator();
-            case PAWN -> this.movesCalculator = new PawnMovesCalculator();
-            default -> throw new RuntimeException("type error");
-        }
+
     }
 
     @Override
@@ -89,6 +79,17 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
+        // decides what type of pieceMovesCalculator to use and sets local variable movesCalculator
+        PieceMovesCalculator movesCalculator = null;
+        switch (type){
+            case KING -> movesCalculator = new KingMovesCalculator();
+            case QUEEN -> movesCalculator = new QueenMovesCalculator();
+            case BISHOP -> movesCalculator = new BishopMovesCalculator();
+            case KNIGHT -> movesCalculator = new KnightMovesCalculator();
+            case ROOK -> movesCalculator = new RookMovesCalculator();
+            case PAWN -> movesCalculator = new PawnMovesCalculator();
+            default -> throw new RuntimeException("type error");
+        }
         return movesCalculator.pieceMoves(board, myPosition);
     }
 

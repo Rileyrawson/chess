@@ -65,6 +65,7 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
+
         ChessPiece currPiece = board.getPiece(startPosition);
 
         if (currPiece == null){ // if no piece, return null
@@ -104,9 +105,8 @@ public class ChessGame {
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
         ArrayList<ChessMove> validMoves = (ArrayList<ChessMove>) validMoves(move.getStartPosition());
-
-        System.out.println(validMoves);
-        System.out.println(board);
+//        System.out.println(validMoves);
+//        System.out.println(board);
         if (validMoves.contains(move)){
             if (team != board.getPiece(move.getStartPosition()).getTeamColor()){
                 throw new InvalidMoveException("Invalid Move.");
