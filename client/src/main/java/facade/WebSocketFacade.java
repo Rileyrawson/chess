@@ -62,7 +62,8 @@ public class WebSocketFacade extends Endpoint {
         try {
             this.session.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+//            e.printStackTrace();
         }
     }
 
@@ -110,8 +111,14 @@ public class WebSocketFacade extends Endpoint {
         System.out.println(PostloginUI.drawBoard(color, board));
     }
 
-    public void resign(){
-
+    public void resign(String authToken, String gameID){
+        Resign resignCommand = new Resign(authToken);
+        resignCommand.setGameID(Integer.parseInt(gameID));
+        try {
+            this.session.getBasicRemote().sendText(new Gson().toJson(resignCommand));
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
     }
 
     public void joinPlayer(String authToken, String gameID, String color) {
@@ -122,7 +129,6 @@ public class WebSocketFacade extends Endpoint {
         } else {
             joinCommand.setPlayerColor(ChessGame.TeamColor.BLACK);
         }
-
         try {
             this.session.getBasicRemote().sendText(new Gson().toJson(joinCommand));
         } catch (IOException ex) {
@@ -140,6 +146,24 @@ public class WebSocketFacade extends Endpoint {
             System.out.println("Error: " + ex.getMessage());
         }
     }
+
+    public void leave(String authToken, String gameID) {
+        Leave leaveCommand = new Leave(authToken);
+        leaveCommand.setGameID(Integer.parseInt(gameID));
+//        if (color.equals("white")) {
+//            leaveCommand.setPlayerColor(ChessGame.TeamColor.WHITE);
+//        } else {
+//            leaveCommand.setPlayerColor(ChessGame.TeamColor.BLACK);
+//        }
+
+        try {
+            this.session.getBasicRemote().sendText(new Gson().toJson(leaveCommand));
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+
+    }
+
 }
 
 

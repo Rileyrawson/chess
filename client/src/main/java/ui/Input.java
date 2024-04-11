@@ -129,8 +129,9 @@ public class Input {
                 webSocketFacade.redrawBoard();
             }
             else if (args.get(0).equals("leave")) {
-                Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
-                webSocketFacade.close(); //closes websocket session
+//                Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
+                webSocketFacade.leave(authData.authToken(), gameID);
+//                webSocketFacade.close(); //closes websocket session
 //                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
 //                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
 //                }
@@ -142,11 +143,13 @@ public class Input {
             }
             else if (args.get(0).equals("resign")) {        //TODO
                 System.out.println("Are you sure you want to resign? YES/no");
+
                 if (args.get(0).equals("yes")){
-                    Resign resign = new Resign(authData.authToken()); //send a message to the server "user has resigned"
+//                    Resign resign = new Resign(authData.authToken()); //send a message to the server "user has resigned"
                     //end the game.
                     //player doesn't leave game
                     //how to make sure game is ended(no more moves, cannot join, etc.?)
+                    webSocketFacade.resign(authData.authToken(), gameID);
                     endGameLoop(authData, color, gameID, webSocketFacade);
                 } else if (args.get(0).equals("no")) {
                     System.out.println("Continue playing");
@@ -178,11 +181,12 @@ public class Input {
                 webSocketFacade.redrawBoard();
             }
             else if (args.get(0).equals("leave")) {
-                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
-                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
-                }
-                Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
-                webSocketFacade.close(); //closes websocket session
+//                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
+//                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
+//                }
+//                Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
+//                webSocketFacade.close(); //closes websocket session
+                webSocketFacade.leave(authData.authToken(), gameID);
                 postLogin(authData);
             }
             else {

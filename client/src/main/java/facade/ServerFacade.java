@@ -139,12 +139,8 @@ public class ServerFacade {
             http.setRequestProperty("Authorization", authData.authToken());
             http.addRequestProperty("Content-Type", "application/json");
 
-            String bodyColor = null;
-            if (color != null){
-                bodyColor = color.toUpperCase();
-            }
+            String bodyColor = color.toUpperCase();
             var body = Map.of("playerColor", bodyColor, "gameID", gameID, "username", authData.username());
-
 
             var outputStream = http.getOutputStream();
             var jsonBody = new Gson().toJson(body);
@@ -154,8 +150,8 @@ public class ServerFacade {
 
             InputStream respBody = http.getInputStream();     // Output the response body
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-
 //            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
+
 //            StringBuilder sb = new StringBuilder();
 //            sb.append(authData.username());
 //            sb.append(" has joined game ");
@@ -234,37 +230,7 @@ public class ServerFacade {
     }
 
 
-    public static String leave(String color, String gameID, AuthData authData){  // todo: draw board
-        try {
-            URI uri = new URI("http://localhost:" + port + "/game");
-            HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
-            http.setDoOutput(true);
-            http.setRequestMethod("PUT");
 
-            http.setRequestProperty("Authorization", authData.authToken());
-            http.addRequestProperty("Content-Type", "application/json");
-
-            String bodyColor = null;
-            if (color != null){
-                bodyColor = color.toUpperCase();
-            }
-            var body = Map.of("playerColor", bodyColor, "gameID", gameID, "username", authData.username());
-
-            var outputStream = http.getOutputStream();
-            var jsonBody = new Gson().toJson(body);
-            outputStream.write(jsonBody.getBytes());
-
-            http.connect();   // Make the request
-
-            InputStream respBody = http.getInputStream();     // Output the response body
-            InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-            return "error";
-        }
-        return "success";
-    }
 
 
 

@@ -37,11 +37,11 @@ public class WebSocketHandler {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             String message;
             if (command.getPlayerColor() == ChessGame.TeamColor.WHITE){
-                message = String.format("%s has joined the game as WHITE", gameData.whiteUsername());
+                message = String.format("\n%s has joined the game as WHITE", gameData.whiteUsername());
             } else if (command.getPlayerColor() == ChessGame.TeamColor.BLACK){
-                message = String.format("%s has joined the game as BLACK", gameData.blackUsername());
+                message = String.format("\n%s has joined the game as BLACK", gameData.blackUsername());
             } else {
-                message = String.format("USER joined game. There was an error retrieving username");
+                message = String.format("\nUSER joined game. There was an error retrieving username");
             }
             var loadGame = new LoadGame(gameData.game());
             sendMessage(loadGame, session);
@@ -65,6 +65,41 @@ public class WebSocketHandler {
             throw new RuntimeException(e);
         }
     }
+    private void leave(Leave command, Session session) throws IOException {
+        connections.add(command.getGameID(), command.getAuthString(), session);
+        try {
+            GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
+            AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
+            var message = String.format("\n%s has left", authData.username());
+//            System.out.println(message); //debugging to make sure it is populating correctly
+
+            var loadGame = new LoadGame(gameData.game());
+            sendMessage(loadGame, session);
+//            connections.broadcast(command.getAuthString(), loadGame);
+            var notification = new Notification(message);
+            connections.broadcast(command.getAuthString(), notification);
+
+        } catch (DataAccessException e) {
+            System.out.println(e.getMessage());
+//            throw new RuntimeException(e);
+        }
+    }
+
+    private void resign(Resign command, Session session) throws IOException {
+        connections.add(command.getGameID(), command.getAuthString(), session);
+        try {
+            GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
+            AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
+            var message = String.format("%s has resigned", authData.username());
+            var loadGame = new LoadGame(gameData.game());
+            sendMessage(loadGame, session);
+//            connections.broadcast(command.getAuthString(), loadGame);
+            var notification = new Notification(message);
+            connections.broadcast(command.getAuthString(), notification);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void makeMove(MakeMove command, Session session) throws IOException {
         connections.add(command.getGameID(), command.getAuthString(), session);
         try {
@@ -80,34 +115,6 @@ public class WebSocketHandler {
         }
     }
 
-    private void leave(Leave command, Session session) throws IOException {
-        connections.add(command.getGameID(), command.getAuthString(), session);
-        try {
-            GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
-            var loadGame = new LoadGame(gameData.game());
-            AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
-            var message = String.format("%s has left", authData.username());
-            connections.broadcast(command.getAuthString(), loadGame);
-            var notification = new Notification(message);
-            connections.broadcast(command.getAuthString(), notification);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    private void resign(Resign command, Session session) throws IOException {
-        connections.add(command.getGameID(), command.getAuthString(), session);
-        try {
-            GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
-            var loadGame = new LoadGame(gameData.game());
-            AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
-            var message = String.format("%s has resigned", authData.username());
-            connections.broadcast(command.getAuthString(), loadGame);
-            var notification = new Notification(message);
-            connections.broadcast(command.getAuthString(), notification);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void sendMessage(ServerMessage msg, Session session) throws IOException {
         session.getRemote().sendString(new Gson().toJson(msg));
