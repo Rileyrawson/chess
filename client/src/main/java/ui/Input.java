@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 public class Input {
 
+    private static boolean resign = false;
 
     public static List<String> parseInputPre(){
         Scanner scanner = new Scanner(System.in);
@@ -142,24 +143,19 @@ public class Input {
                 //update board (already handled in lab 1?)
             }
             else if (args.get(0).equals("resign")) {        //TODO
+                resign = true;
                 System.out.println("Are you sure you want to resign? YES/no");
-
-                if (args.get(0).equals("yes")){
-//                    Resign resign = new Resign(authData.authToken()); //send a message to the server "user has resigned"
-                    //end the game.
-                    //player doesn't leave game
-                    //how to make sure game is ended(no more moves, cannot join, etc.?)
-                    webSocketFacade.resign(authData.authToken(), gameID);
-                    endGameLoop(authData, color, gameID, webSocketFacade);
-                } else if (args.get(0).equals("no")) {
-                    System.out.println("Continue playing");
-                    GameplayUI.help();
-                }
-                else {
-                    System.out.println("invalid input");
-                    GameplayUI.help();
-                }
             }
+            else if (resign == true && args.get(0).equals("yes")){
+//                Resign resign = new Resign(authData.authToken()); //send a message to the server "user has resigned"
+                webSocketFacade.resign(authData.authToken(), gameID);
+                endGameLoop(authData, color, gameID, webSocketFacade);
+            } else if (resign == true && args.get(0).equals("no")) {
+                resign = false;
+                System.out.println("Continue playing");
+                GameplayUI.help();
+            }
+
             else if (args.get(0).equals("highlight legal moves")) { //TODO
 
             }
