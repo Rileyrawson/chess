@@ -3,8 +3,6 @@ package ui;
 import facade.ServerFacade;
 import facade.WebSocketFacade;
 import model.AuthData;
-import webSocketMessages.userCommands.Leave;
-import webSocketMessages.userCommands.Resign;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,9 +36,6 @@ public class Input {
     static void preLogin (){
         AuthData authData = new AuthData("uninitialized", "uninitialized");
         while (true) {
-//            for (String x : args) {
-////                System.out.println(x);
-//            }
             ArrayList<String> args = (ArrayList<String>) parseInputPre();
             if (args.get(0).equals("help")) {
                 PreloginUI.help();
@@ -57,7 +52,6 @@ public class Input {
                 }
             } else if (args.get(0).equals("login") && args.size() == 3) {
                 authData = ServerFacade.login(args.get(1), args.get(2));
-//                System.out.println(authData.authToken());
                 if (!authData.authToken().equals("error")) {
                     postLogin(authData);
                     break;
@@ -74,9 +68,6 @@ public class Input {
     static void postLogin (AuthData authData){
         while (true){
             ArrayList<String> args = (ArrayList<String>) parseInputPost(authData);
-            for(String x: args){
-//                System.out.println(x);
-            }
             if (args.get(0).equals("help")){
                 PostloginUI.help();
             } else if (args.get(0).equals("logout")) {
@@ -179,8 +170,6 @@ public class Input {
     }
 
 
-
-
     static void endGameLoop (AuthData authData, String color, String gameID, WebSocketFacade webSocketFacade){
         while (true) {
             ArrayList<String> args = (ArrayList<String>) parseInputPost(authData);
@@ -191,11 +180,6 @@ public class Input {
                 webSocketFacade.redrawBoard();
             }
             else if (args.get(0).equals("leave")) {
-//                if (color.equals("black") || color.equals("white")) {  //**checks color is/not observer
-//                    ServerFacade.joinGame(null, gameID, authData); //remove user from game in db using http
-//                }
-//                Leave leaveCommand = new Leave(authData.authToken()); //send notification to the server "user has left"
-//                webSocketFacade.close(); //closes websocket session
                 webSocketFacade.leave(authData.authToken(), gameID);
                 postLogin(authData);
             }
@@ -207,19 +191,6 @@ public class Input {
 
     }
 
-
-    /*  TODO:
-    leave
-        player
-        observer
-    resign
-    make move
-    display legal moves
-    no moves after resign, checkmate, or stalemate
-
-    check notification
-    checkmate notification
-     */
 
     public static void input() throws Exception {
         preLogin();

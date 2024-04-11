@@ -40,9 +40,6 @@ public class ServerFacade {
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
             AuthData data = new Gson().fromJson(inputStreamReader, AuthData.class);
 
-//            login(username, String.valueOf(data));
-//            System.out.println(data);
-
             return data;
 
         } catch (Exception e){
@@ -67,7 +64,6 @@ public class ServerFacade {
             InputStream respBody = http.getInputStream();  // Output the response body
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
             AuthData data = new Gson().fromJson(inputStreamReader, AuthData.class);
-//            System.out.println(data);
 
             return data;
 
@@ -118,8 +114,7 @@ public class ServerFacade {
                 for (int i = 0; i < games.size(); i++){
                     System.out.println( (i + 1) + ": " + games.get(i));
                 }
-//                GameListData data = new Gson().fromJson(inputStreamReader, GameListData.class);
-//                System.out.println(data);
+
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -150,17 +145,6 @@ public class ServerFacade {
 
             InputStream respBody = http.getInputStream();     // Output the response body
             InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-//            System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
-
-//            StringBuilder sb = new StringBuilder();
-//            sb.append(authData.username());
-//            sb.append(" has joined game ");
-//            sb.append(gameID);
-//            sb.append(" as ");
-//            sb.append(bodyColor);
-//            sb.append("\n");
-//            sb.append(PostloginUI.drawBoard(color));
-//            System.out.println(sb);
 
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -188,15 +172,7 @@ public class ServerFacade {
 
             try (InputStream respBody = http.getInputStream()) {  // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-//                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
 
-//                StringBuilder sb = new StringBuilder();
-//                sb.append(authData.username());
-//                sb.append(" has joined game ");
-//                sb.append(gameID);
-//                sb.append(" as an observer  \n");
-//                sb.append(PostloginUI.drawBoard(""));
-//                System.out.println(sb);
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
@@ -218,7 +194,6 @@ public class ServerFacade {
 
             try (InputStream respBody = http.getInputStream()) {      // Output the response body
                 InputStreamReader inputStreamReader = new InputStreamReader(respBody);
-//                System.out.println(new Gson().fromJson(inputStreamReader, Map.class));
                 GameData data = new Gson().fromJson(inputStreamReader, GameData.class);
                 System.out.println("Logged out");
             }
@@ -228,21 +203,4 @@ public class ServerFacade {
         }
         return "success";
     }
-
-
-
-
-
-
-    //leave game (remove user from game in db) (message w/player name)
-
-    //resign (forfeit game. can't play anymore but doesn't remove player from game) (message w/player name)
-
-    //Make Move (input (a,b) (x,y))? (update & print board) (probably invalid move error message & success message(move & player name))
-
-
-
-
-    //player in check notification
-    //player in checkmate notification
 }

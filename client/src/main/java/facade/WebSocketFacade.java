@@ -31,8 +31,6 @@ public class WebSocketFacade extends Endpoint {
             this.session.addMessageHandler(new MessageHandler.Whole<String>() {
                 @Override
                 public void onMessage(String message) {
-//                    Notification notification = new Gson().fromJson(message, Notification.class);
-//                    notificationHandler.notify(notification);
 
                     ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
                     switch (serverMessage.getServerMessageType()) {
@@ -63,19 +61,9 @@ public class WebSocketFacade extends Endpoint {
             this.session.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-//            e.printStackTrace();
         }
     }
 
-//    @OnMessage
-//    public void onMessage(Session session, String message) throws URISyntaxException, DeploymentException, IOException {  //todo takes in the UserGameCommand message. depending on message it will "do" the logic. -> call gameservice? or send to handler??
-//        ServerMessage serverMessage = new Gson().fromJson(message, ServerMessage.class);
-//        switch (serverMessage.getServerMessageType()) {
-//            case ERROR -> errorMessage(new Gson().fromJson(message, Error.class), session);
-//            case LOAD_GAME -> loadMessage(new Gson().fromJson(message, LoadGame.class), session);
-//            case NOTIFICATION -> notificationMessage(new Gson().fromJson(message, Notification.class), session);
-//        }
-//    }
 
     private void notificationMessage(Notification notification, Session session) {
         System.out.println(notification.getMessage());
@@ -150,12 +138,6 @@ public class WebSocketFacade extends Endpoint {
     public void leave(String authToken, String gameID) {
         Leave leaveCommand = new Leave(authToken);
         leaveCommand.setGameID(Integer.parseInt(gameID));
-//        if (color.equals("white")) {
-//            leaveCommand.setPlayerColor(ChessGame.TeamColor.WHITE);
-//        } else {
-//            leaveCommand.setPlayerColor(ChessGame.TeamColor.BLACK);
-//        }
-
         try {
             this.session.getBasicRemote().sendText(new Gson().toJson(leaveCommand));
         } catch (IOException ex) {

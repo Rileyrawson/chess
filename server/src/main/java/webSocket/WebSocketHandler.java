@@ -71,17 +71,15 @@ public class WebSocketHandler {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
             var message = String.format("\n%s has left", authData.username());
-//            System.out.println(message); //debugging to make sure it is populating correctly
 
             var loadGame = new LoadGame(gameData.game());
             sendMessage(loadGame, session);
-//            connections.broadcast(command.getAuthString(), loadGame);
+
             var notification = new Notification(message);
             connections.broadcast(command.getAuthString(), notification);
 
         } catch (DataAccessException e) {
             System.out.println(e.getMessage());
-//            throw new RuntimeException(e);
         }
     }
 
@@ -93,7 +91,6 @@ public class WebSocketHandler {
             var message = String.format("%s has resigned", authData.username());
             var loadGame = new LoadGame(gameData.game());
             sendMessage(loadGame, session);
-//            connections.broadcast(command.getAuthString(), loadGame);
             var notification = new Notification(message);
             connections.broadcast(command.getAuthString(), notification);
         } catch (DataAccessException e) {
