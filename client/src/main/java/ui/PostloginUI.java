@@ -26,5 +26,20 @@ public class PostloginUI {
     }
 
 
+    public static StringBuilder drawBoard(String color, ChessBoard board){ //working
+        StringBuilder stringBuilder = new StringBuilder();
+        color.toLowerCase();
+        if (color.equals("white")){
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
+        } else if (color.equals("black")) {
+            stringBuilder.append(SET_TEXT_COLOR_WHITE);
+        } else if (color.equals("observer")){
+            stringBuilder.append(SET_BG_COLOR_DARK_GREY + "\n" );
+        }else{
+            stringBuilder.append("draw board error");
+        }
+        stringBuilder.append(SET_TEXT_COLOR_WHITE);
+        return stringBuilder;
+    }
 
 }
