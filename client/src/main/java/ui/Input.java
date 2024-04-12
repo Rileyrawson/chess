@@ -89,7 +89,7 @@ public class Input {
                 String gameID = args.get(2);
                 ServerFacade.joinObserver(gameID, authData);
                 //Open a WebSocket connection with the server (using the /connect endpoint) so it can send and receive gameplay messages.
-                gameObserver(authData, "observer", gameID);
+                gameObserver(authData, gameID);
                 break;
             } else {
                 System.out.println("Invlaid Input\n");
@@ -142,9 +142,9 @@ public class Input {
         }
     }
 
-    static void gameObserver (AuthData authData, String color, String gameID){
+    static void gameObserver (AuthData authData, String gameID){
         WebSocketFacade webSocketFacade = new WebSocketFacade();
-        webSocketFacade.setColor(color);
+        webSocketFacade.setColor("observer");
         webSocketFacade.joinObserver(authData.authToken(), gameID);
         webSocketFacade.redrawBoard();
 

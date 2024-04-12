@@ -122,7 +122,6 @@ public class WebSocketFacade extends Endpoint {
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
-
     }
 
     public void joinObserver(String authToken, String gameID) {

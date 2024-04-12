@@ -24,13 +24,13 @@ public class ConnectionManager {
     public void broadcast(String excludeUserAuth, ServerMessage message) throws IOException {
 
         for (Map.Entry<Integer, Connection> entry : connections.entrySet()) {
-
-            if (!entry.getValue().getAuthToken().equals(excludeUserAuth)) { // commented out to show it working. will now show for everyone on connection
+            if (!entry.getValue().getAuthToken().equals(excludeUserAuth)) { //commented out to show it working. will now show for everyone on connection
                 String jsonMessage = new Gson().toJson(message);
                 try {
                     entry.getValue().getSession().getRemote().sendString(jsonMessage);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
+//                    e.printStackTrace();
                 }
             }
         }

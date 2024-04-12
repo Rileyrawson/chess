@@ -124,7 +124,7 @@ public class ServerFacade {
     }
 
 
-    public static String joinGame(String color, String gameID, AuthData authData){  // todo: draw board
+    public static String joinGame(String color, String gameID, AuthData authData){
         try {
             URI uri = new URI("http://localhost:" + port + "/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();
@@ -152,7 +152,7 @@ public class ServerFacade {
         }
         return "success";
     }
-    public static String joinObserver(String gameID, AuthData authData){ //todo: draw board
+    public static String joinObserver(String gameID, AuthData authData){
         try {
             URI uri = new URI("http://localhost:" + port + "/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();

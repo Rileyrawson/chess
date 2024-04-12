@@ -57,7 +57,7 @@ public class WebSocketHandler {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
             AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
-            var message = String.format("%s has joined the game as an OBSERVER", authData.username());
+            var message = String.format("\n%s has joined the game as an OBSERVER", authData.username());
             connections.broadcast(command.getAuthString(), loadGame);
             var notification = new Notification(message);
             connections.broadcast(command.getAuthString(), notification);
@@ -88,7 +88,7 @@ public class WebSocketHandler {
         try {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
-            var message = String.format("%s has resigned", authData.username());
+            var message = String.format("\n%s has resigned", authData.username());
             var loadGame = new LoadGame(gameData.game());
             sendMessage(loadGame, session);
             var notification = new Notification(message);
@@ -103,7 +103,7 @@ public class WebSocketHandler {
             GameData gameData = Singleton.getInstance().getGameDAOInstance().getGameByID(command.getGameID());
             var loadGame = new LoadGame(gameData.game());
             AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
-            var message = String.format("%s moved ", authData.username(), command.getMove());
+            var message = String.format("\n%s moved ", authData.username(), command.getMove());
             connections.broadcast(command.getAuthString(), loadGame);
             var notification = new Notification(message);
             connections.broadcast(command.getAuthString(), notification);
@@ -114,6 +114,7 @@ public class WebSocketHandler {
 
 
     public void sendMessage(ServerMessage msg, Session session) throws IOException {
+        System.out.println("SendMessage called");
         session.getRemote().sendString(new Gson().toJson(msg));
     }
 }

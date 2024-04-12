@@ -32,7 +32,6 @@ public class SQLGameDAO implements GameDAO{
             statement.setNString(3, data.blackUsername());
             statement.setNString(4, data.gameName());
             var json = new Gson().toJson(data.game());
-            System.out.println(json);
             statement.setNString(5, json);
             statement.executeUpdate();
         } catch (SQLException e) {
