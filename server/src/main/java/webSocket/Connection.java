@@ -28,11 +28,4 @@ public class Connection {
         return session;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    public void send(String msg) throws IOException {
-        session.getRemote().sendString(msg);
-    }
 }

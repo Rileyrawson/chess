@@ -97,7 +97,7 @@ public class ServerFacade {
         }
         return "success";
     }
-    public static String listGames(AuthData authData){ //TODO: list games as a numbered list, not just json
+    public static String listGames(AuthData authData){
         try {
             URI uri = new URI("http://localhost:" + port + "/game");
             HttpURLConnection http = (HttpURLConnection) uri.toURL().openConnection();

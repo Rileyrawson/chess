@@ -78,6 +78,7 @@ public class WebSocketFacade extends Endpoint {
         System.out.println("Error: " + error.getErrorMessage());
     }
 
+    @Override
     @OnError
     public void onError(Session session, Throwable throwable) {
         System.err.println("WebSocket error: " + throwable.getMessage());
