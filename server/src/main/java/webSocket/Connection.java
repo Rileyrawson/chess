@@ -22,14 +22,6 @@ public class Connection {
         return authToken;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
-    }
-
-    public Session getSession() {
-        return session;
-    }
-
     public int getGameID() {
         return gameID;
     }

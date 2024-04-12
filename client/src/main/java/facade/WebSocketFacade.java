@@ -51,11 +51,7 @@ public class WebSocketFacade extends Endpoint {
     public void onOpen(Session session, EndpointConfig endpointConfig) {
     }
 
-    @OnClose
-    public void onClose() {  //closes the connection
-        System.out.println("Connection closed");
-        close();
-    }
+
     public void close() {
         try {
             this.session.close();
