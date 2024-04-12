@@ -10,6 +10,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import com.google.gson.Gson;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import webSocketMessages.serverMessages.Error;
 import webSocketMessages.userCommands.*;
 import webSocketMessages.serverMessages.*;
 import java.io.IOException;
@@ -46,9 +47,9 @@ public class WebSocketHandler {
             var loadGame = new LoadGame(gameData.game());
             sendMessage(loadGame, session);
             var notification = new Notification(message);
-            connections.broadcast(command.getAuthString(), notification);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
+            connections.broadcast(gameData.gameID(), command.getAuthString(), notification);
+        } catch (Exception e) {
+            sendMessage(new Error(e.getMessage()), session);
         }
     }
     private void joinObserver(JoinObserver command, Session session) throws IOException {
@@ -58,11 +59,12 @@ public class WebSocketHandler {
             var loadGame = new LoadGame(gameData.game());
             AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
             var message = String.format("\n%s has joined the game as an OBSERVER", authData.username());
-            connections.broadcast(command.getAuthString(), loadGame);
+            sendMessage(loadGame, session);
+//            connections.broadcast(command.getGameID(), command.getAuthString(), loadGame);
             var notification = new Notification(message);
-            connections.broadcast(command.getAuthString(), notification);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
+            connections.broadcast(command.getGameID(), command.getAuthString(), notification);
+        } catch (Exception e) {
+            sendMessage(new Error(e.getMessage()), session);
         }
     }
     private void leave(Leave command, Session session) throws IOException {
@@ -76,10 +78,9 @@ public class WebSocketHandler {
             sendMessage(loadGame, session);
 
             var notification = new Notification(message);
-            connections.broadcast(command.getAuthString(), notification);
-
-        } catch (DataAccessException e) {
-            System.out.println(e.getMessage());
+            connections.broadcast(command.getGameID(), command.getAuthString(), notification);
+        } catch (Exception e) {
+            sendMessage(new Error(e.getMessage()), session);
         }
     }
 
@@ -92,9 +93,9 @@ public class WebSocketHandler {
             var loadGame = new LoadGame(gameData.game());
             sendMessage(loadGame, session);
             var notification = new Notification(message);
-            connections.broadcast(command.getAuthString(), notification);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
+            connections.broadcast(command.getGameID(), command.getAuthString(), notification);
+        } catch (Exception e) {
+            sendMessage(new Error(e.getMessage()), session);
         }
     }
     private void makeMove(MakeMove command, Session session) throws IOException {
@@ -104,17 +105,19 @@ public class WebSocketHandler {
             var loadGame = new LoadGame(gameData.game());
             AuthData authData = Singleton.getInstance().getAuthDAOInstance().getAuth(command.getAuthString());
             var message = String.format("\n%s moved ", authData.username(), command.getMove());
-            connections.broadcast(command.getAuthString(), loadGame);
+            connections.broadcast(command.getGameID(), command.getAuthString(), loadGame);
             var notification = new Notification(message);
-            connections.broadcast(command.getAuthString(), notification);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
+            connections.broadcast(command.getGameID(), command.getAuthString(), notification);
+        } catch (Exception e) {
+            sendMessage(new Error(e.getMessage()), session);
         }
     }
 
-
     public void sendMessage(ServerMessage msg, Session session) throws IOException {
-        System.out.println("SendMessage called");
         session.getRemote().sendString(new Gson().toJson(msg));
+    }
+
+    public void checkAuth(String authToken){
+
     }
 }
