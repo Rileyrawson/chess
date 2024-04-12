@@ -81,8 +81,8 @@ public class Input {
             } else if (args.get(0).equals("join") && args.get(1).equals("game") && args.size() == 4) {
                 String playerColor = args.get(2);
                 String gameID = args.get(3);
-                ServerFacade.joinGame(playerColor, gameID, authData);
                 //Open a WebSocket connection with the server (using the /connect endpoint) so it can send and receive gameplay messages.
+                ServerFacade.joinGame(playerColor, gameID, authData);
                 gamePlay(authData, playerColor, gameID);
                 break;
             } else if (args.get(0).equals("join") && args.get(1).equals("observer") && args.size() == 3) {
